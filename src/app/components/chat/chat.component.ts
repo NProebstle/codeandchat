@@ -5,11 +5,12 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.css']
 })
-export class ChatComponent implements OnInit {
+export class ChatComponent {
 
-  constructor() { }
-
-  ngOnInit() {
+  constructor() {
   }
-
+    send(chat_output, chat_input: string){
+      document.getElementById(chat_output).innerHTML = chat_input;
+      alert(chat_input);
+    }
 }

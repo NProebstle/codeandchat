@@ -1,14 +1,11 @@
-img{
-    height: 100px;
-}
-
 div {
     height: 100px;
 }
 
-hr.line {
-    margin: 0px;
-    margin-top: 10px;
-    color: #00802F;
-    height: 0px;
+header {
+    background-color: white;
+}
+
+img{
+    height: 100px;
 }

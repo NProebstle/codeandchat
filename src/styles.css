@@ -2,12 +2,20 @@ hr.line {
     width: 100%;
     height: 0px;
     margin: 0px;
-    margin-top: 0px;
+    margin-top: 10px;
     border-width: 0.5px;
     border-color: #00802F;
+}
+
+.input {
+    margin-left: 20px
 }
 
 .standardfont {
     font-family: Arial;
     font-size: auto;
+}
+
+html {
+    background-color: rgba(0,128,47,0.05);
 }
