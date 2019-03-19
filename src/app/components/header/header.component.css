@@ -3,6 +3,12 @@ img{
 }
 
 div {
-    background-color: #00802f;
     height: 100px;
+}
+
+hr.line {
+    margin: 0px;
+    margin-top: 10px;
+    color: #00802F;
+    height: 0px;
 }
