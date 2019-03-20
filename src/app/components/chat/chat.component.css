@@ -7,13 +7,6 @@ button, input {
     font-size: 18px;
 }
 
-div {
-    align-content: center;
-    border-color: #00802F;
-    border-width: 20px;
-
-}
-
 table, td {
     margin: 0;
     padding: 0;
@@ -25,17 +18,25 @@ p {
     text-align: right;
 }
 
-.input {
-    width: 700px;
-    min-width: 100px;
-    line-height: 30px;
-    padding: 0;
-}
-
 .button {
     width: 5%;
     max-width: 100px;
     height: 34px;
     margin: 0;
     margin-left: 1px;
+}
+
+.input {
+    width: 700px;
+    line-height: 30px;
+    padding: 0;
+    margin-left: 20px
+}
+
+#chat_output {
+    width: 700px;
+    line-height: 30px;
+    padding: 20px;
+    height: 300px;
+    border: #00802F, 2px;
 }

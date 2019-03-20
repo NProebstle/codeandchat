@@ -11,6 +11,6 @@ export class ChatComponent {
   }
     send(chat_output, chat_input: string){
       document.getElementById(chat_output).innerHTML = chat_input;
-      alert(chat_input);
+      // alert(chat_input);
     }
 }
