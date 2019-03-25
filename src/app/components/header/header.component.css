@@ -5,3 +5,9 @@ header {
 img{
     height: 100px;
 }
+
+td.easychat {
+    width: 57%;
+    text-align: right;
+    vertical-align: bottom;
+}

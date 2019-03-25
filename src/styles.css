@@ -7,11 +7,6 @@ hr.line {
     border-color: #00802F;
 }
 
-.standardfont {
-    font-family: Arial;
-    font-size: auto;
-}
-
-html {
-    background-color: rgba(0,128,47,0.05);
+h2 {
+    font-family: system-ui;
 }

@@ -1,11 +1,11 @@
 <body>
   <div>
-    <p #chat_output id="chat_output">Chat-Feld</p>
-    <table>
-      <tr>
-        <td class="input"><input #chat_input id="chat_input" type="text" placeholder="Chat-Nachricht"></td>
-        <td class="button"><button #submit_button id="submit_button" (click)="send(chat_output.id ,chat_input.value)">→</button></td>
-      </tr>
-    </table>
+      <div class="output" id="output">{{ output }}</div>
   </div>
+  <table>
+    <tr>
+      <td><textarea class="input" id="chatInput" rows="1" placeholder="Chat-Nachricht" (keyup.enter)="send(firstmessage, output, message)" [(ngModel)]="message"></textarea></td>
+      <td><button class="button" (click)="send(firstmessage, output, message)">→</button></td>
+    </tr>
+  </table>
 </body>
