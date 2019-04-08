@@ -11,7 +11,7 @@
         <button id="cpBlack" class="cpListCollapsed" (click)="selectColor(color='black')"></button>
         <button id="cpGreen" class="cpListCollapsed" (click)="selectColor(color='#00802F')"></button>
       </td>
-      <td><textarea class="input" id="chatInput" rows="1" placeholder="Chat-Nachricht" (keyup.enter)="send()" [(ngModel)]="message"></textarea></td>
+      <td><textarea class="input" id="chatInput" rows="1" placeholder="Chat-Nachricht" (keyup.enter)="send()" (keyup.shift.enter)="send()" [(ngModel)]="message"></textarea></td>
       <td><button class="button" (click)="send()">→</button></td>
     </tr>
   </table>

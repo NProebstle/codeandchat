@@ -5,7 +5,7 @@ span.time-right {
 .button {
     width: 50px;
     height: 52px;
-    margin-top: -4px;
+    margin-top: -3px;
     margin-left: 1px;
     border-color: #00802F;
     border-width: 1px;
@@ -25,7 +25,7 @@ span.time-right {
     background-color: #00802F;
     margin-left: -6px;
     margin-right: 1px;
-    margin-top: -4px;
+    margin-top: -3px;
     border-style: solid;
     float: left;
     font-size: 10px;
@@ -43,7 +43,7 @@ span.time-right {
     background-color: #00802F;
     margin-left: -6px;
     margin-right: 0px;
-    margin-top: -4px;
+    margin-top: -3px;
     border-style: solid;
     float: left;
     font-size: 10px;
@@ -62,7 +62,7 @@ span.time-right {
     background-color: #00802F;
     margin-left: -6px;
     margin-right: 1px;
-    margin-top: -4px;
+    margin-top: -3px;
     border-style: solid;
     float: left;
     font-size: 10px;
