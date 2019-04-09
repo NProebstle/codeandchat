@@ -132,6 +132,7 @@ textarea.alert {
     margin-left: 0px;
     font-size: 18px;
     background: rgba(255, 80, 80, 0.75);
+    float: left;
 }
 
 textarea.input {
@@ -143,8 +144,10 @@ textarea.input {
     height: 50px;
     width: 603px;
     padding-left: 10px;
+    margin-top: -3px;
     margin-left: -5px;
     font-size: 18px;
+    float: left;
 }
 
 textarea.nick {
@@ -172,4 +175,12 @@ textarea.nickalert {
     margin-left: -2px;
     font-size: 18px;
     background: rgba(255, 80, 80, 0.75);
+}
+
+.test {
+    color: rgb(156, 230, 61);
+    color: rgb(217, 219, 71);
+    color: rgb(235, 109, 218);
+    color: rgb(83, 115, 219);
+    color: rgb(135, 76, 230);
 }
