@@ -1,0 +1,80 @@
+div.dateBox {
+    width:max-content;
+    text-align:center;
+    background:rgba(0, 128, 47, 0.8);
+    border-radius:5px;font-size:18px;
+    padding-top:5px;
+    padding-bottom:5px;
+    padding-left:10px;
+    padding-right:10px;
+    color:white;
+    margin: 0 auto;
+    float: left;
+}
+
+div.info {
+    border: 1px solid #00802F;
+    background-color: rgba(0, 128, 47, 0.05);
+    border-radius: 3px 3px 0px 0px;
+    padding: 5px 5px;
+    margin-bottom: 0px;
+    width: 867px;
+    height: fit-content;
+    text-align: center;
+    font-family: system-ui;
+    font-size: 20px;
+    overflow: auto;
+}
+
+div.onlineBox {
+    width:max-content;
+    text-align:center;
+    background:rgba(0, 128, 47, 0.8);
+    border-radius:5px;font-size:18px;
+    padding-top:5px;
+    padding-bottom:5px;
+    padding-left:10px;
+    padding-right:10px;
+    color:white;
+    margin: 0 auto;
+    margin-left: 2px;
+    float: right;
+}
+
+div.output {
+    border: 1px solid #00802F;
+    border-top: 0px;
+    background-color: rgba(0, 128, 47, 0.05);
+    border-radius: 0px 0px 3px 3px;
+    padding: 10px;
+    margin-bottom: 10px;
+    width: 857px;
+    height: 250px;
+    text-align: center;
+    padding-top: 200px;
+    font-family: system-ui;
+    font-size: 20px;
+    overflow: auto;
+  }
+
+div.message-right{
+    border: 1px solid #00802F;
+    background-color: rgb(255, 255, 255);
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px 0;
+    font-family: system-ui;
+    font-size: 18px;
+    color: #00802F;
+    align-self: right;
+    width: 80%;
+}
+
+span.time-right {
+    color: red;
+}
+
+table, td {
+    margin: 0;
+    padding: 0;
+}
