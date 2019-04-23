@@ -19,7 +19,7 @@ import { ChatBarComponent } from './components/chat-bar/chat-bar.component';
     ChatBarComponent
   ],
   imports: [
-    BrowserModule,
+    BrowserModule.withServerTransition({ appId: 'serverApp' }),
     FormsModule,
   ],
   providers: [],
