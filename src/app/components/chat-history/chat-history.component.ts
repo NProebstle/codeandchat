@@ -73,7 +73,6 @@ export class ChatHistoryComponent implements OnInit{
   loadHistory(){
     console.log('[INFO] Loading History!')
     this.initialOutput = "Chat-Synchronisierung";
-    return;
   }
 
   updateHistory(){
@@ -83,6 +82,7 @@ export class ChatHistoryComponent implements OnInit{
     //this.localHistory.push(this.newMessage);
     //console.log(this.localHistory);
     var l = this.localHistory.length;
+    var nml = this.newMessage.length;
     if(this.firstChat){
       this.styleFirstChat();
       this.firstChat = false;
@@ -105,6 +105,7 @@ export class ChatHistoryComponent implements OnInit{
 
   createMessage(cID){
     console.log('[INFO] Creating new Message!')
+    var l = this.localHistory.length;
     if(cID == 0){
       this.createMessageElement();
     } else {
