@@ -14,7 +14,7 @@ enableProdMode();
 // Express server
 const app = express();
 
-const PORT = process.env.PORT || 4200;
+const PORT = process.env.PORT || 4000;
 const DIST_FOLDER = join(process.cwd(), 'dist/browser');
 
 // * NOTE :: leave this as require() since this file is built Dynamically from webpack
@@ -28,20 +28,19 @@ app.engine('html', ngExpressEngine({
   ]
 }));
 
-// app.set('view engine', 'html');
-// app.set('views', DIST_FOLDER);
+app.set('view engine', 'html');
+app.set('views', DIST_FOLDER);
 
 // Example Express Rest API endpoints
 // app.get('/api/**', (req, res) => { });
 // Serve static files from /browser
-// app.get('*.*', express.static(DIST_FOLDER, {
-//   maxAge: '1y'
-// }));
+app.get('*.*', express.static(DIST_FOLDER, {
+  maxAge: '1y'
+}));
 
 // All regular routes use the Universal engine
 app.get('*', (req, res) => {
   res.render('index', { req });
-  console.log('SERVER ONLINE');
 });
 
 // Start up the Node server
