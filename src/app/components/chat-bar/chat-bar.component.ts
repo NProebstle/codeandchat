@@ -27,7 +27,7 @@ export class ChatBarComponent {
   constructor() { }
 
   send(){
-    if(this.messageCheck()){
+    if(this.nickCheck() && this.messageCheck()){
       if(this.longMessage){
         var i;
         for(i = 0; i < this.messageArray.length; i++){
@@ -66,8 +66,36 @@ export class ChatBarComponent {
     }
   }
 
+  nickCheck(){
+    if(!/^\s*$/.test(this.nickName)){
+      if(this.nickName.length < 16){
+        document.getElementById('alert').style.visibility = 'hidden';
+        this.alertText = "";
+        document.getElementById('nickInput').className = 'nick';
+        document.getElementById('profileNickDes').className = 'nickName';
+        return true;
+      }  
+      else {
+        this.resetAlert();
+        document.getElementById('alert').style.visibility = 'visible';
+        this.alertText = "Der Nickname darf nicht länger als 15 Zeichen sein!";
+        document.getElementById('nickInput').className = 'nickalert';
+        document.getElementById('profileNickDes').className = 'nickNameAlert';
+        return false;
+      }
+    }
+    else {
+      this.resetAlert();
+      document.getElementById('alert').style.visibility = 'visible';
+      this.alertText = "Nickname darf nicht leer sein!";
+      document.getElementById('nickInput').className = 'nickalert';
+      document.getElementById('profileNickDes').className = 'nickNameAlert';
+      return false;
+    }
+  }
+
   resetAlert(){
-    document.getElementById('alert').style.backgroundColor = 'rgba(255, 80, 80, 0.75)';
+    document.getElementById('alert').style.backgroundColor = 'rgb(220, 70, 70)';
     document.getElementById('alert').style.visibility = 'hidden';
   }
 
