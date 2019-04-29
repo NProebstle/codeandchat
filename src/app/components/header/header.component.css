@@ -58,6 +58,15 @@ table, tr, td {
     height: 100%;
 }
 
+.nickName {
+    color: #00802F;
+    margin-right: 10%;
+    margin-left: 5%;
+    font: system-ui;
+    font-size: 120%;
+    font-weight: bold;
+}
+
 @media all and (max-width: 800px){
     img.logo {
         height: 50%;

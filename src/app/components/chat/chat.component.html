@@ -5,7 +5,7 @@
       <td id="chatHistorytd"><app-chat-history [pullMessage]="pushMessage"></app-chat-history></td>
     </tr>
     <tr>
-      <td><app-chat-bar (messageEmitter)="receiveMessage($event)"></app-chat-bar></td>
+      <td><app-chat-bar (messageEmitter)="receiveMessage($event)" [nickName]="nickName"></app-chat-bar></td>
     </tr>
   </table>
   <div id="profileContainer"><app-chat-profile (profileEmitter)="receiveProfile($event)"></app-chat-profile></div>

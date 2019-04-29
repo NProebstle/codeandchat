@@ -30,6 +30,7 @@ export class ChatProfileComponent {
   confirm(){
     if(this.nickCheck()){
       this.profileEmitter.emit(this.buildProfileArray());
+      document.getElementById('profileContainer').hidden = true;
     }
     return;
   }

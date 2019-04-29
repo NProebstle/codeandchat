@@ -11,6 +11,7 @@ export class ChatComponent implements OnInit {
   public chatHistory;
   public userList;
   public UID = 1;
+  public nickName = '';
 
   public userArray;
 
@@ -25,6 +26,7 @@ export class ChatComponent implements OnInit {
     this.chatHistory = [['Code&Chat 2019', 'EasyChat App v4', 'Initialized chatHistory', timestamp, date],['[nickname]', '[message]', '[color]', '[timestamp]', '[date]']];
     this.pushMessage = this.chatHistory;
     this.userList = [['Code&Chat 2019 – EasyChat App v4', 'Initialized userList', timestamp, date], ['[nickname]', '[color]']];
+    document.getElementById('profileContainer').hidden = true;
   }
 
   receiveMessage($event){
@@ -40,12 +42,12 @@ export class ChatComponent implements OnInit {
   }
 
   receiveProfile($event){
-    var nickName = $event[0];
-    var message = $event[2];
+    this.nickName = $event[0];
+    var color = $event[1];
     // var curUID = this.UID;
     // this.UID = this.UID + 1
 
-    this.userArray = [nickName, message];
+    this.userArray = [this.nickName, color];
   }
 
   addtoHistory(chatArray){

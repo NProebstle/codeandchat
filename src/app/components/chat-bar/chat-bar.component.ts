@@ -1,5 +1,4 @@
-import { Component, Output, EventEmitter } from '@angular/core';
-import { Message } from '@angular/compiler/src/i18n/i18n_ast';
+import { Component, Output, EventEmitter, Input } from '@angular/core';
 
 @Component({
   selector: 'app-chat-bar',
@@ -17,12 +16,12 @@ export class ChatBarComponent {
   public longMessage = false;
   public messageArray;
   public mergedMessages = 0;
-  public nickName = '';
   public output = '';
   public prevMessageID = '';
   public spanNumber;
 
   @Output() messageEmitter = new EventEmitter<any[]>();
+  @Input() nickName: string;
 
   constructor() { }
 
