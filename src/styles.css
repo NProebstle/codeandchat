@@ -1,6 +1,8 @@
 html {
     font-family: system-ui;
     font-weight: 200;
+    height: 100%;
+    overflow: hidden;
 }
 
 hr.line {
@@ -10,4 +12,10 @@ hr.line {
     margin-top: 10px;
     border-width: 0.5px;
     border-color: #00802F;
+    margin-bottom: 10px;
+}
+
+body {
+    margin: 5px;
+    height: 100%;
 }

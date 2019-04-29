@@ -1,0 +1,43 @@
+<table align="center">
+  <tr>
+    <td colspan="2"><label for="profileIMGinput" id="profileIMGselector" class="profileIMG" (pointerenter)="imgMouseEnter()" (pointerleave)="imgMouseLeave()"><img id="profileMenuIMG" src="../../../assets/profile.png">
+    </label><input id="profileIMGinput" type="file" (change)="changeIMG(this)" accept="image/png, image/jpeg"></td>
+  </tr>
+  <tr>
+    <td colspan="2"><hr class="line"></td>
+  </tr>
+  <tr>
+    <td><h3 id="profileNickDes" class="nickName">Nickname:</h3></td>
+    <td><textarea class="nick" id="nickInput" placeholder="Nickname" (keyup)="softnickCheck()" (keyup.enter)="delEnterNick()" (keydown.shift.enter)="delEnterNick()" [(ngModel)]="nickName"></textarea></td>
+  </tr>
+  <tr>
+    <td colspan="2"><div id="cpColorDiv"></div></td>
+  </tr>
+  <tr>
+    <td colspan="2">
+        <button id="cpGreen" class="cpList" (click)="selectColor(selColor='#00802F', selector='cpGreen')">✓</button>
+        <button id="cpLightGreen" class="cpList" (click)="selectColor(selColor='rgb(156, 230, 61)', selector='cpLightGreen')"></button>
+        <button id="cpYellow" class="cpList" (click)="selectColor(selColor='rgb(217, 219, 71)', selector='cpYellow')"></button>
+        <button id="cpBlue" class="cpList" (click)="selectColor(selColor='rgb(0, 160, 210)', selector='cpBlue')"></button>
+        <button id="cpDarkBlue" class="cpList" (click)="selectColor(selColor='rgb(83, 115, 219)', selector='cpDarkBlue')"></button>
+        <button id="cpViolett" class="cpList" (click)="selectColor(selColor='rgb(135, 76, 230)', selector='cpViolett')"></button>
+        <button id="cpPink" class="cpList" (click)="selectColor(selColor='rgb(235, 109, 218)', selector='cpPink')"></button>
+        <button id="cpOrange" class="cpList" (click)="selectColor(selColor='rgb(220, 120, 60)', selector='cpOrange')"></button>
+        <button id="cpRed" class="cpList" (click)="selectColor(selColor='rgb(220, 70, 70)', selector='cpRed')"></button>
+        <button id="cpWhite" class="cpList" (click)="selectColor(selColor='white', selector='cpWhite')"></button>
+        <button id="cpBlack" class="cpList" (click)="selectColor(selColor='black', selector='cpBlack')"></button>
+      </td>
+  </tr>
+  <tr>
+      <td colspan="2"><hr class="line"></td>
+  </tr>
+  <tr>
+      <td colspan="2">
+        <button id="profileCancel" class="cancelBtn" (click)="cancel()">✕</button>
+        <button id="profileConfirm" class="confirmBtn" (click)="confirm()">✓</button>
+    </td>
+  </tr>
+  <tr>
+      <td colspan="2"><div class="profileAlert" id="profileAlert">{{ alertText }}</div></td>
+    </tr>
+</table>

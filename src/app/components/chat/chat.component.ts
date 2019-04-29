@@ -9,6 +9,10 @@ export class ChatComponent implements OnInit {
 
   public pushMessage;
   public chatHistory;
+  public userList;
+  public UID = 1;
+
+  public userArray;
 
   constructor() {
   }
@@ -20,18 +24,28 @@ export class ChatComponent implements OnInit {
 
     this.chatHistory = [['Code&Chat 2019', 'EasyChat App v4', 'Initialized chatHistory', timestamp, date],['[nickname]', '[message]', '[color]', '[timestamp]', '[date]']];
     this.pushMessage = this.chatHistory;
+    this.userList = [['Code&Chat 2019 – EasyChat App v4', 'Initialized userList', timestamp, date], ['[nickname]', '[color]']];
   }
 
   receiveMessage($event){
-    var nickName = $event[0];
-    var message = $event[1];
-    var color = $event[2];
+    var nickName = this.userArray[0];
+    var message = $event[0];
+    var color = this.userArray[1];
     var timestamp = this.currentTimestamp();
     var date = this.currentDate();
 
     var chatArray = [nickName, message, color, timestamp, date];
     this.addtoHistory(chatArray);
     this.pushMessagetoLocal(chatArray);
+  }
+
+  receiveProfile($event){
+    var nickName = $event[0];
+    var message = $event[2];
+    // var curUID = this.UID;
+    // this.UID = this.UID + 1
+
+    this.userArray = [nickName, message];
   }
 
   addtoHistory(chatArray){

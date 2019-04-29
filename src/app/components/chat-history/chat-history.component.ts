@@ -11,7 +11,7 @@ export class ChatHistoryComponent implements OnInit{
   public localHistory: any[];
   public date;
   public color = '#00802F';
-  public dateBoxStyle = 'width:max-content;text-align:center;background:rgba(0, 128, 47, 0.8);border-radius:5px;font-size:18px;padding-top:5px;padding-bottom:5px;padding-left:10px;padding-right:10px;color:white;margin: 0 auto;';
+  public dateBoxStyle = 'width:max-content;text-align:center;background:rgba(0, 128, 47, 0.8);border-radius:5px;font-size:18px;padding-top:5px;padding-bottom:5px;padding-left:10px;padding-right:10px;color:white;margin: auto;';
   public initializedChatHistory: boolean;
   public numOnline = 'Online: 1';
   public firstChat = true;
@@ -169,9 +169,18 @@ export class ChatHistoryComponent implements OnInit{
     div.style.cssText = 'position:relative;height:100%;padding-bottom:10px;';
     container.appendChild(div);
     
+    var nickSpan = document.createElement('span');
+    div.appendChild(nickSpan);
+
+    var profilePicture = document.createElement('img');
+    profilePicture.src = './assets/profile.png';
+    profilePicture.style.cssText = `height: 25px;width: 25px;border: solid 1px;border-radius: 50%;float: left;margin-top: -12px;border-color: ${this.color}`;
+    nickSpan.appendChild(profilePicture);
+
     var header = document.createElement('h4');
     header.innerText = `${this.newMessage[0]}`;
-    div.appendChild(header);
+    header.style.cssText = 'position: relative;margin-left: 35px;'
+    nickSpan.appendChild(header);
 
     var chat = document.createElement('p');
     chat.innerText = `${this.newMessage[1]}`;
@@ -182,7 +191,7 @@ export class ChatHistoryComponent implements OnInit{
     timestamp.innerText = `${this.newMessage[3]}`;
     div.appendChild(timestamp);
 
-    container.style.cssText = `align-self: right;background-color: ${background};border: 1px solid ${color};border-radius: 5px;color: ${this.textcolor};clear: both;float: right;font-family: system-ui;font-size: 18px;line-height: 5px;margin: 5px 0;max-width: 80%;min-width: 300px;padding: 10px;padding-bottom: 5px;padding-top: 0px;position: relative;text-align: left`;
+    container.style.cssText = `background-color: ${background};border: 1px solid ${color};border-radius: 5px;color: ${this.textcolor};clear: both;float: right;font-family: system-ui;font-size: 18px;line-height: 5px;margin: 5px 0;max-width: 80%;min-width: 300px;padding: 10px;padding-bottom: 5px;padding-top: 0px;position: relative;text-align: left`;
     container.className = 'message-right';
     document.getElementById('output').appendChild(container);
     this.updateScroll();
@@ -248,102 +257,14 @@ export class ChatHistoryComponent implements OnInit{
     return;
 
   }
-  // createMessageElement(){
-
-  //   this.containerCounter = this.containerCounter + 1;
-  //   this.lastTimestamp = this.currentTimestamp();
-  //   var container = document.createElement('div');
-  //   container.id = this.nickName + this.containerCounter;
-
-  //   this.divCounter = this.divCounter + 1;
-  //   var div = document.createElement('div');
-  //   div.id = this.nickName + this.divCounter + 'div';
-  //   div.style.cssText = '';
-  //   container.appendChild(div);
-
-  //   var header = document.createElement('h4');
-  //   header.innerText = `${this.nickName}:`;
-  //   div.appendChild(header);
-
-  //   var chat = document.createElement('p');
-  //   chat.innerText = `${this.output}`;
-  //   div.appendChild(chat);
-
-  //   this.spanNumber = 0;
-  //   var timestamp = document.createElement('span');
-  //   timestamp.style.cssText = '';
-  //   timestamp.innerText = `${this.lastTimestamp}`;
-  //   div.appendChild(timestamp);
-
-  //   container.style.cssText = ``;
-  //   container.className = 'message-right';
-  //   document.getElementById('output').appendChild(container);
-  //   this.prevMessageID = container.id;
-  //   this.mergedMessages = 0;
-  //   this.updateScroll();
-  // }
-
-  // mergeMessages(){
-  //   this.mergedMessages = this.mergedMessages + 1;
-  //   if(this.lastTimestamp != this.currentTimestamp()){
-  //     this.divCounter = this.divCounter + 1;
-  //     var div = document.createElement('div');
-  //     div.id = this.nickName + this.divCounter + 'div';
-  //     div.style.cssText = 'position:relative; height: 100%;padding-bottom:10px;';
-  //     var containerID = this.nickName + this.containerCounter;
-  //     var container = document.getElementById(containerID);
-  //     container.appendChild(div);
-
-  //     var hr = document.createElement('hr');
-  //     hr.style.cssText = `width: 100%;height: 0px; margin: 0px;margin-top: 5px;border-width: 0.5px;border-color:${this.divColor};`;
-  //     div.appendChild(hr);
-
-  //     var newChat = document.createElement('p');
-  //     newChat.innerText = `${this.output}`;
-  //     div.appendChild(newChat);
-
-  //     this.lastTimestamp = this.currentTimestamp();
-  //     var timestamp = document.createElement('span');
-  //     timestamp.style.cssText = 'position:absolute;bottom:4px;right:10px;padding-bottom: 5px;font-size: 14px;float: right;';
-  //     timestamp.innerText = `${this.lastTimestamp}`;
-  //     div.appendChild(timestamp);
-
-  //     this.updateScroll();
-  //   }
-  //   else {
-  //     var divID = this.nickName + this.divCounter + 'div';
-  //     var divM = document.getElementById(divID);
-  //     var newChat = document.createElement('p');
-  //     newChat.innerText = `${this.output}`;
-  //     divM.appendChild(newChat);
-  //     this.updateScroll();
-  //   }
-  // }
-
-  // createMessage(){
-  //   var c = this.containerCounter;
-  //   var checkID = this.nickName + this.containerCounter;
-  //   var a = this.localHistory.length;
-  //   if(this.lastDate != this.localHistory[a-1][4]){
-  //     this.createDateBox();
-  //     this.createMessageElement();
-  //   } 
-  //   else {
-  //     if(c == 0){
-  //       this.createMessageElement();
-  //     }
-  //     else if(this.prevMessageID == checkID){
-  //      this.mergeMessages();
-  //     }
-  //     else {
-  //      this.createMessageElement();
-  //     }
-  //   }
-  // }
 
   createDateBox(){
     console.log('[INFO] Creating Date Box');
-    var div = document.getElementById('output');
+    var output = document.getElementById('output');
+    var div = document.createElement('div');
+    div.style.cssText = 'width: 100%;float: right;';
+    output.appendChild(div);
+
     var dateBox = document.createElement('div');
     var l = this.localHistory.length;
     var date = this.localHistory[l-1][4];

@@ -1,4 +1,13 @@
 <body>
-  <app-chat-history [pullMessage]="pushMessage"></app-chat-history>
-  <app-chat-bar (messageEmitter)="receiveMessage($event)"></app-chat-bar>
+  <div id="bodyContainer">
+  <table id="chatContainer">
+    <tr>
+      <td id="chatHistorytd"><app-chat-history [pullMessage]="pushMessage"></app-chat-history></td>
+    </tr>
+    <tr>
+      <td><app-chat-bar (messageEmitter)="receiveMessage($event)"></app-chat-bar></td>
+    </tr>
+  </table>
+  <div id="profileContainer"><app-chat-profile (profileEmitter)="receiveProfile($event)"></app-chat-profile></div>
+</div>
 </body>

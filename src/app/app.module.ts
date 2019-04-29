@@ -8,6 +8,7 @@ import { FooterComponent } from './components/footer/footer.component';
 import { ChatComponent } from './components/chat/chat.component';
 import { ChatHistoryComponent } from './components/chat-history/chat-history.component';
 import { ChatBarComponent } from './components/chat-bar/chat-bar.component';
+import { ChatProfileComponent } from './components/chat-profile/chat-profile.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { ChatBarComponent } from './components/chat-bar/chat-bar.component';
     FooterComponent,
     ChatComponent,
     ChatHistoryComponent,
-    ChatBarComponent
+    ChatBarComponent,
+    ChatProfileComponent
   ],
   imports: [
     BrowserModule,
