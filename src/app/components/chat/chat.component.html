@@ -1,11 +1,24 @@
 <body>
-  <div>
-    <p #chat_output id="chat_output">Chat-Feld</p>
-    <table>
-      <tr>
-        <td class="input"><input #chat_input id="chat_input" type="text" placeholder="Chat-Nachricht"></td>
-        <td class="button"><button #submit_button id="submit_button" (click)="send(chat_output.id ,chat_input.value)">→</button></td>
-      </tr>
-    </table>
-  </div>
+  <div class="output" id="output">{{ initialOutput }}</div>
+  <table>
+    <tr>
+      <td><textarea class="nick" id="nickInput" placeholder="Nickname" (keyup)="softnickCheck()" (keyup.enter)="delEnter()" (keydown.shift.enter)="delEnter()" [(ngModel)]="nickName"></textarea></td>
+      <td>
+        <button id="cpbtn" class="colorpicker" (click)="changeColorDropdown()">►</button>
+        <button id="cpBlue" class="cpListCollapsed" (click)="selectColor(color='rgb(0, 160, 210)')"></button>
+        <button id="cpOrange" class="cpListCollapsed" (click)="selectColor(color='rgb(220, 120, 60)')"></button>
+        <button id="cpWhite" class="cpListCollapsed" (click)="selectColor(color='white')"></button>
+        <button id="cpBlack" class="cpListCollapsed" (click)="selectColor(color='black')"></button>
+        <button id="cpGreen" class="cpListCollapsed" (click)="selectColor(color='#00802F')"></button>
+        <button id="cpRed" class="cpListCollapsed" (click)="selectColor(color='rgb(220, 70, 70)')"></button>
+      </td>
+      <td><textarea class="input" id="chatInput" rows="1" placeholder="Chat-Nachricht" (keyup.enter)="send()" (keyup.shift.enter)="send()" [(ngModel)]="message"></textarea></td>
+      <td><button class="button" (click)="send()">→</button></td>
+    </tr>
+  </table>
+  <table>
+    <tr>
+      <td><div class="alert" id="alert">{{ alertText }}</div></td>
+    </tr>
+  </table>
 </body>
