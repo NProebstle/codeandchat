@@ -9,6 +9,7 @@ import { ChatComponent } from './components/chat/chat.component';
 import { ChatHistoryComponent } from './components/chat-history/chat-history.component';
 import { ChatBarComponent } from './components/chat-bar/chat-bar.component';
 import { ChatProfileComponent } from './components/chat-profile/chat-profile.component';
+import { OverlayComponent } from './components/overlay/overlay.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { ChatProfileComponent } from './components/chat-profile/chat-profile.com
     ChatComponent,
     ChatHistoryComponent,
     ChatBarComponent,
-    ChatProfileComponent
+    ChatProfileComponent,
+    OverlayComponent
   ],
   imports: [
     BrowserModule,

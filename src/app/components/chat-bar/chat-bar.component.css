@@ -12,6 +12,10 @@
     margin-left: -4px;
 }
 
+#chatBar {
+    flex: 1;
+}
+
 div.alert {
     line-height: 50px;
     padding: 0;

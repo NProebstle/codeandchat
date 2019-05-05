@@ -1,6 +1,7 @@
 header {
     background-color: white;
-    height: 15%;
+    height: 100%;
+    width: 100%;
 }
 
 img.logo {
@@ -8,90 +9,102 @@ img.logo {
     content:url("../../../assets/logo_hsg_de.jpg");
 }
 
-td.logo {
-    width: 25%;
+.header-span {
+    display: inline-flex;
+    width: 100%;
+    height: calc(100% - 11px);
     vertical-align: bottom;
+    margin-right: 1%;
+    margin-left: 1%;
 }
 
-td.easychat {
-    width: 50%;
+.header-logo {
+    width: 25%;
+    margin-top: auto;
+}
+
+.header-title {
+    width: 48%;
     text-align: left;
-    vertical-align: bottom;
     height: 100%;
+    margin-top: auto;
+    text-align: bottom;
+    vertical-align: bottom;
+    position: relative;
 }
 
-td.profile {
-    width: 25%;
+.header-profilename {
+    width: 19%;
     text-align: right;
-    vertical-align: bottom;
+    margin-top: auto;
+    margin-right: 1%;
+    margin-bottom: 1.6vw;
+    display: flex;
+    position: relative
+}
+
+.header-profileIMG {
+    width: 5%;
+    margin-top: auto;
     height: 100%;
+    position: relative;
+    justify-content: stretch;
+    vertical-align: bottom;
 }
 
 h2 {
     font-family: system-ui;
-    font-weight: 200;
-    font-size: 300%;
+    font-weight: 100;
+    font-size: 5vw;
     margin-bottom: 0px;
     color: #00802F;
     text-align: center;
     width: 100%;
+    position: absolute;
+    bottom: -5px;
+}
+
+label {
+    font-family: system-ui;
+    font-weight: bold;
+    color: #00802F;
+    width: fit-content;
+    font-size: 1.5vw;
+    float: right;
 }
 
 .profilemenu {
     float: right;
-    height: 30%;
+    width: 100%;
     border: solid 1px;
     border-color: #00802F;
     border-radius: 50%;
     background: green;
+    position: absolute;
+    bottom: 0;
 }
 
 .profilemenuHover {
     border: solid 3px;
     border-color: #00802F;
-    height: 29%;
+    width: 95%;
     border-radius: 50%;
     float: right;
+    background: green;
+    position: absolute;
+    bottom: 0;
 }
 
-table, tr, td {
-    height: 100%;
+#headerColorDiv {
+    border-radius: 50%;
+    height: 1vw;
+    width: 1vw;
+    float: right;
+    margin-left: auto;
+    margin-top: 0.45vw;
+    margin-right: 3px;
 }
 
-.nickName {
-    color: #00802F;
-    margin-right: 10%;
-    margin-left: 5%;
-    font: system-ui;
-    font-size: 120%;
-    font-weight: bold;
-}
-
-@media all and (max-width: 800px){
-    img.logo {
-        height: 50%;
-        width: auto;
-        content:url("../../../assets/logo_hsg-mobile.png");
-    }
-
-    td.logo {
-        width: 30%;
-        text-align: left;
-        vertical-align: bottom;
-        height: 100%;
-    }
-
-    td.easychat {
-        width: 20%;
-        text-align: left;
-        vertical-align: bottom;
-        height: 100%;
-    }
-
-    td.profile {
-        width: 30%;
-        text-align: right;
-        vertical-align: bottom;
-        height: 100%;
-    }
+@media all and (max-width: 500px){
+    
 }

@@ -1,3 +1,12 @@
+:host {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    position: relative;
+}
+
 .cancelBtn {
     width: calc(30% - 3px);
     border: 0;
@@ -7,6 +16,7 @@
     height: 40px;
     float: left;
     font-size: 120%;
+    margin-bottom: 20px;
 }
 
 .confirmBtn {
@@ -19,6 +29,7 @@
     margin-left: 3px;
     float: left;
     font-size: 150%;
+    margin-bottom: 20px;
 }
 
 .profileIMG {
@@ -59,6 +70,15 @@
     color: rgba(201, 45, 43);
     margin-right: 10%;
     margin-left: 5%;
+}
+
+hr {
+    margin-top: 20px;
+    margin-bottom: 30px;
+}
+
+.profileContainer {
+    width: 100%;
 }
 
 textarea.nick {
@@ -111,6 +131,14 @@ div.profileAlert {
     display: inline-block;
 }
 
+.profileUID {
+    color: rgba(0, 128, 47, 0.75);
+    position: absolute;
+    bottom: 0;
+    align-self: center;
+    font-size: 0.75vw;
+}
+
 .colorpicker {
     height: 52px;
     width: 30px;
@@ -137,6 +165,7 @@ div.profileAlert {
     margin-left: 0;
     margin-right: 0;
     margin-top: 0;
+    margin-bottom: 20px;
     border-style: solid;
     float: left;
     font-size: 10px;
@@ -166,6 +195,7 @@ tr, td {
     border-color: #00802F;
     border-radius: 3px 3px 3px 3px;
     position: relative;
+    margin-top: 20px;
 }
 
 #cpBlue {

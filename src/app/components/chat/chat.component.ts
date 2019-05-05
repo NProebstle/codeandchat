@@ -1,4 +1,7 @@
 import { Component, Output, EventEmitter, OnInit, Input } from '@angular/core';
+import { History } from '../shared/models/history';
+import { Users } from '../shared/models/users';
+import { ChatProfileComponent } from '../chat-profile/chat-profile.component';
 
 @Component({
   selector: 'app-chat',
@@ -7,56 +10,77 @@ import { Component, Output, EventEmitter, OnInit, Input } from '@angular/core';
 })
 export class ChatComponent implements OnInit {
 
-  public pushMessage;
-  public chatHistory;
-  public userList;
-  public UID = 1;
-  public nickName = '';
+  constructor() {}
 
-  public userArray;
+  public pushMessage: boolean;
 
-  constructor() {
-  }
-
-  //initialisierung #1
+  //Initialisierung #1
   ngOnInit(){
     var timestamp = this.currentTimestamp();
     var date = this.currentDate();
 
-    this.chatHistory = [['Code&Chat 2019', 'EasyChat App v4', 'Initialized chatHistory', timestamp, date],['[nickname]', '[message]', '[color]', '[timestamp]', '[date]']];
-    this.pushMessage = this.chatHistory;
-    this.userList = [['Code&Chat 2019 – EasyChat App v4', 'Initialized userList', timestamp, date], ['[nickname]', '[color]']];
+    var chatHistoryInit = [['Code&Chat 2019', 'EasyChat App v4', 'Initialized chatHistory', timestamp, date, '[//]'], ['[nickname]', '[message]', '[color]', '[timestamp]', '[date]', '[UID]']];
+    History.chatHistory = chatHistoryInit;
+
+    var userHistoryInit = [['Code&Chat 2019 – EasyChat App v4', 'Initialized userHistory', timestamp, date], ['[nickname]', '[color]', '[img]', '[UID]']];
+    Users.userHistory = userHistoryInit;
     document.getElementById('profileContainer').hidden = true;
   }
 
   receiveMessage($event){
-    var nickName = this.userArray[0];
-    var message = $event[0];
-    var color = this.userArray[1];
+    var uid = $event[0];
+    var message = $event[1];
+    var userHistory = Users.userHistory;
+
+    var userData = userHistory.filter(u => u[3] == uid);
+    
+    var nickname = userData[0][0];
+    var color = userData[0][1];
+    var img = userData[0][2];
     var timestamp = this.currentTimestamp();
     var date = this.currentDate();
 
-    var chatArray = [nickName, message, color, timestamp, date];
+    var chatArray = [nickname, message, color, timestamp, date, uid];
     this.addtoHistory(chatArray);
-    this.pushMessagetoLocal(chatArray);
-  }
-
-  receiveProfile($event){
-    this.nickName = $event[0];
-    var color = $event[1];
-    // var curUID = this.UID;
-    // this.UID = this.UID + 1
-
-    this.userArray = [this.nickName, color];
-  }
-
-  addtoHistory(chatArray){
-    this.chatHistory.push(chatArray);
+    if(this.pushMessage){
+      this.pushMessage = false;
+    } else {
+      this.pushMessage = true;
+    }
     return;
   }
 
-  pushMessagetoLocal(chatArray){
-    this.pushMessage = chatArray;
+  receiveProfile($event){
+    var nickname = $event[0];
+    var color = $event[1];
+    var img = $event[2];
+    var uid = $event[3];
+
+    var userArray = [nickname, color, img, uid];
+    
+    var userExists = false;
+    for(var i = 0; i < Users.userHistory.length; i++){
+      var index = Users.userHistory[i][3].indexOf(uid);
+      if(index > -1){
+        index = i;
+        i = Users.userHistory.length;
+        userExists = true;
+      }
+    }
+    if(userExists){
+      Users.userHistory[index][0] = nickname;
+      Users.userHistory[index][1] = color;
+      Users.userHistory[index][2] = img;
+    return;
+    } else {
+      Users.userHistory.push(userArray);
+      return;
+    }
+  }
+
+  addtoHistory(chatArray){
+    History.push = chatArray;
+    return;
   }
 
   currentTimestamp(){
@@ -74,10 +98,9 @@ export class ChatComponent implements OnInit {
     var date = new Date();
     var day = date.getDay();
     var month = date.getMonth();
-    var dayArray = new Array('Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag', 'Sonntag');
+    var dayArray = new Array('Sonntag', 'Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag');
     var monthArray = new Array ('Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember');
     var dmyTimestamp = dayArray[day] + ', ' + date.getDate() + '. ' + monthArray[month] + ' ' + date.getFullYear();
     return dmyTimestamp;
   }
-
 }

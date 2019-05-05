@@ -1,24 +1,31 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Profile } from '../shared/models/profile';
 
 @Component({
   selector: 'app-chat-profile',
   templateUrl: './chat-profile.component.html',
   styleUrls: ['./chat-profile.component.css']
 })
-export class ChatProfileComponent {
+export class ChatProfileComponent implements OnInit{
 
   constructor() { }
 
-  public nickName = '';
+  public nickname: string;
   public alertText;
   public colorsCollapsed = true;
-  public color = '#00802F';
+  public color: string;
   public newColor;
   public prevSelector = 'cpGreen';
   public profileIMGsrc;
 
-  @Output() profileEmitter = new EventEmitter<any>();
+  @Output() profileEmitter = new EventEmitter<any[]>();
 
+  ngOnInit(){
+    this.nickname = Profile.Nickname;
+    this.color = Profile.Color;
+    this.profileIMGsrc = Profile.IMG;
+    this.generateUID();
+  }
 
   cancel(){
     document.getElementById('profileContainer').hidden = true;
@@ -29,15 +36,54 @@ export class ChatProfileComponent {
 
   confirm(){
     if(this.nickCheck()){
-      this.profileEmitter.emit(this.buildProfileArray());
+      this.updateProfile();
       document.getElementById('profileContainer').hidden = true;
+      this.styleHeader();
+      this.sendProfile();
     }
     return;
   }
 
-  buildProfileArray(){
-    var profileArray = [this.nickName, this.color];
-    return profileArray;
+  updateProfile(){
+    Profile.Nickname = this.nickname;
+    Profile.Color = this.color;
+    return;
+  }
+
+  generateUID(){
+    var date = new Date().getTime();
+    var uid = 'xx-xxxxxx-xxxx-xxxx-yxxxxx-xxxx-xxxxx'.replace(/[xy]/g, function(c) {
+        var r = (date + Math.random()*16)%16 | 0;
+        date = Math.floor(date/16);
+        return (c=='x' ? r :(r&0x3|0x8)).toString(16);
+    });
+    Profile.UID = uid;
+    return;
+  }
+
+  get uid(){
+    return Profile.UID;
+  }
+
+  sendProfile(){
+    var profileArray = [Profile.Nickname, Profile.Color, Profile.IMG, Profile.UID];
+    this.profileEmitter.emit(profileArray);
+  }
+
+  styleHeader(){
+    if(this.color != "white"){
+      var div = document.getElementById('headerColorDiv');
+      div.style.backgroundColor = this.color;
+      div.style.borderWidth = "0";
+      return;
+    } else {
+      var div = document.getElementById('headerColorDiv')
+      div.style.backgroundColor = this.color;
+      div.style.borderStyle = "solid";
+      div.style.borderWidth = "1px";
+      div.style.borderColor = "black";
+      return;
+    }
   }
 
   changeIMG(event){
@@ -65,17 +111,17 @@ export class ChatProfileComponent {
   }
 
   softnickCheck(){
-    if(!/^\s*$/.test(this.nickName)){
-     if(this.nickName.length < 16){
-        document.getElementById('profileAlert').style.visibility = 'hidden';
-        this.alertText = "";
+    if(!/^\s*$/.test(this.nickname)){
+     if(this.nickname.length < 16){
+        // document.getElementById('profileAlert').style.visibility = 'hidden';
+        // this.alertText = "";
         document.getElementById('nickInput').className = 'nick';
         document.getElementById('profileNickDes').className = 'nickName';
         return true;
       }  
       else {
-        document.getElementById('profileAlert').style.visibility = 'visible';
-        this.alertText = "Der Nickname darf nicht länger als 15 Zeichen sein!";
+        // document.getElementById('profileAlert').style.visibility = 'visible';
+        // this.alertText = "Der Nickname darf nicht länger als 15 Zeichen sein!";
         document.getElementById('nickInput').className = 'nickalert';
         document.getElementById('profileNickDes').className = 'nickNameAlert';
         return false;
@@ -85,42 +131,56 @@ export class ChatProfileComponent {
   }
 
   nickCheck(){
-    if(!/^\s*$/.test(this.nickName)){
-      if(this.nickName.length < 16){
-        document.getElementById('profileAlert').style.visibility = 'hidden';
-        this.alertText = "";
-        document.getElementById('nickInput').className = 'nick';
-        document.getElementById('profileNickDes').className = 'nickName';
-        return true;
-      }  
-      else {
-        this.resetAlert();
-        document.getElementById('profileAlert').style.visibility = 'visible';
-        this.alertText = "Der Nickname darf nicht länger als 15 Zeichen sein!";
+    if(this.nickname != undefined){
+      if(!/^\s*$/.test(this.nickname)){
+        if(this.nickname.length < 16){
+          // document.getElementById('profileAlert').style.visibility = 'hidden';
+          // this.alertText = "";
+          document.getElementById('nickInput').className = 'nick';
+          document.getElementById('profileNickDes').className = 'nickName';
+          return true;
+        }  
+        else {
+          //this.resetAlert();
+          // document.getElementById('profileAlert').style.visibility = 'visible';
+          // this.alertText = "Der Nickname darf nicht länger als 15 Zeichen sein!";
+          document.getElementById('nickInput').className = 'nickalert';
+          document.getElementById('profileNickDes').className = 'nickNameAlert';
+          return false;
+        }
+      } else {
+        //this.resetAlert();
+        // document.getElementById('profileAlert').style.visibility = 'visible';
+        // this.alertText = "Der Nickname darf nicht länger als 15 Zeichen sein!";
         document.getElementById('nickInput').className = 'nickalert';
         document.getElementById('profileNickDes').className = 'nickNameAlert';
         return false;
       }
     }
     else {
-      this.resetAlert();
-      document.getElementById('profileAlert').style.visibility = 'visible';
-      this.alertText = "Nickname darf nicht leer sein!";
+      //this.resetAlert();
+      // document.getElementById('profileAlert').style.visibility = 'visible';
+      // this.alertText = "Nickname darf nicht leer sein!";
       document.getElementById('nickInput').className = 'nickalert';
       document.getElementById('profileNickDes').className = 'nickNameAlert';
       return false;
     }
   }
 
+  keyEnterNick(){
+    this.delEnterNick();
+    this.confirm();
+  }
+
   delEnterNick(){
-    var nicklength = this.nickName.length;
-    var splitNick = this.nickName.substring(0, nicklength-1);
-    this.nickName = splitNick;
+    var nicklength = this.nickname.length;
+    var splitNick = this.nickname.substring(0, nicklength-1);
+    this.nickname = splitNick;
     return;
   }
 
   selectColor(selColor, selector){
-    this.newColor = selColor;
+    this.color = selColor;
     document.getElementById('cpColorDiv').style.background = selColor;
     document.getElementById('cpColorDiv').style.borderColor = selColor;
     if(selColor == 'white'){
@@ -133,25 +193,25 @@ export class ChatProfileComponent {
       x[i].innerHTML = "";
     }
     document.getElementById(selector).innerText = "✓";
-    this.colorAlert();
+    //this.colorAlert();
     return;
   }
 
-  colorAlert(){
-    if(this.color != this.newColor){
-      document.getElementById('profileAlert').style.visibility = 'visible';
-      document.getElementById('profileAlert').style.backgroundColor = 'rgba(0, 128, 47, 0.75)';
-      this.alertText = "Die Farbänderung wird erst mit einer Änderung des Nicknames wirksam!";
-      setTimeout(this.resetAlert, 8000);
-    }
-    return;
-  }
+  // colorAlert(){
+  //   if(this.color != this.newColor){
+  //     document.getElementById('profileAlert').style.visibility = 'visible';
+  //     document.getElementById('profileAlert').style.backgroundColor = 'rgba(0, 128, 47, 0.75)';
+  //     this.alertText = "Die Farbänderung wird erst mit einer Änderung des Nicknames wirksam!";
+  //     setTimeout(this.resetAlert, 5000);
+  //   }
+  //   return;
+  // }
 
-  resetAlert(){
-    document.getElementById('profileAlert').style.backgroundColor = 'rgba(201, 45, 43, 0.75)';
-    document.getElementById('profileAlert').style.visibility = 'hidden';
-    return;
-  }
+  // resetAlert(){
+  //   document.getElementById('profileAlert').style.backgroundColor = 'rgba(201, 45, 43, 0.75)';
+  //   document.getElementById('profileAlert').style.visibility = 'hidden';
+  //   return;
+  // }
 
   resetCp(){
     var x = document.getElementsByClassName("cpList");
@@ -171,9 +231,9 @@ export class ChatProfileComponent {
 
   resetNick(){
     if(!this.softnickCheck()){
-      this.nickName = '';
+      this.nickname = '';
     }
-    this.resetAlert();
+    //this.resetAlert();
     document.getElementById('profileAlert').style.visibility = 'hidden';
     this.alertText = "";
     document.getElementById('nickInput').className = 'nick';

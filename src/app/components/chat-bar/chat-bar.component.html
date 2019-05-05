@@ -1,9 +1,4 @@
-<div>  
+<div id="chatBar">  
   <textarea class="input" id="chatInput" rows="1" placeholder="Chat-Nachricht" (keyup.enter)="send()" (keyup.shift.enter)="send()" [(ngModel)]="message"></textarea>
   <button class="button" (click)="send()">→</button>
 </div>
-<table>
-  <tr>
-    <td><div class="alert" id="alert">{{ alertText }}</div></td>
-  </tr>
-</table>

@@ -12,10 +12,10 @@ hr.line {
     margin-top: 10px;
     border-width: 0.5px;
     border-color: #00802F;
-    margin-bottom: 10px;
 }
 
 body {
-    margin: 5px;
+    margin: 0px;
     height: 100%;
+    width: 100%;
 }
