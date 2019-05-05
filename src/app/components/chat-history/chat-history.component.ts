@@ -1,11 +1,15 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { History } from '../shared/models/history';
+import { HashLocationStrategy } from '@angular/common';
+import { Users } from '../shared/models/users';
+import { ChatProfileComponent } from '../chat-profile/chat-profile.component';
 
 @Component({
   selector: 'app-chat-history',
   templateUrl: './chat-history.component.html',
   styleUrls: ['./chat-history.component.css']
 })
-export class ChatHistoryComponent implements OnInit{
+export class ChatHistoryComponent{
 
   public newMessage;
   public localHistory: any[];
@@ -31,39 +35,35 @@ export class ChatHistoryComponent implements OnInit{
   public output = '';
   public prevMessageID = '';
   public spanNumber;
+  public _pullMessage;
 
 
   constructor() {}
 
   // ngOnChanges(changes: SimpleChanges){
   //   console.log('pullMessage change...');
-  //   console.log(this.localHistory);
-  //   console.log(this.newMessage);
+  //   console.log(History.chatHistory);
+  //   console.log(History.push);
   //   const pullMessage: SimpleChange = changes.pullMessage;
-  //   this.newMessage = pullMessage.currentValue;
+  //   History.push = pullMessage.currentValue;
   //   if(!pullMessage.isFirstChange()){
   //     this.updateHistory();
   //   }
   // }
 
   @Input()
-  set pullMessage(pullMessage: any[]){
-    this.newMessage = pullMessage;
-    console.log('[INFO] Pulled new Message!');
-    console.log('[VAR] newMessage:');
-    console.log(this.newMessage);
+  set pullMessage(value: boolean){
+    console.log('[INFO] Received Message!');
+    this._pullMessage = value;
     if(this.initializedChatHistory){
       this.updateHistory();
     }
+    
   }
 
   ngOnInit(){
-    console.log('[INFO] Initializing chat-history');
-    this.localHistory = this.newMessage;
-    console.log('[VAR] localHistory:')
-    console.log(this.localHistory);
-    var l = this.localHistory.length;
-    this.date = this.localHistory[l-2][4];
+    var l = History.chatHistory.length;
+    this.date = History.chatHistory[l-2][4];
     if(l > 2){
       this.loadHistory();
     }
@@ -77,12 +77,7 @@ export class ChatHistoryComponent implements OnInit{
   }
 
   updateHistory(){
-    console.log('[INFO] Updating History!');
-    console.log('[VAR] localHistory:')
-    console.log(this.localHistory);
-    //this.localHistory.push(this.newMessage);
-    //console.log(this.localHistory);
-    var l = this.localHistory.length;
+    var l = History.chatHistory.length;
     if(this.firstChat){
       this.styleFirstChat();
       this.firstChat = false;
@@ -90,24 +85,30 @@ export class ChatHistoryComponent implements OnInit{
     if(!this.compareDate()){
       this.createDateBox();
     }
-    if(this.newMessage[0] === Array){
+    if(History.push[0] === Array){
       this.createmultipleMessages();
     } else {
       this.cache = [
-        [this.localHistory[l-2][0], this.localHistory[l-2][1], this.localHistory[l-2][2], this.localHistory[l-2][3], this.localHistory[l-2][4]],
-        [this.newMessage[0], this.newMessage[1], this.newMessage[2], this.newMessage[3], this.newMessage[4]]
+        [History.chatHistory[l-2][0], History.chatHistory[l-2][1], History.chatHistory[l-2][2], History.chatHistory[l-2][3], History.chatHistory[l-2][4], History.chatHistory[l-2][5]],
+        [History.push[0], History.push[1], History.push[2], History.push[3], History.push[4], History.push[5]]
       ];
+      console.log(History.chatHistory);
+      console.log(Users.userHistory);
       var cID = 1;
-      this.createMessage(cID);
+      this.displayMessage(cID);
     }
     return;
   }
 
-  createMessage(cID){
+  displayMessage(cID){
     console.log('[INFO] Creating new Message!')
     if(cID == 0){
       this.createMessageElement();
-    } else {
+    } else if(!this.compareDate()){
+      this.createMessageElement();
+    } else if(!this.compareColor()){
+      this.createMessageElement();
+    }else {
       var prevnickName = this.cache[cID-1][0];
       var curnickName = this.cache[cID][0];
       if(prevnickName == curnickName){
@@ -121,11 +122,12 @@ export class ChatHistoryComponent implements OnInit{
   }
   
   createmultipleMessages(){
-    var nml = this.newMessage.length;
+    console.log('[INFO] Creating multiple messages!');
+    var nml = History.push.length;
     var i;
-    this.cache = this.newMessage; 
+    this.cache = History.push; 
     for(i = 0; i < nml; i++){
-      this.newMessage = this.cache[i];
+      History.push = this.cache[i];
       if(i > 0){
         var prevnickName = this.cache[i-1][0];
         var curnickName = this.cache[i][0]
@@ -141,9 +143,9 @@ export class ChatHistoryComponent implements OnInit{
   
   createMessageElement(){
     console.log('[INFO] Creating Message Element!')
-    var l = this.localHistory.length - 2;
-    var color = this.newMessage[2];
-    var nickName = this.newMessage[0];
+    var l = History.chatHistory.length - 2;
+    var color = History.push[2];
+    var nickName = History.push[0];
     this.divCounter = 0;
     if(color == 'white'){
       this.textcolor = 'black';
@@ -178,36 +180,47 @@ export class ChatHistoryComponent implements OnInit{
     nickSpan.appendChild(profilePicture);
 
     var header = document.createElement('h4');
-    header.innerText = `${this.newMessage[0]}`;
+    header.innerText = `${History.push[0]}`;
     header.style.cssText = 'position: relative;margin-left: 35px;'
     nickSpan.appendChild(header);
 
     var chat = document.createElement('p');
-    chat.innerText = `${this.newMessage[1]}`;
+    chat.innerText = `${History.push[1]}`;
     div.appendChild(chat);
 
     var timestamp = document.createElement('span');
     timestamp.style.cssText = `position:absolute;bottom:4px;right:10px;padding-bottom: 5px;font-size: 14px;float: right;`;
-    timestamp.innerText = `${this.newMessage[3]}`;
+    timestamp.innerText = `${History.push[3]}`;
     div.appendChild(timestamp);
 
-    container.style.cssText = `background-color: ${background};border: 1px solid ${color};border-radius: 5px;color: ${this.textcolor};clear: both;float: right;font-family: system-ui;font-size: 18px;line-height: 5px;margin: 5px 0;max-width: 80%;min-width: 300px;padding: 10px;padding-bottom: 5px;padding-top: 0px;position: relative;text-align: left`;
+    container.style.cssText = `background-color: ${background};border: 1px solid ${color};border-radius: 5px;color: ${this.textcolor};clear: both;float: right;font-family: system-ui;font-size: 18px;line-height: 5px;margin: 5px 0;margin-right: 5px;max-width: 80%;min-width: 300px;padding: 10px;padding-bottom: 5px;padding-top: 0px;position: relative;text-align: left`;
     container.className = 'message-right';
     document.getElementById('output').appendChild(container);
     this.updateScroll();
   }
 
   compareDate(){
-    console.log('[INFO] Comparing Date!')
-    var l = this.localHistory.length;
-    var curDate = this.localHistory[l-1][4];
-    var prevDate = this.localHistory[l-2][4];
+    var l = History.chatHistory.length;
+    var curDate = History.chatHistory[l-1][4];
+    var prevDate = History.chatHistory[l-2][4];
     if(curDate == prevDate){
       return true;
     } else {
       return false;
     }
   }
+
+  compareColor(){
+    var l = History.chatHistory.length;
+    var curColor = History.chatHistory[l-1][2];
+    var prevColor = History.chatHistory[l-2][2];
+    if(curColor == prevColor){
+      return true;
+    } else {
+      return false;
+    }
+  }
+
 
   mergeMessages(cID){
     console.log('[INFO] Merging Messages!');
@@ -216,7 +229,7 @@ export class ChatHistoryComponent implements OnInit{
     var curTimestamp = this.cache[cID][3];
     var nickName = this.cache[cID][0];
     var cml = this.cache.length;
-    var l = this.localHistory.length;
+    var l = History.chatHistory.length;
     var c = l - cml + cID - this.mergedMessages - 1;
     var containerID = nickName + c;
     if(prevTimestamp != curTimestamp){
@@ -266,12 +279,13 @@ export class ChatHistoryComponent implements OnInit{
     output.appendChild(div);
 
     var dateBox = document.createElement('div');
-    var l = this.localHistory.length;
-    var date = this.localHistory[l-1][4];
+    var l = History.chatHistory.length;
+    var date = History.chatHistory[l-1][4];
     dateBox.innerText = date;
     dateBox.style.cssText = this.dateBoxStyle;
     div.appendChild(dateBox);
     this.lastDate = date;
+    this.date = date;
   }
 
   styleFirstChat(){

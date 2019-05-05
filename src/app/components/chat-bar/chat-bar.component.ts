@@ -1,4 +1,5 @@
 import { Component, Output, EventEmitter, Input } from '@angular/core';
+import { Profile } from '../shared/models/profile';
 
 @Component({
   selector: 'app-chat-bar',
@@ -21,7 +22,6 @@ export class ChatBarComponent {
   public spanNumber;
 
   @Output() messageEmitter = new EventEmitter<any[]>();
-  @Input() nickName: string;
 
   constructor() { }
 
@@ -43,7 +43,7 @@ export class ChatBarComponent {
   }
 
   buildMessageArray(){
-    var messageArray = [this.message];
+    var messageArray = [Profile.UID, this.message];
     return messageArray;
   }
 
@@ -66,37 +66,36 @@ export class ChatBarComponent {
   }
 
   nickCheck(){
-    if(!/^\s*$/.test(this.nickName)){
-      if(this.nickName.length < 16){
-        document.getElementById('alert').style.visibility = 'hidden';
-        this.alertText = "";
+    if(!/^\s*$/.test(Profile.Nickname)){
+      if(Profile.Nickname.length < 16){
+        // document.getElementById('alert').style.visibility = 'hidden';
+        // this.alertText = "";
         document.getElementById('nickInput').className = 'nick';
         document.getElementById('profileNickDes').className = 'nickName';
         return true;
       }  
       else {
-        this.resetAlert();
-        document.getElementById('alert').style.visibility = 'visible';
-        this.alertText = "Der Nickname darf nicht länger als 15 Zeichen sein!";
+        // this.resetAlert();
+        // document.getElementById('alert').style.visibility = 'visible';
+        // this.alertText = "Der Nickname darf nicht länger als 15 Zeichen sein!";
         document.getElementById('nickInput').className = 'nickalert';
         document.getElementById('profileNickDes').className = 'nickNameAlert';
         return false;
       }
     }
     else {
-      this.resetAlert();
-      document.getElementById('alert').style.visibility = 'visible';
-      this.alertText = "Nickname darf nicht leer sein!";
+      // this.resetAlert();
+      // document.getElementById('alert').style.visibility = 'visible';
+      // this.alertText = "Nickname darf nicht leer sein!";
       document.getElementById('nickInput').className = 'nickalert';
       document.getElementById('profileNickDes').className = 'nickNameAlert';
       return false;
     }
   }
-
-  resetAlert(){
-    document.getElementById('alert').style.backgroundColor = 'rgb(220, 70, 70)';
-    document.getElementById('alert').style.visibility = 'hidden';
-  }
+  // resetAlert(){
+  //   document.getElementById('alert').style.backgroundColor = 'rgb(220, 70, 70)';
+  //   document.getElementById('alert').style.visibility = 'hidden';
+  // }
 
   resetInput(){
     this.message = "";
