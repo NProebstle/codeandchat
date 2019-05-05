@@ -1,6 +1,4 @@
-import { Component, HostListener } from '@angular/core';
-import { ChatProfileComponent } from './components/chat-profile/chat-profile.component';
-import { ChatBarComponent } from './components/chat-bar/chat-bar.component';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -30,7 +28,7 @@ import { ChatBarComponent } from './components/chat-bar/chat-bar.component';
           - <app-chat> Inhalt des Bodys; Chat-Applikation
           - <app-footer> Inhalt des Footers (Components)
     -->
-    <app-overlay></app-overlay>
+    
     <div class="base-container">
       <div class="base-header"><app-header></app-header></div>
       <div class="base-body"><app-chat></app-chat></div>
