@@ -23,7 +23,7 @@ export class ChatComponent implements OnInit {
     History.chatHistory = chatHistoryInit;
 
     var userHistoryInit = [['Code&Chat 2019 – EasyChat App v4', 'Initialized userHistory', timestamp, date], ['[nickname]', '[color]', '[img]', '[UID]']];
-    Users.userHistory = userHistoryInit;
+    Users.initUserHistory = userHistoryInit;
     document.getElementById('profileContainer').hidden = true;
   }
 
