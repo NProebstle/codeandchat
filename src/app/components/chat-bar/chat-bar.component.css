@@ -27,7 +27,6 @@ div.alert {
     margin: 0px;
     margin-left: -2px;
     font-size: 18px;
-    font-family: system-ui;
     background: rgba(201, 45, 43, 0.75);
     color: white;
     visibility: hidden;

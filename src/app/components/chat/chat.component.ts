@@ -1,7 +1,10 @@
-import { Component, Output, EventEmitter, OnInit, Input } from '@angular/core';
+import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { History } from '../shared/models/history';
 import { Users } from '../shared/models/users';
+import { OverlayRef, Overlay, OverlayConfig } from '@angular/cdk/overlay';
 import { ChatProfileComponent } from '../chat-profile/chat-profile.component';
+import { ComponentPortal } from '@angular/cdk/portal';
+import { ChatBarComponent } from '../chat-bar/chat-bar.component';
 
 @Component({
   selector: 'app-chat',
@@ -23,8 +26,10 @@ export class ChatComponent implements OnInit {
     History.chatHistory = chatHistoryInit;
 
     var userHistoryInit = [['Code&Chat 2019 – EasyChat App v4', 'Initialized userHistory', timestamp, date], ['[nickname]', '[color]', '[img]', '[UID]']];
-    Users.userHistory = userHistoryInit;
+    Users.initUserHistory = userHistoryInit;
     document.getElementById('profileContainer').hidden = true;
+
+    //this.profileOverlay();
   }
 
   receiveMessage($event){
@@ -103,4 +108,29 @@ export class ChatComponent implements OnInit {
     var dmyTimestamp = dayArray[day] + ', ' + date.getDate() + '. ' + monthArray[month] + ' ' + date.getFullYear();
     return dmyTimestamp;
   }
+
+  // profileOverlay(){
+  //   console.log('overlay');
+  //   var overlay: Overlay;
+  //   var viewcontainerRef: ViewContainerRef;
+  //   let config = new OverlayConfig();
+    
+  //   let overlayRef = overlay.create(config);
+  //   overlayRef.attach(new ComponentPortal(ChatProfileComponent, viewcontainerRef));
+  // }
+
+//   profileOverlay(){
+//     var overlay: Overlay;
+//     const overlayRef = overlay.create();
+//     const userProfilePortal = new ComponentPortal(ChatProfileComponent);
+//     overlayRef.attach(userProfilePortal);
+//   }
+// }
+
+// <ng-template 
+// cdkConnectedOverlay
+// [cdkConnectedOverlayOrigin]="overlayOrigin"
+// [cdkConnectedOverlayOpen]="isOpened"
+// (detach)="connectedOverlayDetach()">
+// </ng-template>
 }

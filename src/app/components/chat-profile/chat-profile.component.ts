@@ -1,5 +1,7 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Profile } from '../shared/models/profile';
+import { environment } from '../../../environments/environment';
+
 
 @Component({
   selector: 'app-chat-profile',
@@ -9,6 +11,7 @@ import { Profile } from '../shared/models/profile';
 export class ChatProfileComponent implements OnInit{
 
   constructor() { }
+
 
   public nickname: string;
   public alertText;

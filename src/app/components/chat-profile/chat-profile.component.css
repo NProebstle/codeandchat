@@ -124,7 +124,6 @@ div.profileAlert {
     max-width: calc(100% - 20px);
     min-width: calc(100% - 20px);
     font-size: 100%;
-    font-family: system-ui;
     background: rgba(201, 45, 43, 0.75);
     color: white;
     visibility: hidden;
