@@ -103,15 +103,19 @@ export class ChatHistoryComponent{
   displayMessage(cID){
     console.log('[INFO] Creating new Message!')
     if(cID == 0){
+      this.mergedMessages = 0;
       this.createMessageElement();
     } else if(!this.compareDate()){
+      this.mergedMessages = 0;
       this.createMessageElement();
     } else if(!this.compareColor()){
+      this.mergedMessages = 0;
       this.createMessageElement();
     }else {
       var prevnickName = this.cache[cID-1][0];
       var curnickName = this.cache[cID][0];
       if(prevnickName == curnickName){
+        this.mergedMessages = 0;
         this.mergeMessages(cID);
       } else {
         this.mergedMessages = 0;
