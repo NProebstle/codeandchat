@@ -12,6 +12,7 @@ import { ChatProfileComponent } from './components/chat-profile/chat-profile.com
 import { environment } from '../environments/environment';
 import { OverlayComponent } from './components/overlay/overlay.component';
 import { OverlayModule } from '@angular/cdk/overlay';
+import { ApiService } from './api.service';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,9 @@ import { OverlayModule } from '@angular/cdk/overlay';
     BrowserModule,
     FormsModule,
   ],
-  providers: [],
+  providers: [
+    ApiService,
+  ],
   bootstrap: [AppComponent],
   entryComponents: [
     OverlayComponent,

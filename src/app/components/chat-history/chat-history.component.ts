@@ -115,7 +115,6 @@ export class ChatHistoryComponent{
       var prevnickName = this.cache[cID-1][0];
       var curnickName = this.cache[cID][0];
       if(prevnickName == curnickName){
-        this.mergedMessages = 0;
         this.mergeMessages(cID);
       } else {
         this.mergedMessages = 0;
