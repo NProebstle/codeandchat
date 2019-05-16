@@ -1,54 +1,41 @@
 import { Injectable } from '@angular/core';
-import { environment } from '../environments/environment';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { History } from './components/shared/models/history';
+import { ProfileArray } from './components/shared/models/profileArray';
+import { MessageArray } from './components/shared/models/messageArray';
 
-
-const API_URL = environment.apiUrl;
-
-
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class ApiService {
 
-  private http: HttpClientModule;
+  private API_URL: string;
 
-  constructor() { }
+  constructor(private http: HttpClient) { 
+    this.API_URL = 'http://localhost:3000';
+  }
 
-  //  public getChatHistory(): Observable<History> {
-  //   return this.http
-  //     .get(API_URL + '/todos')
-  //     .map(response => {
-  //       const todos = response.json();
-  //       return todos.map((todo) => new Todo(todo));
-  //     })
-  //     .catch(this.handleError);
-  // }
+  //ChatHistory bekommen
+  public getChatHistory(): Observable<History[]> {
+    return this.http.get<History[]>(this.API_URL + '/history');
+  }
 
-  // //Antwort bekommen
-  // public getNewMsg(todoId: number): Observable<History> {
-  //   return this.http
-  //     .get(API_URL + '/todos/' + todoId)
-  //     .map(response => {
-  //       return new Todo(response.json());
-  //     })
-  //     .catch(this.handleError);
-  // }
+  public getPush(): Observable<History> {
+    return this.http.get<History>(this.API_URL + '/push');
+  }
 
-  // public sendMsg(todo: Todo): Observable<Todo> {
-  //   return this.http
-  //     .post(API_URL + '/todos', todo)
-  //     .map(response => {
-  //       return new Todo(response.json());
-  //     })
-  //     .catch(this.handleError);
-  // }
+  //Profil senden
+  public addProfile(profile: ProfileArray): Observable<ProfileArray> {
+    const options = {
+      headers: new HttpHeaders().set('Content-Type', 'application/json'),
+    };
+    return this.http.post<ProfileArray>(this.API_URL + '/profiles', profile, options);
+  }
 
-
-  // private handleError (error: Response | any) {
-  //   console.error('ApiService::handleError', error);
-  //   return Observable.throw(error);
-  // }
+  //Neue Nachricht absenden/bekommen
+  public sendMsg(message: MessageArray[]): Observable<MessageArray[]> {
+    const options = {
+      headers: new HttpHeaders().set('Content-Type', 'application/json'),
+    };
+    return this.http.post<MessageArray[]>(this.API_URL + '/history', message, options);
+  }
 }

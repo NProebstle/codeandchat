@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { OverlayService } from './components/overlay/overlay.service';
 
 @Component({
   selector: 'app-root',
@@ -28,7 +29,6 @@ import { Component } from '@angular/core';
           - <app-chat> Inhalt des Bodys; Chat-Applikation
           - <app-footer> Inhalt des Footers (Components)
     -->
-    
     <div class="base-container">
       <div class="base-header"><app-header></app-header></div>
       <div class="base-body"><app-chat></app-chat></div>

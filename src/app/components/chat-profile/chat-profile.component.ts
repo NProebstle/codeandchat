@@ -1,6 +1,11 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Profile } from '../shared/models/profile';
 import { environment } from '../../../environments/environment';
+import { OverlayService } from '../overlay/overlay.service';
+import { OverlayComponent } from '../overlay/overlay.component';
+import { OverlayIntroService } from '../overlay-intro/overlay-intro.service';
+import { ApiService } from 'src/app/api.service';
+import { ProfileArray } from '../shared/models/profileArray';
 
 
 @Component({
@@ -10,8 +15,7 @@ import { environment } from '../../../environments/environment';
 })
 export class ChatProfileComponent implements OnInit{
 
-  constructor() { }
-
+  constructor(private apiService: ApiService) { }
 
   public nickname: string;
   public alertText;
@@ -19,15 +23,22 @@ export class ChatProfileComponent implements OnInit{
   public color: string;
   public newColor;
   public prevSelector = 'cpGreen';
-  public profileIMGsrc;
-
-  @Output() profileEmitter = new EventEmitter<any[]>();
+  public profileIMGsrc: string;
+  public firstUpdate = true;
+  public response;
 
   ngOnInit(){
+    this.generateUID();
+    console.log('Init profile');
+  }
+
+  updateData(){
+    if(this.firstUpdate){
     this.nickname = Profile.Nickname;
     this.color = Profile.Color;
     this.profileIMGsrc = Profile.IMG;
-    this.generateUID();
+    this.firstUpdate = false;
+    }
   }
 
   cancel(){
@@ -69,9 +80,19 @@ export class ChatProfileComponent implements OnInit{
   }
 
   sendProfile(){
-    var profileArray = [Profile.Nickname, Profile.Color, Profile.IMG, Profile.UID];
-    this.profileEmitter.emit(profileArray);
-  }
+    let profileArrayToSend: ProfileArray = new ProfileArray();
+    profileArrayToSend.nickname = Profile.Nickname;
+    profileArrayToSend.color = Profile.Color;
+    profileArrayToSend.img = Profile.IMG;
+    profileArrayToSend.uid = Profile.UID;
+
+    this.apiService.addProfile(profileArrayToSend)
+    .subscribe(
+      (response: ProfileArray) => {
+        this.response = '';
+      })
+      return;
+    }
 
   styleHeader(){
     if(this.color != "white"){

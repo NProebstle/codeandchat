@@ -5,6 +5,7 @@ import { OverlayRef, Overlay, OverlayConfig } from '@angular/cdk/overlay';
 import { ChatProfileComponent } from '../chat-profile/chat-profile.component';
 import { ComponentPortal } from '@angular/cdk/portal';
 import { ChatBarComponent } from '../chat-bar/chat-bar.component';
+import { OverlayService } from '../overlay/overlay.service';
 
 @Component({
   selector: 'app-chat',
@@ -30,6 +31,7 @@ export class ChatComponent implements OnInit {
     document.getElementById('profileContainer').hidden = true;
 
     //this.profileOverlay();
+    console.log('Init chat');
   }
 
   receiveMessage($event){
@@ -108,29 +110,4 @@ export class ChatComponent implements OnInit {
     var dmyTimestamp = dayArray[day] + ', ' + date.getDate() + '. ' + monthArray[month] + ' ' + date.getFullYear();
     return dmyTimestamp;
   }
-
-  // profileOverlay(){
-  //   console.log('overlay');
-  //   var overlay: Overlay;
-  //   var viewcontainerRef: ViewContainerRef;
-  //   let config = new OverlayConfig();
-    
-  //   let overlayRef = overlay.create(config);
-  //   overlayRef.attach(new ComponentPortal(ChatProfileComponent, viewcontainerRef));
-  // }
-
-//   profileOverlay(){
-//     var overlay: Overlay;
-//     const overlayRef = overlay.create();
-//     const userProfilePortal = new ComponentPortal(ChatProfileComponent);
-//     overlayRef.attach(userProfilePortal);
-//   }
-// }
-
-// <ng-template 
-// cdkConnectedOverlay
-// [cdkConnectedOverlayOrigin]="overlayOrigin"
-// [cdkConnectedOverlayOpen]="isOpened"
-// (detach)="connectedOverlayDetach()">
-// </ng-template>
 }

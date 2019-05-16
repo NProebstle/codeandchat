@@ -1,5 +1,7 @@
 import { Component, Output, EventEmitter, Input } from '@angular/core';
 import { Profile } from '../shared/models/profile';
+import { MessageArray } from '../shared/models/messageArray';
+import { ApiService } from 'src/app/api.service';
 
 @Component({
   selector: 'app-chat-bar',
@@ -20,10 +22,11 @@ export class ChatBarComponent {
   public output = '';
   public prevMessageID = '';
   public spanNumber;
+  public response;
 
   @Output() messageEmitter = new EventEmitter<any[]>();
 
-  constructor() { }
+  constructor(private apiService: ApiService) { }
 
   send(){
     if(this.nickCheck() && this.messageCheck()){
@@ -35,8 +38,15 @@ export class ChatBarComponent {
         }
         this.longMessage = false;
       } else {
-        this.messageEmitter.emit(this.buildMessageArray());
+        let msgArrayToSend: MessageArray = new MessageArray();
+        msgArrayToSend.msg = this.buildMessageArray();
         this.message = '';
+        this.apiService.sendMsg(msgArrayToSend)
+        .subscribe(
+          (response: MessageArray[]) => {
+            this.response = '';
+          })
+          return;
       }
     }
     return;

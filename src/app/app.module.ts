@@ -13,6 +13,11 @@ import { environment } from '../environments/environment';
 import { OverlayComponent } from './components/overlay/overlay.component';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { ApiService } from './api.service';
+import { OverlayService } from './components/overlay/overlay.service';
+import { OverlayIntroComponent } from './components/overlay-intro/overlay-intro.component';
+import { OverlayIntroService } from './components/overlay-intro/overlay-intro.service';
+import { OverlayHandlerComponent } from './components/overlay-handler/overlay-handler.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -24,18 +29,24 @@ import { ApiService } from './api.service';
     ChatBarComponent,
     ChatProfileComponent,
     OverlayComponent,
-    //OverlayModule
+    OverlayIntroComponent,
+    OverlayHandlerComponent,
   ],
   imports: [
     BrowserModule,
     FormsModule,
+    OverlayModule,
+    HttpClientModule,
   ],
   providers: [
     ApiService,
+    OverlayService,
+    OverlayIntroService,
   ],
   bootstrap: [AppComponent],
   entryComponents: [
     OverlayComponent,
+    OverlayIntroComponent,
   ]
 })
 export class AppModule { }

@@ -3,7 +3,7 @@ import { Overlay, OverlayConfig } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
 
 import { OverlayComponent } from './overlay.component';
-import { OverlayIntroComponent } from '../overlay-intro/overlay-intro.component';
+import { OverlayIntroComponent } from './overlay-intro.component';
 import { OverlayRefRemote } from '../../overlayRefRemote';
 
 interface InitOverlayConfig {
@@ -19,7 +19,7 @@ const DEFAULT_CONFIG: InitOverlayConfig = {
 }
 
 @Injectable()
-export class OverlayService {
+export class OverlayIntroService {
 
   constructor(
     private overlay: Overlay) { }
@@ -33,11 +33,11 @@ export class OverlayService {
     const dialogRef = new OverlayRefRemote(overlayRef);
 
     // Create ComponentPortal that can be attached to a PortalHost
-    const filePreviewPortal = new ComponentPortal(OverlayComponent);
+    const filePreviewPortal = new ComponentPortal(OverlayIntroComponent);
 
     // Attach ComponentPortal to PortalHost
     overlayRef.attach(filePreviewPortal);
-    
+
     return dialogRef;
   }
 

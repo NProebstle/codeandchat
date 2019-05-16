@@ -1,0 +1,64 @@
+:host {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    position: relative;
+}
+
+.title {
+    color: #00802F;
+    font-size: 2vw;
+}
+
+.subtitle {
+    color: #00802F;
+    font-size: 1vw;
+}
+
+h2 {
+    margin-bottom: 0;
+}
+
+h4 {
+    margin-bottom: 0;
+}
+
+.profileContainer {
+    border: solid 1px;
+    border-color: #00802F;
+    border-radius: 5px;
+    height: calc(100% - 2px);
+    width: calc(35% - 17px);
+    margin-top: 25vh;
+    padding-bottom: 3vh;
+    background-color: rgba(255, 255, 255, 0.95);
+    align-self: center;
+    display: block;
+}
+
+table {
+    width: 78%;
+    height: fit-content;
+    margin-left: 11%;
+    margin-right: 11%;
+}
+
+tr, td {
+    margin: 0;
+    padding: 0;
+    border-spacing: 0;
+}
+
+.confirmBtn {
+    width: calc(100% - 3px);
+    border: 0;
+    border-radius: 3px;
+    color: white;
+    background-color: #00802F;
+    height: 40px;
+    font-size: 2vh;
+    margin-bottom: 20px;
+    margin-top: 40px;
+}

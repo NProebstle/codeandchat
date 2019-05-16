@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Profile } from '../shared/models/profile';
+import { OverlayService } from '../overlay/overlay.service';
+import { ChatProfileComponent } from '../chat-profile/chat-profile.component';
 
 @Component({
   selector: 'app-header',
