@@ -11,7 +11,7 @@ export class ApiService {
   private API_URL: string;
 
   constructor(private http: HttpClient) { 
-    this.API_URL = 'http://localhost:3000';
+    this.API_URL = 'EasychatServer-env.2hsthwmma5.eu-central-1.elasticbeanstalk.com';
   }
 
   //ChatHistory bekommen
