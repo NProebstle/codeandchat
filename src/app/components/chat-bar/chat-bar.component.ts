@@ -1,5 +1,7 @@
-import { Component, Output, EventEmitter } from '@angular/core';
-import { Message } from '@angular/compiler/src/i18n/i18n_ast';
+import { Component, Output, EventEmitter, Input } from '@angular/core';
+import { Profile } from '../shared/models/profile';
+import { MessageArray } from '../shared/models/messageArray';
+import { ApiService } from 'src/app/api.service';
 
 @Component({
   selector: 'app-chat-bar',
@@ -8,7 +10,7 @@ import { Message } from '@angular/compiler/src/i18n/i18n_ast';
 })
 export class ChatBarComponent {
 
-  public alertText;
+  public alertText = '404';
   public colorsCollapsed = true;
   public color = '#00802F';
   public divColor;
@@ -17,14 +19,14 @@ export class ChatBarComponent {
   public longMessage = false;
   public messageArray;
   public mergedMessages = 0;
-  public nickName = '';
   public output = '';
   public prevMessageID = '';
   public spanNumber;
+  public response;
 
   @Output() messageEmitter = new EventEmitter<any[]>();
 
-  constructor() { }
+  constructor(private apiService: ApiService) { }
 
   send(){
     if(this.nickCheck() && this.messageCheck()){
@@ -36,77 +38,25 @@ export class ChatBarComponent {
         }
         this.longMessage = false;
       } else {
-        this.messageEmitter.emit(this.buildMessageArray());
+        let msgArrayToSend: MessageArray = new MessageArray();
+        msgArrayToSend.msg = this.buildMessageArray();
         this.message = '';
+        this.apiService.sendMsg(msgArrayToSend)
+        .subscribe(
+          (response: MessageArray[]) => {
+            this.response = '';
+          })
+          return;
       }
     }
     return;
   }
 
   buildMessageArray(){
-    var messageArray = [this.nickName, this.message, this.color];
+    var messageArray = [Profile.UID, this.message];
     return messageArray;
   }
 
-  // OLDsend(){
-  //   if(this.nickCheck() && this.messageCheck()){
-  //     if(this.containerCounter == 0){
-  //     this.styleFirstChat();
-  //     }
-  //     if(!this.longMessage){
-  //       this.output = this.message;
-  //       this.message = '';
-  //       this.createMessage();
-  //     }
-  //     else {
-  //       var numofMessages = this.messageArray.length;
-  //       var i;
-  //       for(i = 0; i < numofMessages; i++){
-  //         this.output = this.messageArray[i];
-  //         this.createMessage();
-  //       }
-  //       this.message = '';
-  //       this.messageArray = null;
-  //       this.longMessage = false;
-  //     }
-  //   }
-  // }      
-
-  changeColorDropdown(){
-    if(this.colorsCollapsed){
-      document.getElementById('cpGreen').className = 'cpList';
-      document.getElementById('cpBlue').className = 'cpList';
-      document.getElementById('cpRed').className = 'cpList';
-      document.getElementById('cpWhite').className = 'cpList';
-      document.getElementById('cpBlack').className = 'cpList';
-      document.getElementById('chatInput').style.width = '478px';
-      document.getElementById('chatInput').style.marginLeft = '0px';
-      document.getElementById('cpOrange').style.background = 'rgb(220, 120, 60)';
-      document.getElementById('cpOrange').style.border = 'rgb(220, 120, 60)';
-      document.getElementById('cpRed').style.background = 'rgb(220, 70, 70)';
-      document.getElementById('cpRed').style.border = 'rgb(220, 70, 70)';
-      document.getElementById('cpBlue').style.background = 'rgb(0, 160, 210)';
-      document.getElementById('cpBlue').style.border = 'rgb(0, 160, 210)';
-      document.getElementById('cpWhite').style.background = 'white';
-      document.getElementById('cpWhite').style.border = 'white';
-      document.getElementById('cpBlack').style.background = 'black';
-      document.getElementById('cpBlack').style.border = 'black';
-      document.getElementById('cpbtn').innerHTML = '◄';
-      this.colorsCollapsed = false;
-    }
-    else {
-      document.getElementById('cpGreen').className = 'cpListCollapsed';
-      document.getElementById('cpBlue').className = 'cpListCollapsed';
-      document.getElementById('cpOrange').className = 'cpListCollapsed';
-      document.getElementById('cpWhite').className = 'cpListCollapsed';
-      document.getElementById('cpBlack').className = 'cpListCollapsed';
-      document.getElementById('cpRed').className = 'cpListCollapsed';
-      document.getElementById('cpbtn').innerHTML = '►';
-      document.getElementById('chatInput').style.width = '603px';
-      document.getElementById('chatInput').style.marginLeft = '-5px';
-      this.colorsCollapsed = true;
-    }
-  }
   messageCheck(){
     if(!/^\s*$/.test(this.message)){
       document.getElementById('chatInput').className = 'input';
@@ -126,73 +76,36 @@ export class ChatBarComponent {
   }
 
   nickCheck(){
-    if(!/^\s*$/.test(this.nickName)){
-      if(this.nickName.length < 16){
-        document.getElementById('alert').style.visibility = 'hidden';
-        this.alertText = "";
+    if(!/^\s*$/.test(Profile.Nickname)){
+      if(Profile.Nickname.length < 16){
+        // document.getElementById('alert').style.visibility = 'hidden';
+        // this.alertText = "";
         document.getElementById('nickInput').className = 'nick';
+        document.getElementById('profileNickDes').className = 'nickName';
         return true;
       }  
       else {
-        document.getElementById('alert').style.visibility = 'visible';
-        this.alertText = "Der Nickname darf nicht länger als 15 Zeichen sein!";
-        this.messageCheck();
+        // this.resetAlert();
+        // document.getElementById('alert').style.visibility = 'visible';
+        // this.alertText = "Der Nickname darf nicht länger als 15 Zeichen sein!";
         document.getElementById('nickInput').className = 'nickalert';
+        document.getElementById('profileNickDes').className = 'nickNameAlert';
         return false;
       }
     }
     else {
-      document.getElementById('alert').style.visibility = 'visible';
-      this.alertText = "Nickname darf nicht leer sein!";
-      this.messageCheck();
+      // this.resetAlert();
+      // document.getElementById('alert').style.visibility = 'visible';
+      // this.alertText = "Nickname darf nicht leer sein!";
       document.getElementById('nickInput').className = 'nickalert';
+      document.getElementById('profileNickDes').className = 'nickNameAlert';
       return false;
     }
   }
-
-  softnickCheck(){
-    if(!/^\s*$/.test(this.nickName)){
-     if(this.nickName.length < 16){
-        document.getElementById('alert').style.visibility = 'hidden';
-        this.alertText = "";
-        document.getElementById('nickInput').className = 'nick';
-      }  
-      else {
-        document.getElementById('alert').style.visibility = 'visible';
-        this.alertText = "Der Nickname darf nicht länger als 15 Zeichen sein!";
-        document.getElementById('nickInput').className = 'nickalert';
-      }
-    }
-  }
-
-  selectColor(color){
-    this.color = color;
-    document.getElementById('cpbtn').style.background = color;
-    document.getElementById('cpbtn').style.borderColor = color;
-    if(color == 'white'){
-      document.getElementById('cpbtn').style.color = 'black';
-      document.getElementById('cpbtn').style.borderColor = '#00802F';
-    }
-    else {
-      document.getElementById('cpbtn').style.color = 'white';
-    }
-    this.changeColorDropdown();
-    document.getElementById('alert').style.visibility = 'visible';
-    document.getElementById('alert').style.backgroundColor = 'rgba(0, 128, 47, 0.75)';
-    this.alertText = "Die Farbänderung wird erst mit einer Änderung des Nicknames wirksam!";
-    setTimeout(this.resetAlert, 8000);
-  }
-
-  resetAlert(){
-    document.getElementById('alert').style.backgroundColor = 'rgba(255, 80, 80, 0.75)';
-    document.getElementById('alert').style.visibility = 'hidden';
-  }
-
-  delEnterNick(){
-    var nicklength = this.nickName.length;
-    var splitNick = this.nickName.substring(0, nicklength-1);
-    this.nickName = splitNick;
-  }
+  // resetAlert(){
+  //   document.getElementById('alert').style.backgroundColor = 'rgb(220, 70, 70)';
+  //   document.getElementById('alert').style.visibility = 'hidden';
+  // }
 
   resetInput(){
     this.message = "";

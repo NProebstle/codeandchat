@@ -1,6 +1,8 @@
 html {
     font-family: system-ui;
     font-weight: 200;
+    height: 100%;
+    overflow: hidden;
 }
 
 hr.line {
@@ -10,4 +12,24 @@ hr.line {
     margin-top: 10px;
     border-width: 0.5px;
     border-color: #00802F;
+}
+
+body {
+    margin: 0px;
+    height: 100%;
+    width: 100%;
+}
+
+.cdk-overlay-container {
+    background: rgba(5, 65, 27, 0.8);
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    vertical-align: middle;
+}
+
+.no-more-cdk-container {
+    visibility: hidden;
 }

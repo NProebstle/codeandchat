@@ -1,21 +1,4 @@
-<table>
-  <tr>
-    <td><textarea class="nick" id="nickInput" placeholder="Nickname" (keyup)="softnickCheck()" (keyup.enter)="delEnterNick()" (keydown.shift.enter)="delEnterNick()" [(ngModel)]="nickName"></textarea></td>
-    <td>
-      <button id="cpbtn" class="colorpicker" (click)="changeColorDropdown()">►</button>
-      <button id="cpBlue" class="cpListCollapsed" (click)="selectColor(color='rgb(0, 160, 210)')"></button>
-      <button id="cpOrange" class="cpListCollapsed" (click)="selectColor(color='rgb(220, 120, 60)')"></button>
-      <button id="cpWhite" class="cpListCollapsed" (click)="selectColor(color='white')"></button>
-      <button id="cpBlack" class="cpListCollapsed" (click)="selectColor(color='black')"></button>
-      <button id="cpGreen" class="cpListCollapsed" (click)="selectColor(color='#00802F')"></button>
-      <button id="cpRed" class="cpListCollapsed" (click)="selectColor(color='rgb(220, 70, 70)')"></button>
-    </td>
-    <td><textarea class="input" id="chatInput" rows="1" placeholder="Chat-Nachricht" (keyup.enter)="send()" (keyup.shift.enter)="send()" [(ngModel)]="message"></textarea></td>
-    <td><button class="button" (click)="send()">→</button></td>
-  </tr>
-</table>
-<table>
-  <tr>
-    <td><div class="alert" id="alert">{{ alertText }}</div></td>
-  </tr>
-</table>
+<div id="chatBar">  
+  <textarea class="input" id="chatInput" rows="1" placeholder="Chat-Nachricht" (keyup.enter)="send()" (keyup.shift.enter)="send()" [(ngModel)]="message"></textarea>
+  <button class="button" (click)="send()">→</button>
+</div>

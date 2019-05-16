@@ -1,4 +1,10 @@
 <body>
-  <app-chat-history [pullMessage]="pushMessage"></app-chat-history>
-  <app-chat-bar (messageEmitter)="receiveMessage($event)"></app-chat-bar>
+  <div id="bodyContainer">
+    <div id="chatContainer">
+    <app-chat-history style="flex: 2;"></app-chat-history>
+    <app-chat-bar></app-chat-bar>
+  </div>
+  <div id="profileContainer"><app-chat-profile></app-chat-profile></div>
+</div>
+<div hidden="true"><app-overlay-handler></app-overlay-handler></div>
 </body>

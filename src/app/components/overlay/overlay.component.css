@@ -1,0 +1,280 @@
+:host {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    position: relative;
+}
+
+.title {
+    color: #00802F;
+    font-size: 2vw;
+}
+
+.subtitle {
+    color: #00802F;
+    font-size: 1vw;
+}
+
+h2 {
+    margin-bottom: -5px;
+}
+
+h4 {
+    margin-top: 0;
+    margin-bottom: -10px;
+    color: rgba(201, 45, 43);
+}
+
+.cancelBtn {
+    width: calc(30% - 3px);
+    border: 0;
+    border-radius: 3px;
+    color: white;
+    background-color: rgb(220, 70, 70);
+    height: 40px;
+    float: left;
+    font-size: 120%;
+    margin-bottom: 20px;
+}
+
+.confirmBtn {
+    width: calc(100%);
+    border: 0;
+    border-radius: 3px;
+    color: white;
+    background-color: #00802F;
+    height: 40px;
+    font-size: 2vh;
+    margin-bottom: 20px;
+    margin-top: 0px;
+}
+
+.profileIMG {
+    height: auto;
+    width: 40%;
+    position: relative;
+    margin-left: 30%;
+    margin-right: 30%;
+    margin-top: 5%;
+    border-radius: 50%;
+    content: url('../../../assets/profile.png');
+}
+
+.profileIMGhover {
+    border: solid 3px;
+    border-radius: 50%;
+    border-color: #00802F;
+    height: auto;
+    width: 38%;
+    margin-left: 30%;
+    margin-right: 30%;
+    margin-top: 5%;
+    margin-bottom: 1px;
+    content: url('../../../assets/profile.png');
+}
+
+#ovlprofileIMGinput {
+    display: none;
+}
+
+.nickName {
+    color: #00802F;
+    margin-right: 10%;
+    margin-left: 5%;
+}
+
+.nickNameAlert {
+    color: rgba(201, 45, 43);
+    margin-right: 10%;
+    margin-left: 5%;
+}
+
+hr {
+    margin-top: 20px;
+    margin-bottom: 30px;
+}
+
+.profileContainer {
+    border: solid 1px;
+    border-color: #00802F;
+    border-radius: 5px;
+    height: calc(100% - 2px);
+    width: calc(35% - 17px);
+    margin-top: 5vh;
+    padding-bottom: 3vh;
+    background-color: rgba(255, 255, 255, 0.95);
+    align-self: center;
+    display: block;
+}
+
+textarea.nick {
+    resize: none;
+    line-height: 54px;
+    padding: 0;
+    border: 1px solid #00802F;
+    border-radius: 3px;
+    height: 50px;
+    width: 90%;
+    padding-left: 10px;
+    font-size: 120%;
+    margin-left: 5%;
+    margin-right: 5%;
+    color: #00802F;
+    overflow: hidden;
+}
+
+textarea.nickalert {
+    resize: none;
+    line-height: 54px;
+    padding: 0;
+    border: 2px solid rgba(201, 45, 43);
+    border-radius: 3px;
+    height: 50px;
+    width: calc(90% - 2px);
+    padding-left: 10px;
+    margin-left: 5%;
+    margin-right: 5%;
+    font-size: 120%;
+    background: rgba(255, 80, 80, 0.75);
+    overflow: hidden;
+}
+
+div.profileAlert {
+    line-height: 25px;
+    padding: 5px;
+    padding-left: 15px;
+    margin: 0;
+    border: 0px solid rgba(201, 45, 43, 0.75);
+    border-radius: 3px;
+    height: 55px;
+    max-width: calc(100% - 20px);
+    min-width: calc(100% - 20px);
+    font-size: 100%;
+    background: rgba(201, 45, 43, 0.75);
+    color: white;
+    visibility: hidden;
+    display: inline-block;
+}
+
+.profileUID {
+    color: rgba(0, 128, 47, 0.75);
+    position: absolute;
+    bottom: 0;
+    align-self: center;
+    font-size: 0.75vw;
+}
+
+.colorpicker {
+    height: 52px;
+    width: 30px;
+    border-color: #00802F;
+    border-width: 1px;
+    border-radius: 3px;
+    color:white;
+    background-color: #00802F;
+    margin-left: -6px;
+    margin-right: 1px;
+    margin-top: -3px;
+    border-style: solid;
+    float: left;
+    font-size: 10px;
+    text-align: center;
+    padding-left: 10px;
+}
+
+.cpList {
+    height: 15px;
+    width: 9.09%;
+    border: 0px;
+    border-radius: 2px;
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 0;
+    margin-bottom: 20px;
+    border-style: solid;
+    float: left;
+    font-size: 10px;
+    text-align: center;
+    padding-left: 10px;
+}
+
+table {
+    width: 78%;
+    height: fit-content;
+    margin-left: 11%;
+    margin-right: 11%;
+}
+
+tr, td {
+    margin: 0;
+    padding: 0;
+    border-spacing: 0;
+}
+
+#ovlcpColorDiv {
+    background-color: #00802F;
+    display: inline-block;
+    width: calc(100% - 2px);
+    height: 15px;
+    border: solid 1px;
+    border-color: #00802F;
+    border-radius: 3px 3px 3px 3px;
+    position: relative;
+    margin-top: 20px;
+}
+
+#ovlcpBlue {
+    background-color: rgb(0, 160, 210);
+    color: white;
+}
+
+#ovlcpOrange {
+    background-color: rgb(220, 120, 60);
+    color: white;
+}
+
+#ovlcpWhite {
+    background-color: white;
+    color: black;
+}  
+
+#ovlcpBlack {
+    background-color: black;
+    color: white;
+}   
+
+#ovlcpGreen {
+    background-color: #00802F;
+    color: white;
+}
+
+#ovlcpRed {
+    background-color: rgb(220, 70, 70);
+    color: white;
+}
+#ovlcpLightGreen {
+    background-color: rgb(156, 230, 61);
+    color: black;
+}
+
+#ovlcpYellow {
+    background-color: rgb(217, 219, 71);
+    color: black;
+}
+
+#ovlcpPink {
+    background-color: rgb(235, 109, 218);
+    color: white;
+} 
+
+#ovlcpDarkBlue {
+    background-color: rgb(83, 115, 219);
+    color: white;
+}
+
+#ovlcpViolett {
+    background-color: rgb(135, 76, 230);
+    color: white;
+}
