@@ -5,6 +5,7 @@ import { OverlayRefM } from '../shared/models/overlayRefM';
 import { discoverLocalRefs } from '@angular/core/src/render3/context_discovery';
 import { ProfileArray } from '../shared/models/profileArray';
 import { ApiService } from '../../api.service';
+import { OverlayRefRemote } from 'src/app/overlayRefRemote';
 
 @Component({
   selector: 'app-overlay',
@@ -35,10 +36,15 @@ export class OverlayComponent implements OnInit {
       this.updateProfile();
       this.styleHeader();
       this.sendProfile();
-      document.querySelector('.cdk-overlay-container').style.visibility = 'hidden';
-      OverlayRefM.overlayRef.close();
+      let elem = <HTMLElement>document.querySelector('.cdk-overlay-container');
+      elem.hidden = true;
+      this.ovlRef.close();
     }
     return;
+  }
+
+  get ovlRef() :OverlayRefRemote{
+    return OverlayRefM.overlayRef;
   }
 
   updateProfile(){

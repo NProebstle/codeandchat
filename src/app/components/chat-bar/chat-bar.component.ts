@@ -43,7 +43,7 @@ export class ChatBarComponent {
         this.message = '';
         this.apiService.sendMsg(msgArrayToSend)
         .subscribe(
-          (response: MessageArray[]) => {
+          (response: MessageArray) => {
             this.response = '';
           })
           return;

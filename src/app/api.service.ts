@@ -11,7 +11,8 @@ export class ApiService {
   private API_URL: string;
 
   constructor(private http: HttpClient) { 
-    this.API_URL = 'EasychatServer-env.2hsthwmma5.eu-central-1.elasticbeanstalk.com';
+    //this.API_URL = 'http://EasychatServer-env.2hsthwmma5.eu-central-1.elasticbeanstalk.com:3000';
+    this.API_URL = 'http://localhost:3000';
   }
 
   //ChatHistory bekommen
@@ -32,10 +33,10 @@ export class ApiService {
   }
 
   //Neue Nachricht absenden/bekommen
-  public sendMsg(message: MessageArray[]): Observable<MessageArray[]> {
+  public sendMsg(message: MessageArray): Observable<MessageArray> {
     const options = {
       headers: new HttpHeaders().set('Content-Type', 'application/json'),
     };
-    return this.http.post<MessageArray[]>(this.API_URL + '/history', message, options);
+    return this.http.post<MessageArray>(this.API_URL + '/history', message, options);
   }
 }

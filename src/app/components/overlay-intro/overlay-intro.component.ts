@@ -3,6 +3,7 @@ import { OverlayService } from '../overlay/overlay.service';
 import { OverlayIntroService } from './overlay-intro.service';
 import { OverlayRefRemote } from '../../overlayRefRemote';
 import { OverlayRefM } from '../shared/models/overlayRefM';
+import { OverlayRef, Overlay } from '@angular/cdk/overlay';
 
 @Component({
   selector: 'app-overlay-intro',
@@ -17,13 +18,17 @@ export class OverlayIntroComponent implements OnInit {
   }
 
   confirm(){
-    OverlayRefM.overlayRef.close();
-    let overlayRef: OverlayRefRemote = this.profileOverlay.open();
-    this.setovlRef(overlayRef);
+    this.ovlRef.close();
+    let ovlRef: OverlayRefRemote = this.profileOverlay.open();
+    this.setovlRef(ovlRef);
   }
 
   setovlRef(ref){
     OverlayRefM.overlayRef = ref;
+  }
+
+  get ovlRef() :OverlayRefRemote{
+    return OverlayRefM.overlayRef;
   }
 
 }

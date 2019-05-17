@@ -1,8 +1,6 @@
 import { Injectable, Inject } from '@angular/core';
 import { Overlay, OverlayConfig } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
-
-import { OverlayComponent } from './overlay.component';
 import { OverlayIntroComponent } from './overlay-intro.component';
 import { OverlayRefRemote } from '../../overlayRefRemote';
 
