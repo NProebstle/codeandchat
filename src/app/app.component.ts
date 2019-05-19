@@ -10,6 +10,7 @@ import { responsiveService } from './components/shared/services/responsive.servi
       .base-container {
         height: 100%;
         width: 100%;
+        overflow: hidden;
       }
       .base-header {
         height: 15%;
