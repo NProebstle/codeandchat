@@ -6,6 +6,7 @@ import { discoverLocalRefs } from '@angular/core/src/render3/context_discovery';
 import { ProfileArray } from '../shared/models/profileArray';
 import { ApiService } from '../../api.service';
 import { OverlayRefRemote } from 'src/app/overlayRefRemote';
+import { responsiveService } from '../shared/services/responsive.service';
 
 @Component({
   selector: 'app-overlay',
@@ -22,13 +23,20 @@ export class OverlayComponent implements OnInit {
   public prevSelector = 'cpGreen';
   public profileIMGsrc;
   public response;
+  public isMobile: boolean;
 
-  constructor(private apiService: ApiService) { }
+  constructor(
+    private apiService: ApiService,
+    private responsiveService: responsiveService,
+    ) { }
 
   ngOnInit() {
+    this.generateUID();
     this.nickname = Profile.Nickname;
     this.color = Profile.Color;
     this.profileIMGsrc = Profile.IMG;
+    this.onResize();
+    this.responsiveService.checkWidth();
   }
 
   confirm(){
@@ -85,17 +93,24 @@ export class OverlayComponent implements OnInit {
   }
 
   styleHeader(){
+    if(!this.isMobile){
+      var id = 'headerColorDiv';
+    } else {
+      var id = 'mblnickColorDiv';
+      document.getElementById(id).hidden = false;
+    }
     if(this.color != "white"){
-      var div = document.getElementById('headerColorDiv');
+      var div = document.getElementById(id);
       div.style.backgroundColor = this.color;
       div.style.borderWidth = "0";
       return;
     } else {
-      var div = document.getElementById('headerColorDiv')
+      var div = document.getElementById(id);
       div.style.backgroundColor = this.color;
       div.style.borderStyle = "solid";
       div.style.borderWidth = "1px";
       div.style.borderColor = "black";
+      div.style.color = "black";
       return;
     }
   }
@@ -126,18 +141,32 @@ export class OverlayComponent implements OnInit {
 
   softnickCheck(){
     if(!/^\s*$/.test(this.nickname)){
-     if(this.nickname.length < 16){
+     if(this.nickname.length < 19){
         // document.getElementById('profileAlert').style.visibility = 'hidden';
         this.alertText = "";
-        document.getElementById('ovlnickInput').className = 'nick';
-        document.getElementById('ovlprofileNickDes').className = 'nickName';
+        if(!this.isMobile){
+          document.getElementById('ovlnickInput').className = 'nick';
+          document.getElementById('ovlprofileNickDes').className = 'nickName';
+        } else {
+          document.getElementById('ovlnickInput').className = 'mblnick';
+          document.getElementById('ovlprofileNickDes').className = 'mblnickName';
+        }
+        let elem = <HTMLElement>document.querySelector('.cdk-overlay-container');
+        elem.style.backgroundColor = 'rgba(5, 65, 27, 0.8)';
         return true;
       }  
       else {
         // document.getElementById('profileAlert').style.visibility = 'visible';
-        this.alertText = "Dein Nickname darf maximal 15 Zeichen lang sein!";
-        document.getElementById('ovlnickInput').className = 'nickalert';
-        document.getElementById('ovlprofileNickDes').className = 'nickNameAlert';
+        this.alertText = "Dein Nickname darf maximal 18 Zeichen lang sein!";
+        if(!this.isMobile){
+          document.getElementById('ovlnickInput').className = 'nickalert';
+          document.getElementById('ovlprofileNickDes').className = 'nickNameAlert';
+        } else {
+          document.getElementById('ovlnickInput').className = 'mblnickalert';
+          document.getElementById('ovlprofileNickDes').className = 'mblnickNameAlert';
+        }
+        let elem = <HTMLElement>document.querySelector('.cdk-overlay-container');
+        elem.style.backgroundColor = 'rgba(65, 5, 5, 0.8)';
         return false;
       }
     }
@@ -147,27 +176,48 @@ export class OverlayComponent implements OnInit {
   nickCheck(){
     if(this.nickname != undefined){
       if(!/^\s*$/.test(this.nickname)){
-        if(this.nickname.length < 16){
+        if(this.nickname.length < 19){
           // document.getElementById('profileAlert').style.visibility = 'hidden';
           this.alertText = "";
-          document.getElementById('ovlnickInput').className = 'nick';
-          document.getElementById('ovlprofileNickDes').className = 'nickName';
+          if(!this.isMobile){
+            document.getElementById('ovlnickInput').className = 'nick';
+            document.getElementById('ovlprofileNickDes').className = 'nickName';
+          } else {
+            document.getElementById('ovlnickInput').className = 'mblnick';
+            document.getElementById('ovlprofileNickDes').className = 'mblnickName';
+          }
+          let elem = <HTMLElement>document.querySelector('.cdk-overlay-container');
+          elem.style.backgroundColor = 'rgba(5, 65, 27, 0.8)';
           return true;
         }  
         else {
           //this.resetAlert();
           // document.getElementById('profileAlert').style.visibility = 'visible';
-          this.alertText = "Dein Nickname darf maximal 15 Zeichen lang sein!";
-          document.getElementById('ovlnickInput').className = 'nickalert';
-          document.getElementById('profileNickDes').className = 'nickNameAlert';
+          this.alertText = "Dein Nickname darf maximal 18 Zeichen lang sein!";
+          if(!this.isMobile){
+            document.getElementById('ovlnickInput').className = 'nickalert';
+            document.getElementById('profileNickDes').className = 'nickNameAlert';
+          } else {
+            document.getElementById('ovlnickInput').className = 'mblnickalert';
+            document.getElementById('profileNickDes').className = 'mblnickNameAlert';
+          }
+          let elem = <HTMLElement>document.querySelector('.cdk-overlay-container');
+          elem.style.backgroundColor = 'rgba(65, 5, 5, 0.8)';
           return false;
         }
       } else {
         //this.resetAlert();
         // document.getElementById('profileAlert').style.visibility = 'visible';
         this.alertText = "Bitte gib einen Nicknamen ein!";
-        document.getElementById('ovlnickInput').className = 'nickalert';
-        document.getElementById('ovlprofileNickDes').className = 'nickNameAlert';
+        if(!this.isMobile){
+            document.getElementById('ovlnickInput').className = 'nickalert';
+            document.getElementById('profileNickDes').className = 'nickNameAlert';
+          } else {
+            document.getElementById('ovlnickInput').className = 'mblnickalert';
+            document.getElementById('profileNickDes').className = 'mblnickNameAlert';
+          }
+        let elem = <HTMLElement>document.querySelector('.cdk-overlay-container');
+        elem.style.backgroundColor = 'rgba(65, 5, 5, 0.8)';
         return false;
       }
     }
@@ -175,8 +225,15 @@ export class OverlayComponent implements OnInit {
       //this.resetAlert();
       // document.getElementById('profileAlert').style.visibility = 'visible';
       this.alertText = "Bitte gib einen Nicknamen ein!";
-      document.getElementById('ovlnickInput').className = 'nickalert';
-      document.getElementById('ovlprofileNickDes').className = 'nickNameAlert';
+      if(!this.isMobile){
+        document.getElementById('ovlnickInput').className = 'nickalert';
+        document.getElementById('profileNickDes').className = 'nickNameAlert';
+      } else {
+        document.getElementById('ovlnickInput').className = 'mblnickalert';
+        document.getElementById('profileNickDes').className = 'mblnickNameAlert';
+      }
+      let elem = <HTMLElement>document.querySelector('.cdk-overlay-container');
+      elem.style.backgroundColor = 'rgba(65, 5, 5, 0.8)';
       return false;
     }
   }
@@ -250,8 +307,19 @@ export class OverlayComponent implements OnInit {
     //this.resetAlert();
     document.getElementById('profileAlert').style.visibility = 'hidden';
     this.alertText = "";
-    document.getElementById('nickInput').className = 'nick';
-    document.getElementById('profileNickDes').className = 'nickName';
+    if(!this.isMobile){
+      document.getElementById('ovlnickInput').className = 'nick';
+      document.getElementById('profileNickDes').className = 'nickName';
+    } else {
+      document.getElementById('ovlnickInput').className = 'mblnick';
+      document.getElementById('profileNickDes').className = 'mblnickName';
+    }
     return;
+  }
+  
+  onResize() {
+    this.responsiveService.getMobileStatus().subscribe(isMobile => {
+      this.isMobile = isMobile;
+    });
   }
 }

@@ -4,6 +4,7 @@ import { OverlayIntroService } from './overlay-intro.service';
 import { OverlayRefRemote } from '../../overlayRefRemote';
 import { OverlayRefM } from '../shared/models/overlayRefM';
 import { OverlayRef, Overlay } from '@angular/cdk/overlay';
+import { responsiveService } from '../shared/services/responsive.service';
 
 @Component({
   selector: 'app-overlay-intro',
@@ -12,9 +13,16 @@ import { OverlayRef, Overlay } from '@angular/cdk/overlay';
 })
 export class OverlayIntroComponent implements OnInit {
 
-  constructor(private profileOverlay: OverlayService) { }
+  public isMobile: boolean;
+
+  constructor(
+    private profileOverlay: OverlayService,
+    private responsiveService: responsiveService,
+    ) { }
 
   ngOnInit() {
+    this.onResize();
+    this.responsiveService.checkWidth();
   }
 
   confirm(){
@@ -31,4 +39,9 @@ export class OverlayIntroComponent implements OnInit {
     return OverlayRefM.overlayRef;
   }
 
+  onResize() {
+    this.responsiveService.getMobileStatus().subscribe(isMobile => {
+      this.isMobile = isMobile;
+    });
+  }
 }

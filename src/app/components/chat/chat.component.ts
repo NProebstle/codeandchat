@@ -6,6 +6,7 @@ import { ChatProfileComponent } from '../chat-profile/chat-profile.component';
 import { ComponentPortal } from '@angular/cdk/portal';
 import { ChatBarComponent } from '../chat-bar/chat-bar.component';
 import { OverlayService } from '../overlay/overlay.service';
+import { responsiveService } from '../shared/services/responsive.service';
 
 @Component({
   selector: 'app-chat',
@@ -14,7 +15,9 @@ import { OverlayService } from '../overlay/overlay.service';
 })
 export class ChatComponent implements OnInit {
 
-  constructor() {}
+  public isMobile: boolean;
+
+  constructor(private responsiveService: responsiveService) {}
 
   public pushMessage: boolean;
 
@@ -28,7 +31,9 @@ export class ChatComponent implements OnInit {
 
     var userHistoryInit = [['Code&Chat 2019 – EasyChat App v4', 'Initialized userHistory', timestamp, date], ['[nickname]', '[color]', '[img]', '[UID]']];
     Users.initUserHistory = userHistoryInit;
-    document.getElementById('profileContainer').hidden = true;
+
+    this.onResize();
+    this.responsiveService.checkWidth();
 
     //this.profileOverlay();
     console.log('Init chat');
@@ -109,5 +114,11 @@ export class ChatComponent implements OnInit {
     var monthArray = new Array ('Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember');
     var dmyTimestamp = dayArray[day] + ', ' + date.getDate() + '. ' + monthArray[month] + ' ' + date.getFullYear();
     return dmyTimestamp;
+  }
+
+  onResize() {
+    this.responsiveService.getMobileStatus().subscribe(isMobile => {
+      this.isMobile = isMobile;
+    });
   }
 }

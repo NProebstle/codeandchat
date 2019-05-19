@@ -29,9 +29,10 @@ h4 {
     border: solid 1px;
     border-color: #00802F;
     border-radius: 5px;
-    height: calc(100% - 2px);
+    height: fit-content;
     width: calc(35% - 17px);
-    margin-top: 25vh;
+    margin-top: 40%;
+    margin-bottom: 40%;
     padding-bottom: 3vh;
     background-color: rgba(255, 255, 255, 0.95);
     align-self: center;
@@ -61,4 +62,95 @@ tr, td {
     font-size: 2vh;
     margin-bottom: 20px;
     margin-top: 40px;
+}
+
+.mblconfirmBtn {
+    width: calc(100% - 3px);
+    border: 0;
+    border-radius: 3px;
+    color: white;
+    background-color: #00802F;
+    height: 40px;
+    font-size: 2vh;
+    margin-bottom: 20px;
+    margin-top: 40px;
+}
+
+.mblprofileContainer {
+    border: none;
+    height: 100%;
+    width: 100%;
+    padding: 3vh;
+    background-color: white;
+    align-self: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.mbltitle {
+    color: #00802F;
+    font-size: 6vw;
+}
+
+.mblsubtitle {
+    color: #00802F;
+    font-size: 3vw;
+}
+
+.mbllogo {
+    width: 100%;
+}
+
+.mblfooter {
+    background-color: #00802F;
+    color: white;
+    font-size: 3vw;
+    padding: 2vw;
+    text-align: center;
+}
+
+table.mbl {
+    width: 78%;
+    height: fit-content;
+    margin-left: 11%;
+    margin-right: 11%;
+    margin-bottom: 15vh;
+}
+
+@media (max-aspect-ratio: 3/4){
+    .profileContainer {
+        border: solid 1px;
+        border-color: #00802F;
+        border-radius: 5px;
+        height: fit-content;
+        width: calc(60% - 17px);
+        margin-bottom: auto;
+        padding-bottom: 3vh;
+        background-color: rgba(255, 255, 255, 0.95);
+        align-self: center;
+        display: block;
+    }
+
+    .title {
+        color: #00802F;
+        font-size: 4vw;
+    }
+    
+    .subtitle {
+        color: #00802F;
+        font-size: 2vw;
+    }
+
+    .confirmBtn {
+        width: calc(100% - 3px);
+        border: 0;
+        border-radius: 3px;
+        color: white;
+        background-color: #00802F;
+        height: 40px;
+        font-size: 1.5vh;
+        margin-bottom: 20px;
+        margin-top: 40px;
+    }
 }

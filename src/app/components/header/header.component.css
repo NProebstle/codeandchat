@@ -2,6 +2,9 @@ header {
     background-color: white;
     height: 100%;
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: stretch;
 }
 
 img.logo {
@@ -47,6 +50,7 @@ img.logo {
 .header-profileIMG {
     width: 5%;
     margin-top: auto;
+    margin-right: 10px;
     height: 100%;
     position: relative;
     justify-content: stretch;
@@ -94,7 +98,7 @@ label {
     bottom: 0;
 }
 
-#headerColorDiv {
+.headerColorDiv {
     border-radius: 50%;
     height: 1vw;
     width: 1vw;
@@ -104,6 +108,208 @@ label {
     margin-right: 3px;
 }
 
-@media all and (max-width: 500px){
+.mblheader-logo {
+    width: 40px;
+    margin-top: auto;
+    margin-left: 5px;
+}
+
+.mblheader-title {
+    width: 48%;
+    text-align: center;
+    vertical-align: middle;
+    position: relative;
+    margin-bottom: 5px;
+}
+
+.mblheader-profileIMG {
+    margin-top: auto;
+    height: 40px;
+    width: 40px;
+    position: relative;
+    vertical-align: bottom;
+    margin-right: 10px;
+}
+
+.mblprofilemenu {
+    float: right;
+    width: 100%;
+    border: solid 1px;
+    border-color: #00802F;
+    border-radius: 50%;
+    background: green;
+    position: absolute;
+    bottom: 0;
+}
     
+.mblprofilemenuHover {
+    border: solid 3px;
+    border-color: #00802F;
+    border-radius: 50%;
+    float: right;
+    background: green;
+    position: absolute;
+    bottom: 0;
+    width: 40px;
+    height: 40px;
+}
+
+.profilemenuIMG {
+    float: right;
+    width: 100%;
+    border: solid 1px;
+    border-color: #00802F;
+    border-radius: 50%;
+    background: green;
+    position: absolute;
+    bottom: 0;
+}
+
+.mblprofilemenuIMG {
+    float: right;
+    width: 100%;
+    border: solid 1px;
+    border-color: #00802F;
+    border-radius: 50%;
+    background: green;
+    position: absolute;
+    bottom: 0;
+}
+
+h2.mbl {
+    font-weight: 100;
+    font-size: 10vw;
+    margin-bottom: 0px;
+    color: #00802F;
+    text-align: center;
+    width: 100%;
+    position: relative;
+}
+
+.mblheader-span {
+    display: inline-flex;
+    width: 100%;
+    height: fit-content;
+    vertical-align: bottom;
+    margin-right: 1%;
+    margin-left: 1%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+img.mbllogo {
+    width: 30px;
+    content:url("../../../assets/logo_hsg-mobile.png");
+}
+
+.mblheaderColorDiv {
+    width: 100%;
+    min-height: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: stretch;
+    flex: 1;
+}
+
+.mblnickColorDiv {
+    flex: 1;
+    background-color: #00802F;
+    color: white;
+    text-align: center;
+    padding-right: 10px;
+    font-size: 100%;
+    height: 100%;
+}
+
+@media (max-width: 1024px){
+    .header-logo {
+        width: 300px;
+        margin-top: auto;
+        margin-left: 5px;
+    }
+    
+    .header-title {
+        width: 48%;
+        text-align: center;
+        vertical-align: middle;
+        position: relative;
+        margin-bottom: 5px;
+    }
+    
+    .header-profileIMG {
+        margin-top: auto;
+        height: 70px;
+        width: 70px;
+        position: relative;
+        vertical-align: bottom;
+        margin-right: 15px;
+    }
+    
+    .profilemenu {
+        float: right;
+        width: 100%;
+        border: solid 1px;
+        border-color: #00802F;
+        border-radius: 50%;
+        background: green;
+        position: absolute;
+        bottom: 0;
+        margin-right: 20px;
+    }
+        
+    .profilemenuHover {
+        width: calc(100% - 2px);
+        border: solid 3px;
+        border-color: #00802F;
+        border-radius: 50%;
+        float: right;
+        background: green;
+        position: absolute;
+        bottom: 0;
+        margin-right: 20px;
+    }
+    
+    .profilemenuIMG {
+        float: right;
+        width: 100%;
+        border: solid 1px;
+        border-color: #00802F;
+        border-radius: 50%;
+        background: green;
+        position: absolute;
+        bottom: 0;
+        margin-right: 20px;
+    }
+    
+    h2 {
+        font-weight: 100;
+        font-size: 5vw;
+        margin-bottom: 0px;
+        color: #00802F;
+        text-align: center;
+        width: 100%;
+        position: relative;
+    }
+    
+    .header-span {
+        display: inline-flex;
+        width: 100%;
+        height: fit-content;
+        vertical-align: bottom;
+        margin-right: 20px;
+        margin-left: 1%;
+        display: flex;
+        flex-direction: row;
+    }
+
+    .header-profilename {
+        width: 19%;
+        text-align: right;
+        margin-top: auto;
+        margin-right: 1%;
+        margin-bottom: 1.8vh;
+        display: flex;
+        position: relative
+    }
 }

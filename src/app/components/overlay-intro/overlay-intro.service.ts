@@ -13,7 +13,7 @@ interface InitOverlayConfig {
 const DEFAULT_CONFIG: InitOverlayConfig = {
   hasBackdrop: true,
   backdropClass: 'dark-backdrop',
-  panelClass: 'tm-file-preview-dialog-panel'
+  panelClass: 'intro-overlay-panel'
 }
 
 @Injectable()
@@ -31,10 +31,10 @@ export class OverlayIntroService {
     const dialogRef = new OverlayRefRemote(overlayRef);
 
     // Create ComponentPortal that can be attached to a PortalHost
-    const filePreviewPortal = new ComponentPortal(OverlayIntroComponent);
+    const IntroPortal = new ComponentPortal(OverlayIntroComponent);
 
     // Attach ComponentPortal to PortalHost
-    overlayRef.attach(filePreviewPortal);
+    overlayRef.attach(IntroPortal);
 
     return dialogRef;
   }

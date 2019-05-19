@@ -2,9 +2,9 @@ import { Injectable, Inject } from '@angular/core';
 import { Overlay, OverlayConfig } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
 
-import { OverlayComponent } from './overlay.component';
 import { OverlayIntroComponent } from '../overlay-intro/overlay-intro.component';
 import { OverlayRefRemote } from '../../overlayRefRemote';
+import { OverlayProfileComponent } from './overlay-profile.component';
 
 interface InitOverlayConfig {
   panelClass?: string;
@@ -15,11 +15,11 @@ interface InitOverlayConfig {
 const DEFAULT_CONFIG: InitOverlayConfig = {
   hasBackdrop: true,
   backdropClass: 'dark-backdrop',
-  panelClass: 'profile-overlay-panel'
+  panelClass: 'profile-overlay-panel-mbl'
 }
 
 @Injectable()
-export class OverlayService {
+export class OverlayProfileService {
 
   constructor(
     private overlay: Overlay) { }
@@ -33,7 +33,7 @@ export class OverlayService {
     const dialogRef = new OverlayRefRemote(overlayRef);
 
     // Create ComponentPortal that can be attached to a PortalHost
-    const filePreviewPortal = new ComponentPortal(OverlayComponent);
+    const filePreviewPortal = new ComponentPortal(OverlayProfileComponent);
 
     // Attach ComponentPortal to PortalHost
     overlayRef.attach(filePreviewPortal);

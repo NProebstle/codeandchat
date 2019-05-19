@@ -1,14 +1,15 @@
-import { Component, Output, EventEmitter, Input } from '@angular/core';
+import { Component, Output, EventEmitter, Input, OnInit } from '@angular/core';
 import { Profile } from '../shared/models/profile';
 import { MessageArray } from '../shared/models/messageArray';
 import { ApiService } from 'src/app/api.service';
+import { responsiveService } from '../shared/services/responsive.service';
 
 @Component({
   selector: 'app-chat-bar',
   templateUrl: './chat-bar.component.html',
   styleUrls: ['./chat-bar.component.css']
 })
-export class ChatBarComponent {
+export class ChatBarComponent implements OnInit {
 
   public alertText = '404';
   public colorsCollapsed = true;
@@ -23,11 +24,20 @@ export class ChatBarComponent {
   public prevMessageID = '';
   public spanNumber;
   public response;
+  public isMobile: boolean;
 
   @Output() messageEmitter = new EventEmitter<any[]>();
 
-  constructor(private apiService: ApiService) { }
+  constructor(
+    private apiService: ApiService,
+    private responsiveService: responsiveService,
+    ) { }
 
+  ngOnInit(){
+    this.onResize();
+    this.responsiveService.checkWidth();
+  }
+  
   send(){
     if(this.nickCheck() && this.messageCheck()){
       if(this.longMessage){
@@ -54,22 +64,31 @@ export class ChatBarComponent {
 
   buildMessageArray(){
     var messageArray = [Profile.UID, this.message];
+    console.log(messageArray);
     return messageArray;
   }
 
   messageCheck(){
     if(!/^\s*$/.test(this.message)){
-      document.getElementById('chatInput').className = 'input';
-      if(this.message.length > 65){
-        this.messageArray = this.message.replace(/.{55}\S*\s+/g, "$&@").split(/\s+@/);
-        this.longMessage = true;
+      if(!this.isMobile){
+        document.getElementById('chatInput').className = 'input';
+      } else {
+        document.getElementById('mblchatInput').className = 'mblinput';
       }
+      // if(this.message.length > 65){
+      //   this.messageArray = this.message.replace(/.{55}\S*\s+/g, "$&@").split(/\s+@/);
+      //   this.longMessage = true;
+      // }
       return true;
     } 
     else {
-      document.getElementById('alert').style.visibility = 'visible';
-      this.alertText += " Bitte geben Sie eine Nachricht ein!";
-      document.getElementById('chatInput').className = 'alert';
+      //document.getElementById('alert').style.visibility = 'visible';
+      //this.alertText += " Bitte geben Sie eine Nachricht ein!";
+      if(!this.isMobile){
+        document.getElementById('chatInput').className = 'alert';
+      } else {
+        document.getElementById('mblchatInput').className = 'mblalert';
+      }
       this.resetInput();
       return false;
     }
@@ -77,19 +96,29 @@ export class ChatBarComponent {
 
   nickCheck(){
     if(!/^\s*$/.test(Profile.Nickname)){
-      if(Profile.Nickname.length < 16){
+      if(Profile.Nickname.length < 21){
         // document.getElementById('alert').style.visibility = 'hidden';
         // this.alertText = "";
-        document.getElementById('nickInput').className = 'nick';
-        document.getElementById('profileNickDes').className = 'nickName';
+        // if(!this.isMobile){
+        //   document.getElementById('nickInput').className = 'nick';
+        //   document.getElementById('profileNickDes').className = 'nickName';
+        // } else {
+        //   document.getElementById('mblnickInput').className = 'mblnick';
+        //   document.getElementById('mblprofileNickDes').className = 'mblnickName';
+        // }
         return true;
       }  
       else {
         // this.resetAlert();
         // document.getElementById('alert').style.visibility = 'visible';
         // this.alertText = "Der Nickname darf nicht länger als 15 Zeichen sein!";
-        document.getElementById('nickInput').className = 'nickalert';
-        document.getElementById('profileNickDes').className = 'nickNameAlert';
+        if(!this.isMobile){
+          document.getElementById('mblnickInput').className = 'nickalert';
+          document.getElementById('mblprofileNickDes').className = 'nickNameAlert';
+        } else {
+          document.getElementById('mblnickInput').className = 'mblnickalert';
+          document.getElementById('mblprofileNickDes').className = 'mblnickNameAlert';
+        }
         return false;
       }
     }
@@ -97,8 +126,13 @@ export class ChatBarComponent {
       // this.resetAlert();
       // document.getElementById('alert').style.visibility = 'visible';
       // this.alertText = "Nickname darf nicht leer sein!";
-      document.getElementById('nickInput').className = 'nickalert';
-      document.getElementById('profileNickDes').className = 'nickNameAlert';
+      if(!this.isMobile){
+        document.getElementById('mblnickInput').className = 'nickalert';
+        document.getElementById('mblprofileNickDes').className = 'nickNameAlert';
+      } else {
+        document.getElementById('mblnickInput').className = 'mblnickalert';
+        document.getElementById('mblprofileNickDes').className = 'mblnickNameAlert';
+      } 
       return false;
     }
   }
@@ -111,4 +145,9 @@ export class ChatBarComponent {
     this.message = "";
   }
 
+  onResize() {
+    this.responsiveService.getMobileStatus().subscribe(isMobile => {
+      this.isMobile = isMobile;
+    });
+  }
 }

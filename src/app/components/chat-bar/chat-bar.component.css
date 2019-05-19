@@ -69,3 +69,45 @@ textarea.input {
 div {
     display: flex;
 }
+
+textarea.mblalert {
+    resize: none;
+    line-height: 46px;
+    padding: 0;
+    border: none;
+    border-top: 3px solid rgba(201, 45, 43);
+    border-radius: 3px;
+    height: 46px;
+    width: 100%;
+    padding-left: 10px;
+    margin-left: 0px;
+    font-size: 18px;
+    background: rgba(255, 80, 80, 0.75);
+    float: left;
+}
+
+textarea.mblinput {
+    resize: none;
+    line-height: 50px;
+    padding: 0;
+    border: none;
+    border-top: 1px solid #00802F;
+    height: 50px;
+    width: 100%;
+    padding-left: 10px;
+    font-size: 18px;
+}
+
+.mblbutton {
+    width: 60px;
+    margin-right: 0px;
+    border-color: #00802F;
+    border-width: 1px;
+    font-size: 20px;
+    color: white;
+    background: #00802F;
+    float: right;
+    padding: 0px;
+    margin-left: -4px;
+    margin-bottom: -1px;
+}

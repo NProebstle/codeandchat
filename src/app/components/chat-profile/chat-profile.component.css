@@ -113,23 +113,6 @@ textarea.nickalert {
     overflow: hidden;
 }
 
-div.profileAlert {
-    line-height: 25px;
-    padding: 5px;
-    padding-left: 15px;
-    margin: 0;
-    border: 0px solid rgba(201, 45, 43, 0.75);
-    border-radius: 3px;
-    height: 55px;
-    max-width: calc(100% - 20px);
-    min-width: calc(100% - 20px);
-    font-size: 100%;
-    background: rgba(201, 45, 43, 0.75);
-    color: white;
-    visibility: hidden;
-    display: inline-block;
-}
-
 .profileUID {
     color: rgba(0, 128, 47, 0.75);
     position: absolute;

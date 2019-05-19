@@ -1,4 +1,9 @@
-<div id="chatBar">  
-  <textarea class="input" id="chatInput" rows="1" placeholder="Chat-Nachricht" (keyup.enter)="send()" (keyup.shift.enter)="send()" [(ngModel)]="message"></textarea>
+<div id="chatBar" *ngIf="!isMobile">  
+  <textarea class="input" id="chatInput" rows="1" placeholder="Deine Nachricht." (keyup)="messageCheck()" (keyup.enter)="send()" (keyup.shift.enter)="send()" [(ngModel)]="message"></textarea>
   <button class="button" (click)="send()">→</button>
 </div>
+
+<div id="chatBar" *ngIf="isMobile">  
+    <textarea class="mblinput" id="mblchatInput" rows="1" placeholder="Deine Nachricht." (keyup)="messageCheck()" (keyup.enter)="send()" (keyup.shift.enter)="send()" [(ngModel)]="message"></textarea>
+    <button class="mblbutton" (click)="send()">→</button>
+  </div>

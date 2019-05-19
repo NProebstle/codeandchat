@@ -18,6 +18,9 @@ import { OverlayIntroComponent } from './components/overlay-intro/overlay-intro.
 import { OverlayIntroService } from './components/overlay-intro/overlay-intro.service';
 import { OverlayHandlerComponent } from './components/overlay-handler/overlay-handler.component';
 import { HttpClientModule } from '@angular/common/http';
+import { responsiveService } from './components/shared/services/responsive.service';
+import { OverlayProfileComponent } from './components/overlay-profile/overlay-profile.component';
+import { OverlayProfileService } from './components/overlay-profile/overlay-profile.service';
 
 @NgModule({
   declarations: [
@@ -31,6 +34,7 @@ import { HttpClientModule } from '@angular/common/http';
     OverlayComponent,
     OverlayIntroComponent,
     OverlayHandlerComponent,
+    OverlayProfileComponent,
   ],
   imports: [
     BrowserModule,
@@ -42,11 +46,14 @@ import { HttpClientModule } from '@angular/common/http';
     ApiService,
     OverlayService,
     OverlayIntroService,
+    OverlayProfileService,
+    responsiveService,
   ],
   bootstrap: [AppComponent],
   entryComponents: [
     OverlayComponent,
     OverlayIntroComponent,
+    OverlayProfileComponent,
   ]
 })
 export class AppModule { }

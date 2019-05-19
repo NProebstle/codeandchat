@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { OverlayService } from './components/overlay/overlay.service';
+import { responsiveService } from './components/shared/services/responsive.service';
 
 @Component({
   selector: 'app-root',
@@ -15,12 +16,15 @@ import { OverlayService } from './components/overlay/overlay.service';
         width: 100%;
       }
       .base-body {
-        height: 80%;
+        height: 82%;
         width: 100%;
       }
       .base-footer {
-        height: 5%;
+        height: 3%;
         width: 100%;
+        position: absolute;
+        bottom: 0;
+        background-color: #00802F;
       }
     </style>
 
@@ -29,7 +33,7 @@ import { OverlayService } from './components/overlay/overlay.service';
           - <app-chat> Inhalt des Bodys; Chat-Applikation
           - <app-footer> Inhalt des Footers (Components)
     -->
-    <div class="base-container">
+    <div class="base-container" (window:resize)="onResize($event)">
       <div class="base-header"><app-header></app-header></div>
       <div class="base-body"><app-chat></app-chat></div>
       <div class="base-footer"><app-footer></app-footer></div>
@@ -38,28 +42,26 @@ import { OverlayService } from './components/overlay/overlay.service';
   `,
   styles: []
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'EasyChat';
 
-  // @HostListener('document:keypress', ['$event'])
-  // handleKeyboardEvent(event: KeyboardEvent) { 
-  //   var key = event.key;
-  //   //console.log(key);
-  //   if(key == "Enter"){
-  //     this.eventKeyEnter();
-  //   }
-  // }
+  constructor(private responsiveService:responsiveService){
 
-  // eventKeyEnter(){
-  //   var container = document.getElementById('profileContainer');
-  //   var hidden = container.hidden;
-  //   if(!hidden){
-  //     var x = new ChatProfileComponent();
-  //     x.confirm();
-  //   } else {
-  //     var y = new ChatBarComponent();
-  //     y.send();
-  //   }
-  // }
+  }
 
+  ngOnInit(){
+    this.responsiveService.getMobileStatus().subscribe( isMobile =>{
+      if(isMobile){
+        console.log('Mobile device detected')
+      }
+      else{
+        console.log('Desktop detected')
+      }
+    });
+    this.onResize();    
+  }
+
+  onResize(){
+    this.responsiveService.checkWidth();
+  }
 }

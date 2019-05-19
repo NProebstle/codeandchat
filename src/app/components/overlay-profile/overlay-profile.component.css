@@ -276,97 +276,6 @@ tr, td {
     color: white;
 }
 
-@media (max-aspect-ratio: 3/4){
-    .title {
-        color: #00802F;
-        font-size: 4vw;
-    }
-
-    .subtitle {
-        color: #00802F;
-        font-size: 2vw;
-    }
-
-    .profileContainer {
-        border: solid 1px;
-        border-color: #00802F;
-        border-radius: 5px;
-        height: fit-content;
-        width: calc(60% - 17px);
-        margin-top: 20%;
-        margin-bottom:20%;
-        padding: 1.5vh;
-        padding-bottom: 3vh;
-        background-color: rgba(255, 255, 255, 0.95);
-        align-self: center;
-        display: block;
-    }
-
-    textarea.nick {
-        resize: none;
-        line-height: 80px;
-        padding: 0;
-        border: 4px solid #00802F;
-        border-top: none;
-        border-left: none;
-        border-right: none;
-        border-radius: 1px;
-        height: 80px;
-        width: calc(100%-10px);
-        padding-left: 5px;
-        font-size: 3.5vw;
-        margin-left: 15px;
-        margin-right: 5px;
-        color: #00802F;
-        overflow: hidden;
-    }
-    
-    textarea.nickalert {
-        resize: none;
-        line-height: 80px;
-        padding: 0;
-        border: 5px solid rgba(201, 45, 43);
-        border-top: none;
-        border-left: none;
-        border-right: none;
-        border-radius: 1px;
-        height: 80px;
-        width: calc(100% - 12px);
-        padding-left: 5px;
-        margin-left: 5px;
-        margin-right: 5px;
-        font-size: 3.5vw;
-        background: rgba(255, 80, 80, 0.75);
-        overflow: hidden;
-    }
-
-    .nickName {
-        color: #00802F;
-        margin-right: 10%;
-        margin-left: 5%;
-        font-size: 4vw;
-    }
-    
-    .nickNameAlert {
-        color: rgba(201, 45, 43);
-        margin-right: 10%;
-        margin-left: 5%;
-        font-size: 4vw;
-    }
-
-    .confirmBtn {
-        width: calc(100%);
-        border: 0;
-        border-radius: 3px;
-        color: white;
-        background-color: #00802F;
-        height: 40px;
-        font-size: 2vh;
-        margin-bottom: 20px;
-        margin-top: 20px;
-    }
-}
-
 .mblnickName {
     color: #00802F;
     margin-right: 10%;
@@ -382,16 +291,30 @@ tr, td {
 }
 
 .mblconfirmBtn {
-    width: calc(100%);
+    width: calc(70% - 3px);
     border: 0;
     border-radius: 3px;
     color: white;
     background-color: #00802F;
     height: 40px;
-    font-size: 2vh;
+    margin-left: 3px;
+    float: left;
+    font-size: 150%;
     margin-bottom: 20px;
-    margin-top: 20px;
 }
+
+.cancelBtn {
+    width: calc(30% - 3px);
+    border: 0;
+    border-radius: 3px;
+    color: white;
+    background-color: rgb(220, 70, 70);
+    height: 40px;
+    float: left;
+    font-size: 120%;
+    margin-bottom: 20px;
+}
+
 
 .mblprofileContainer {
     border: none;
@@ -404,6 +327,8 @@ tr, td {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    margin-top: 10%;
+    margin-bottom: 10%;
 }
 
 textarea.mblnick {
@@ -435,11 +360,11 @@ textarea.mblnickalert {
     border-right: none;
     border-radius: 1px;
     height: 50px;
-    width: calc(100% - 12px);
+    width: calc(100% - 14px);
     padding-left: 5px;
-    margin-left: 5px;
+    margin-left: 15px;
     margin-right: 5px;
-    font-size: 5.5vw;
+    font-size: 3.5vw;
     background: rgba(255, 80, 80, 0.75);
     overflow: hidden;
 }

@@ -1,4 +1,4 @@
-<div class="profileContainer">
+<div class="profileContainer" *ngIf="!isMobile">
   <table align="center">
     <tr>
       <td colspan="2"><label class="title"><h2>Dein Profil.</h2></label>
@@ -15,8 +15,8 @@
       <td colspan="2"><hr class="line"></td>
     </tr>
     <tr>
-      <td><h3 id="ovlprofileNickDes" class="nickName">Nickname:</h3></td>
-      <td><textarea class="nick" id="ovlnickInput" placeholder="Nickname" maxlength="16" (keyup)="softnickCheck()" (keyup.enter)="keyEnterNick()" (keydown.shift.enter)="delEnterNick()" [(ngModel)]="nickname"></textarea></td>
+      <td><h3 id="ovlprofileNickDes" class="nickName">Dein Name.</h3></td>
+      <td><textarea class="nick" id="ovlnickInput" placeholder="1-18 Zeichen" maxlength="19" (keyup)="softnickCheck()" (keyup.enter)="keyEnterNick()" (keydown.shift.enter)="delEnterNick()" [(ngModel)]="nickname"></textarea></td>
     </tr>
     <tr>
       <td colspan="2"><div id="ovlcpColorDiv"></div></td>
@@ -47,3 +47,54 @@
   </table>
 </div>
 <label class="profileUID">{{ uid }}</label>
+
+<div class="mblprofileContainer" *ngIf="isMobile">
+    <table align="center" class="mbl">
+      <tr>
+        <td colspan="2"><label class="mbltitle"><h2>Dein Profil.</h2></label>
+        <label class="mblsubtitle"><h4>{{ alertText }}</h4></label></td>
+      </tr>
+      <tr>
+          <td colspan="2"><hr class="line"></td>
+      </tr>
+      <tr>
+        <td colspan="2"><label for="profileIMGinput" id="ovlprofileIMGselector" class="profileIMG" (pointerenter)="imgMouseEnter()" (pointerleave)="imgMouseLeave()"><img id="profileMenuIMG" src="../../../assets/profile.png">
+        </label><input id="ovlprofileIMGinput" type="file" (change)="changeIMG(this)" accept="image/png, image/jpeg"></td>
+      </tr>
+      <tr>
+        <td colspan="2"><hr class="line"></td>
+      </tr>
+      <tr>
+        <td><h3 id="ovlprofileNickDes" class="mblnickName">Dein Name.</h3></td>
+        <td><textarea class="mblnick" id="ovlnickInput" placeholder="1-18 Zeichen" maxlength="19" (keyup)="softnickCheck()" (keyup.enter)="keyEnterNick()" (keydown.shift.enter)="delEnterNick()" [(ngModel)]="nickname"></textarea></td>
+      </tr>
+      <tr>
+        <td colspan="2"><div id="ovlcpColorDiv"></div></td>
+      </tr>
+      <tr>
+        <td colspan="2">
+            <button id="ovlcpGreen" class="cpList" (click)="selectColor(selColor='#00802F', selector='ovlcpGreen')">✓</button>
+            <button id="ovlcpLightGreen" class="cpList" (click)="selectColor(selColor='rgb(156, 230, 61)', selector='ovlcpLightGreen')"></button>
+            <button id="ovlcpYellow" class="cpList" (click)="selectColor(selColor='rgb(217, 219, 71)', selector='ovlcpYellow')"></button>
+            <button id="ovlcpBlue" class="cpList" (click)="selectColor(selColor='rgb(0, 160, 210)', selector='ovlcpBlue')"></button>
+            <button id="ovlcpDarkBlue" class="cpList" (click)="selectColor(selColor='rgb(83, 115, 219)', selector='ovlcpDarkBlue')"></button>
+            <button id="ovlcpViolett" class="cpList" (click)="selectColor(selColor='rgb(135, 76, 230)', selector='ovlcpViolett')"></button>
+            <button id="ovlcpPink" class="cpList" (click)="selectColor(selColor='rgb(235, 109, 218)', selector='ovlcpPink')"></button>
+            <button id="ovlcpOrange" class="cpList" (click)="selectColor(selColor='rgb(220, 120, 60)', selector='ovlcpOrange')"></button>
+            <button id="ovlcpRed" class="cpList" (click)="selectColor(selColor='rgb(220, 70, 70)', selector='ovlcpRed')"></button>
+            <button id="ovlcpWhite" class="cpList" (click)="selectColor(selColor='white', selector='ovlcpWhite')"></button>
+            <button id="ovlcpBlack" class="cpList" (click)="selectColor(selColor='black', selector='ovlcpBlack')"></button>
+          </td>
+      </tr>
+      <tr>
+          <td colspan="2"><hr class="line"></td>
+      </tr>
+      <tr>
+          <td colspan="2">
+            <button id="ovlprofileConfirm" class="mblconfirmBtn" (click)="confirm()">✓</button>
+        </td>
+      </tr>
+    </table>
+  </div>
+  <label class="profileUID">{{ uid }}</label>
+  

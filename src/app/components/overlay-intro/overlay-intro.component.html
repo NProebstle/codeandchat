@@ -1,4 +1,4 @@
-<div class="profileContainer">
+<div class="profileContainer" *ngIf="!isMobile">
     <table align="center">
       <tr>
         <td colspan="2"><label class="title"><h2>Willkommen bei EasyChat!</h2></label>
@@ -12,3 +12,24 @@
     </table>
   </div>
   
+  <div class="mblprofileContainer" *ngIf="isMobile">
+    <table align="center">
+      <tr>
+        <td>
+          <img class="mbllogo" src="../../../assets/logo_hsg_de.jpg">
+        </td>
+      </tr>
+    </table>
+    <table align="center" class="mbl">
+      <tr>
+        <td colspan="2"><label class="mbltitle"><h2>Willkommen bei EasyChat!</h2></label>
+        <label class="mblsubtitle"><h4>Easy.Anonym.Unkompliziert. – Erstelle nun dein Profil, um dem Chat beitreten zu können!</h4></label></td>
+      </tr>
+      <tr>
+          <td colspan="2">
+            <button id="introConfirm" class="mblconfirmBtn" (click)="confirm()">Alles klar ✓</button>
+        </td>
+      </tr>
+    </table>
+    <div class="mblfooter">© 2019 – codeandchat</div>
+  </div>

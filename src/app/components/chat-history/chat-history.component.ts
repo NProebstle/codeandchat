@@ -6,6 +6,7 @@ import { ChatProfileComponent } from '../chat-profile/chat-profile.component';
 import { ApiService } from 'src/app/api.service';
 import { MessageArray } from '../shared/models/messageArray';
 import { Profile } from '../shared/models/profile';
+import { responsiveService } from '../shared/services/responsive.service';
 
 @Component({
   selector: 'app-chat-history',
@@ -43,10 +44,17 @@ export class ChatHistoryComponent{
   public push: any[];
   public pushID; 
   public getHistoryCache;
+  public isMobile;
 
-  constructor(private apiService: ApiService) {}
+  constructor(
+    private apiService: ApiService,
+    private responsiveService: responsiveService,
+    ) {}
 
   ngOnInit(){
+    this.onResize();
+    this.responsiveService.checkWidth();
+
     console.log('1.0');
     this.getHistory();
   }
@@ -469,5 +477,10 @@ export class ChatHistoryComponent{
     div.scrollTop = div.scrollHeight;
   }
 
+  onResize() {
+    this.responsiveService.getMobileStatus().subscribe(isMobile => {
+      this.isMobile = isMobile;
+    });
+  }
   
 }

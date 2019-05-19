@@ -2,6 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { Profile } from '../shared/models/profile';
 import { OverlayService } from '../overlay/overlay.service';
 import { ChatProfileComponent } from '../chat-profile/chat-profile.component';
+import { responsiveService } from '../shared/services/responsive.service';
+import { OverlayRefM } from '../shared/models/overlayRefM';
+import { OverlayRefRemote } from 'src/app/overlayRefRemote';
+import { OverlayProfileService } from '../overlay-profile/overlay-profile.service';
 
 @Component({
   selector: 'app-header',
@@ -10,13 +14,16 @@ import { ChatProfileComponent } from '../chat-profile/chat-profile.component';
 })
 export class HeaderComponent implements OnInit{
 
-  constructor() { }
+  public isMobile: boolean;
+
+  constructor(
+    private responsiveService: responsiveService,
+    private profileOverlayService: OverlayProfileService,
+    ) { }
 
   ngOnInit(){
-    var img = document.getElementById('profilemenuIMG');
-    img.className = 'profilemenuHover';
-    var img = document.getElementById('profilemenuIMG');
-    img.className = 'profilemenu';
+    this.onResize();
+    this.responsiveService.checkWidth();
   }
 
   get nickname(){
@@ -32,22 +39,39 @@ export class HeaderComponent implements OnInit{
   }
 
   imgMouseEnter(){
-    var img = document.getElementById('profilemenuIMG');
-    img.className = 'profilemenuHover';
+      var img = document.getElementById('profilemenuIMG');
+      img.className = 'profilemenuHover';
   }
 
   imgMouseLeave(){
-    var img = document.getElementById('profilemenuIMG');
-    img.className = 'profilemenu';
+      var img = document.getElementById('profilemenuIMG');
+      img.className = 'profilemenu';
   }
 
   openMenu(){
-    var container = document.getElementById('profileContainer');
-    var hidden = container.hidden;
-    if(hidden){
-      document.getElementById('profileContainer').hidden = false;
+    if(!this.isMobile){
+      var container = document.getElementById('profileContainer');
+      var hidden = container.hidden;
+      if(hidden){
+        document.getElementById('profileContainer').hidden = false;
+      } else {
+        document.getElementById('profileContainer').hidden = true;
+      }
     } else {
-      document.getElementById('profileContainer').hidden = true;
+      let overlayRef: OverlayRefRemote = this.profileOverlayService.open();
+      this.setovlRef(overlayRef);
+      let elem = <HTMLElement>document.querySelector('.cdk-overlay-container');
+      elem.hidden = false;
     }
+  }
+
+  setovlRef(ref){
+    OverlayRefM.overlayRef = ref;
+  }
+
+  onResize() {
+    this.responsiveService.getMobileStatus().subscribe(isMobile => {
+      this.isMobile = isMobile;
+    });
   }
 }

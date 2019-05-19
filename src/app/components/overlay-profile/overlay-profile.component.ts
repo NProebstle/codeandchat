@@ -1,21 +1,19 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Profile } from '../shared/models/profile';
-import { environment } from '../../../environments/environment';
-import { OverlayService } from '../overlay/overlay.service';
-import { OverlayComponent } from '../overlay/overlay.component';
 import { OverlayIntroService } from '../overlay-intro/overlay-intro.service';
-import { ApiService } from 'src/app/api.service';
+import { OverlayRefM } from '../shared/models/overlayRefM';
+import { discoverLocalRefs } from '@angular/core/src/render3/context_discovery';
 import { ProfileArray } from '../shared/models/profileArray';
-
+import { ApiService } from '../../api.service';
+import { OverlayRefRemote } from 'src/app/overlayRefRemote';
+import { responsiveService } from '../shared/services/responsive.service';
 
 @Component({
-  selector: 'app-chat-profile',
-  templateUrl: './chat-profile.component.html',
-  styleUrls: ['./chat-profile.component.css']
+  selector: 'app-overlay',
+  templateUrl: './overlay-profile.component.html',
+  styleUrls: ['./overlay-profile.component.css']
 })
-export class ChatProfileComponent implements OnInit{
-
-  constructor(private apiService: ApiService) { }
+export class OverlayProfileComponent implements OnInit {
 
   public nickname: string;
   public alertText;
@@ -23,39 +21,43 @@ export class ChatProfileComponent implements OnInit{
   public color: string;
   public newColor;
   public prevSelector = 'cpGreen';
-  public profileIMGsrc: string;
-  public firstUpdate = true;
+  public profileIMGsrc;
   public response;
+  public isMobile: boolean;
 
-  ngOnInit(){
-    this.generateUID();
-    console.log('Init profile');
-  }
+  constructor(
+    private apiService: ApiService,
+    private responsiveService: responsiveService,
+    ) { }
 
-  updateData(){
-    if(this.firstUpdate){
+  ngOnInit() {
     this.nickname = Profile.Nickname;
     this.color = Profile.Color;
     this.profileIMGsrc = Profile.IMG;
-    this.firstUpdate = false;
-    }
+    this.onResize();
+    this.responsiveService.checkWidth();
   }
-
-  cancel(){
-    document.getElementById('profileContainer').hidden = true;
-    this.resetCp();
-    this.resetNick();
-    return;
-  } 
 
   confirm(){
     if(this.nickCheck()){
       this.updateProfile();
-      document.getElementById('profileContainer').hidden = true;
       this.styleHeader();
       this.sendProfile();
+      let elem = <HTMLElement>document.querySelector('.cdk-overlay-container');
+      elem.hidden = true;
+      this.ovlRef.close();
     }
     return;
+  }
+
+  cancel(){
+    let elem = <HTMLElement>document.querySelector('.cdk-overlay-container');
+    elem.hidden = true;
+    this.ovlRef.close();
+  }
+
+  get ovlRef() :OverlayRefRemote{
+    return OverlayRefM.overlayRef;
   }
 
   updateProfile(){
@@ -79,7 +81,7 @@ export class ChatProfileComponent implements OnInit{
     return Profile.UID;
   }
 
-  sendProfile(){
+  sendProfile() {
     let profileArrayToSend: ProfileArray = new ProfileArray();
     profileArrayToSend.nickname = Profile.Nickname;
     profileArrayToSend.color = Profile.Color;
@@ -90,22 +92,29 @@ export class ChatProfileComponent implements OnInit{
     .subscribe(
       (response: ProfileArray) => {
         this.response = '';
-      })
-      return;
-    }
+      }
+    )
+    return;
+  }
 
   styleHeader(){
+    if(!this.isMobile){
+      var id = 'headerColorDiv';
+    } else {
+      var id = 'mblnickColorDiv';
+    }
     if(this.color != "white"){
-      var div = document.getElementById('headerColorDiv');
+      var div = document.getElementById(id);
       div.style.backgroundColor = this.color;
       div.style.borderWidth = "0";
       return;
     } else {
-      var div = document.getElementById('headerColorDiv')
+      var div = document.getElementById(id);
       div.style.backgroundColor = this.color;
       div.style.borderStyle = "solid";
       div.style.borderWidth = "1px";
       div.style.borderColor = "black";
+      div.style.color = "black";
       return;
     }
   }
@@ -125,29 +134,33 @@ export class ChatProfileComponent implements OnInit{
   }
 
   imgMouseEnter(){
-    var img = document.getElementById('profileIMGselector');
+    var img = document.getElementById('ovlprofileIMGselector');
     img.className='profileIMGhover';
   }
 
   imgMouseLeave(){
-    var img = document.getElementById('profileIMGselector');
+    var img = document.getElementById('ovlprofileIMGselector');
     img.className = 'profileIMG';
   }
 
   softnickCheck(){
     if(!/^\s*$/.test(this.nickname)){
-     if(this.nickname.length < 21){
+     if(this.nickname.length < 19){
         // document.getElementById('profileAlert').style.visibility = 'hidden';
-        // this.alertText = "";
-        document.getElementById('nickInput').className = 'nick';
-        document.getElementById('profileNickDes').className = 'nickName';
+        this.alertText = "";
+        document.getElementById('ovlnickInput').className = 'mblnick';
+        document.getElementById('ovlprofileNickDes').className = 'mblnickName';
+        let elem = <HTMLElement>document.querySelector('.cdk-overlay-container');
+        elem.style.backgroundColor = 'rgba(5, 65, 27, 0.8)';
         return true;
       }  
       else {
         // document.getElementById('profileAlert').style.visibility = 'visible';
-        // this.alertText = "Der Nickname darf nicht länger als 15 Zeichen sein!";
-        document.getElementById('nickInput').className = 'nickalert';
-        document.getElementById('profileNickDes').className = 'nickNameAlert';
+        this.alertText = "Dein Nickname darf maximal 18 Zeichen lang sein!";
+        document.getElementById('ovlnickInput').className = 'mblnickalert';
+        document.getElementById('ovlprofileNickDes').className = 'mblnickNameAlert';
+        let elem = <HTMLElement>document.querySelector('.cdk-overlay-container');
+        elem.style.backgroundColor = 'rgba(65, 5, 5, 0.8)';
         return false;
       }
     }
@@ -157,36 +170,44 @@ export class ChatProfileComponent implements OnInit{
   nickCheck(){
     if(this.nickname != undefined){
       if(!/^\s*$/.test(this.nickname)){
-        if(this.nickname.length < 21){
+        if(this.nickname.length < 19){
           // document.getElementById('profileAlert').style.visibility = 'hidden';
-          // this.alertText = "";
-          document.getElementById('nickInput').className = 'nick';
-          document.getElementById('profileNickDes').className = 'nickName';
+          this.alertText = "";
+          document.getElementById('ovlnickInput').className = 'mblnick';
+          document.getElementById('ovlprofileNickDes').className = 'mblnickName';
+          let elem = <HTMLElement>document.querySelector('.cdk-overlay-container');
+          elem.style.backgroundColor = 'rgba(5, 65, 27, 0.8)';
           return true;
         }  
         else {
           //this.resetAlert();
           // document.getElementById('profileAlert').style.visibility = 'visible';
-          // this.alertText = "Der Nickname darf nicht länger als 15 Zeichen sein!";
-          document.getElementById('nickInput').className = 'nickalert';
-          document.getElementById('profileNickDes').className = 'nickNameAlert';
+          this.alertText = "Dein Nickname darf maximal 18 Zeichen lang sein!";
+          document.getElementById('ovlnickInput').className = 'mblnickalert';
+          document.getElementById('profileNickDes').className = 'mblnickNameAlert';
+          let elem = <HTMLElement>document.querySelector('.cdk-overlay-container');
+          elem.style.backgroundColor = 'rgba(65, 5, 5, 0.8)';
           return false;
         }
       } else {
         //this.resetAlert();
         // document.getElementById('profileAlert').style.visibility = 'visible';
-        // this.alertText = "Der Nickname darf nicht länger als 15 Zeichen sein!";
-        document.getElementById('nickInput').className = 'nickalert';
-        document.getElementById('profileNickDes').className = 'nickNameAlert';
+        this.alertText = "Bitte gib einen Nicknamen ein!";
+        document.getElementById('ovlnickInput').className = 'mblnickalert';
+        document.getElementById('profileNickDes').className = 'mblnickNameAlert';
+        let elem = <HTMLElement>document.querySelector('.cdk-overlay-container');
+        elem.style.backgroundColor = 'rgba(65, 5, 5, 0.8)';
         return false;
       }
     }
     else {
       //this.resetAlert();
       // document.getElementById('profileAlert').style.visibility = 'visible';
-      // this.alertText = "Nickname darf nicht leer sein!";
-      document.getElementById('nickInput').className = 'nickalert';
-      document.getElementById('profileNickDes').className = 'nickNameAlert';
+      this.alertText = "Bitte gib einen Nicknamen ein!";
+      document.getElementById('ovlnickInput').className = 'mblnickalert';
+      document.getElementById('profileNickDes').className = 'mblnickNameAlert';
+      let elem = <HTMLElement>document.querySelector('.cdk-overlay-container');
+      elem.style.backgroundColor = 'rgba(65, 5, 5, 0.8)';
       return false;
     }
   }
@@ -205,11 +226,11 @@ export class ChatProfileComponent implements OnInit{
 
   selectColor(selColor, selector){
     this.color = selColor;
-    document.getElementById('cpColorDiv').style.background = selColor;
-    document.getElementById('cpColorDiv').style.borderColor = selColor;
+    document.getElementById('ovlcpColorDiv').style.background = selColor;
+    document.getElementById('ovlcpColorDiv').style.borderColor = selColor;
     if(selColor == 'white'){
-      document.getElementById('cpColorDiv').style.borderColor = '#00802F';
-      document.getElementById('cpColorDiv').style.background = selColor;
+      document.getElementById('ovlcpColorDiv').style.borderColor = '#00802F';
+      document.getElementById('ovlcpColorDiv').style.background = selColor;
     }
     var x = document.getElementsByClassName("cpList");
     var i;
@@ -244,11 +265,11 @@ export class ChatProfileComponent implements OnInit{
       x[i].innerHTML = "";
     }
     document.getElementById(this.prevSelector).innerText = "✓";
-    document.getElementById('cpColorDiv').style.background = this.color;
-    document.getElementById('cpColorDiv').style.borderColor = this.color;
+    document.getElementById('ovlcpColorDiv').style.background = this.color;
+    document.getElementById('ovlcpColorDiv').style.borderColor = this.color;
     if(this.color == 'white'){
-      document.getElementById('cpColorDiv').style.borderColor = '#00802F';
-      document.getElementById('cpColorDiv').style.background = this.color;
+      document.getElementById('ovlcpColorDiv').style.borderColor = '#00802F';
+      document.getElementById('ovlcpColorDiv').style.background = this.color;
     }
     return;
   }
@@ -260,8 +281,14 @@ export class ChatProfileComponent implements OnInit{
     //this.resetAlert();
     document.getElementById('profileAlert').style.visibility = 'hidden';
     this.alertText = "";
-    document.getElementById('nickInput').className = 'nick';
-    document.getElementById('profileNickDes').className = 'nickName';
+    document.getElementById('ovlnickInput').className = 'mblnick';
+    document.getElementById('profileNickDes').className = 'mblnickName';
     return;
+  }
+  
+  onResize() {
+    this.responsiveService.getMobileStatus().subscribe(isMobile => {
+      this.isMobile = isMobile;
+    });
   }
 }

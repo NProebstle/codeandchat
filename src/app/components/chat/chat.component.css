@@ -35,3 +35,16 @@ body {
     margin: 0;
     padding: 0;
 }
+
+#mblbodyContainer {
+    width: 100%;
+    height: 100%;
+}
+
+#mblchatContainer {
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+}
