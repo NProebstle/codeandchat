@@ -81,10 +81,7 @@ export class ChatProfileComponent implements OnInit{
 
   sendProfile(){
     let profileArrayToSend: ProfileArray = new ProfileArray();
-    profileArrayToSend.nickname = Profile.Nickname;
-    profileArrayToSend.color = Profile.Color;
-    profileArrayToSend.img = Profile.IMG;
-    profileArrayToSend.uid = Profile.UID;
+    profileArrayToSend.profile = [Profile.Nickname, Profile.Color, Profile.IMG, Profile.UID];
 
     this.apiService.addProfile(profileArrayToSend)
     .subscribe(
@@ -157,7 +154,7 @@ export class ChatProfileComponent implements OnInit{
   nickCheck(){
     if(this.nickname != undefined){
       if(!/^\s*$/.test(this.nickname)){
-        if(this.nickname.length < 21){
+        if(this.nickname.length < 19){
           // document.getElementById('profileAlert').style.visibility = 'hidden';
           // this.alertText = "";
           document.getElementById('nickInput').className = 'nick';

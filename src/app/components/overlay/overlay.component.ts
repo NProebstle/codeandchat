@@ -77,11 +77,9 @@ export class OverlayComponent implements OnInit {
   }
 
   sendProfile() {
+    console.log('[NTWK] Sent Profile!');
     let profileArrayToSend: ProfileArray = new ProfileArray();
-    profileArrayToSend.nickname = Profile.Nickname;
-    profileArrayToSend.color = Profile.Color;
-    profileArrayToSend.img = Profile.IMG;
-    profileArrayToSend.uid = Profile.UID;
+    profileArrayToSend.profile = [Profile.Nickname, Profile.Color, Profile.IMG, Profile.UID];
 
     this.apiService.addProfile(profileArrayToSend)
     .subscribe(

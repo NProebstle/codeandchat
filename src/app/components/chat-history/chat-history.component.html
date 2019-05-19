@@ -1,7 +1,7 @@
 <div class="propDiv" *ngIf="!isMobile">
         <div class="info">
         <div class="dateBox">{{ date }}</div>
-        <div class="onlineBox">{{ numOnline }}</div>
+        <div class="onlineBox">ONLINE – {{ numOnline }}</div>
     </div>
         <div class="output" id="output">{{ initialOutput }}</div>
 </div>
@@ -9,7 +9,7 @@
 <div class="propDiv" *ngIf="isMobile">
     <div class="mblinfo">
         <div class="mbldateBox">{{ date }}</div>
-        <div class="mblonlineBox">{{ numOnline }}</div>
+        <div class="mblonlineBox">ONLINE – {{ numOnline }}</div>
     </div>  
     <div class="mbloutput" id="output">{{ initialOutput }}</div>
 </div>

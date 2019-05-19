@@ -7,6 +7,8 @@ import { ApiService } from 'src/app/api.service';
 import { MessageArray } from '../shared/models/messageArray';
 import { Profile } from '../shared/models/profile';
 import { responsiveService } from '../shared/services/responsive.service';
+import { Ping } from '../shared/models/ping';
+import { ActiveUsers } from '../shared/models/activeUsers';
 
 @Component({
   selector: 'app-chat-history',
@@ -21,7 +23,7 @@ export class ChatHistoryComponent{
   public color = '#00802F';
   public dateBoxStyle = 'width:max-content;text-align:center;background:rgba(0, 128, 47, 0.8);border-radius:5px;font-size:18px;padding-top:5px;padding-bottom:5px;padding-left:10px;padding-right:10px;color:white;margin: auto;';
   public initializedChatHistory: boolean;
-  public numOnline = 'Online: 1';
+  public numOnline: number;
   public firstChat = true;
   public cache: any[];
   public mergedMessages = 0;
@@ -45,6 +47,8 @@ export class ChatHistoryComponent{
   public pushID; 
   public getHistoryCache;
   public isMobile;
+  public activeUsersCache;
+  public response;
 
   constructor(
     private apiService: ApiService,
@@ -90,10 +94,8 @@ export class ChatHistoryComponent{
     }
 
     this.initializedChatHistory = true;
-          console.log('Init history');
-          setInterval(() => {
-          this.getPush();
-          }, 100);
+    console.log('Init history');
+    this.serverComm();
   }
 
   createMessageElementofHistory(historyCache, i){
@@ -211,32 +213,92 @@ export class ChatHistoryComponent{
       .subscribe(response => {
         //console.log('response');
         //console.log(response);
-        if(this.pushID == response[1]){
-          return;
-        } else {
-          History.push = response[0];
-          this.pushID = response[1];
-          this.updateHistory();
-        }})
+        this.pushFunction(response);
+        })
+  }
+
+  pushFunction(response){
+    if(this.pushID == response[1]){
+      return;
+    } else {
+      History.push = response[0];
+      this.pushID = response[1];
+      this.updateHistory();
+    }
+  }
+
+  serverComm(){
+    setInterval(() => {
+    this.getPush();
+    this.getDate();
+    this.sendPing();
+    this.receivePing();
+    this.updateOnline();
+    }, 500);
+  }
+
+  updateOnline(){
+    ActiveUsers.activeUsers = this.activeUsersCache;
+    this.numOnline = this.activeUsers.length;
+    return;
+  }
+
+  get activeUsers(){
+    return ActiveUsers.activeUsers;
+  }
+
+  sendPing(){
+    let ping: Ping = new Ping();
+    ping.uid = Profile.UID;
+    this.apiService.sendPing(ping)
+      .subscribe((response: Ping) => {
+        this.response = '';
+      })
+  }
+
+  receivePing(){
+    this.apiService.getPing()
+      .subscribe(response => {
+        this.activeUsersCache = response;
+        return;
+      })
+  }
+
+  getDate(){
+    this.apiService.getDate()
+      .subscribe(response => {
+        this.compareServerTime(response);
+        return;
+      })
+  }
+
+  compareServerTime(response){
+    var serverDate = response[0];
+    if(serverDate != this.date){
+      this.date = serverDate;
+    }
+    return;
   }
 
   getHistory(){
-    console.log('1.1')
     this.apiService.getChatHistory()
       .subscribe(response  => {
-        History.chatHistory = response;
-        var l = History.chatHistory.length;
-        this.date = History.chatHistory[l-2][4];
-        if(l > 2){
-          this.loadHistory();
-        } else {
-          this.initializedChatHistory = true;
-          console.log('Init history');
-          setInterval(() => {
-          this.getPush();
-          }, 100);
-        }
-        })}
+        this.historyFunction(response);
+      })
+  }
+
+  historyFunction(response){
+    History.chatHistory = response;
+    var l = History.chatHistory.length;
+    this.date = History.chatHistory[l-2][4];
+    if(l > 2){
+      this.loadHistory();
+    } else {
+      this.initializedChatHistory = true;
+      console.log('Init history');
+      this.serverComm();
+    }
+  }
 
   updateHistory(){
     var l = History.chatHistory.length;
@@ -458,6 +520,9 @@ export class ChatHistoryComponent{
     var date = History.chatHistory[l-1][4];
     dateBox.innerText = date;
     dateBox.style.cssText = this.dateBoxStyle;
+    if(this.isMobile){
+      dateBox.style.backgroundColor = '#00802F';
+    }
     div.appendChild(dateBox);
     this.lastDate = date;
     this.date = date;
