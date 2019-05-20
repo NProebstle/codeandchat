@@ -90,22 +90,16 @@ export class ChatBarComponent implements OnInit {
     this.dynamicInput();
     if(!/^\s*$/.test(this.message)){
       if(!this.isMobile){
-        //document.getElementById('chatInput').className = 'input';
+        //this.inputClassName = 'input';
       } else {
-        //document.getElementById('mblchatInput').className = 'mblinput';
+        //this.inputClassName = 'mblinput';
       } return true;
-      // if(this.message.length > 65){
-      //   this.messageArray = this.message.replace(/.{55}\S*\s+/g, "$&@").split(/\s+@/);
-      //   this.longMessage = true;
-      // }
     } 
     else {
-      //document.getElementById('alert').style.visibility = 'visible';
-      //this.alertText += " Bitte geben Sie eine Nachricht ein!";
       if(!this.isMobile){
-        document.getElementById('chatInput').className = 'alert';
+        this.inputClassName = 'alert';
       } else {
-        document.getElementById('mblchatInput').className = 'mblalert';
+        this.inputClassName = 'mblalert';
       }
       this.resetInput();
       return false;
@@ -114,7 +108,7 @@ export class ChatBarComponent implements OnInit {
 
   nickCheck(){
     if(!/^\s*$/.test(Profile.Nickname)){
-      if(Profile.Nickname.length < 21){
+      if(Profile.Nickname.length < 19){
         // document.getElementById('alert').style.visibility = 'hidden';
         // this.alertText = "";
         // if(!this.isMobile){

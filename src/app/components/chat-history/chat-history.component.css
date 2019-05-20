@@ -80,6 +80,7 @@ div.output {
     padding-top: 22%;
     font-size: 20px;
     overflow: auto;
+    overflow-y: hidden;
     flex: 1;
   }
 
