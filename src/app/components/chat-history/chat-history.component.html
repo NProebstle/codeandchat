@@ -1,7 +1,7 @@
 <div class="propDiv" *ngIf="!isMobile">
         <div class="info">
         <div class="dateBox">{{ date }}</div>
-        <div class="onlineBox">ONLINE – {{ numOnline }}</div>
+        <div id="chat-onlineBox" class="onlineBox" (click)="openOnline()" (mouseenter)="onlineHover()" (mouseleave)="normalOnline()" >ONLINE – {{ numOnline }}</div>
     </div>
         <div class="output" id="output">{{ initialOutput }}</div>
 </div>

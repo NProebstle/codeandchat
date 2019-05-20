@@ -6,6 +6,7 @@ import { responsiveService } from '../shared/services/responsive.service';
 import { OverlayRefM } from '../shared/models/overlayRefM';
 import { OverlayRefRemote } from 'src/app/overlayRefRemote';
 import { OverlayProfileService } from '../overlay-profile/overlay-profile.service';
+import { Visibility } from '../shared/models/visibility';
 
 @Component({
   selector: 'app-header',
@@ -15,6 +16,7 @@ import { OverlayProfileService } from '../overlay-profile/overlay-profile.servic
 export class HeaderComponent implements OnInit{
 
   public isMobile: boolean;
+  public prevOnlinevis: boolean;
 
   constructor(
     private responsiveService: responsiveService,
@@ -24,6 +26,7 @@ export class HeaderComponent implements OnInit{
   ngOnInit(){
     this.onResize();
     this.responsiveService.checkWidth();
+    this.prevOnlinevis = Visibility.showOnline;
   }
 
   get nickname(){
@@ -50,12 +53,15 @@ export class HeaderComponent implements OnInit{
 
   openMenu(){
     if(!this.isMobile){
-      var container = document.getElementById('profileContainer');
-      var hidden = container.hidden;
-      if(hidden){
-        document.getElementById('profileContainer').hidden = false;
+      if(Visibility.showProfile){
+        if(this.prevOnlinevis){
+          Visibility.showOnline = true;
+        }
+        Visibility.showProfile = false;
       } else {
-        document.getElementById('profileContainer').hidden = true;
+        Visibility.showProfile = true;
+        this.prevOnlinevis =  Visibility.showOnline;
+        Visibility.showOnline = false;
       }
     } else {
       let overlayRef: OverlayRefRemote = this.profileOverlayService.open();

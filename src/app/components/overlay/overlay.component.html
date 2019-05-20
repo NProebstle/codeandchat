@@ -8,8 +8,8 @@
         <td colspan="2"><hr class="line"></td>
     </tr>
     <tr>
-      <td colspan="2"><label for="profileIMGinput" id="ovlprofileIMGselector" class="profileIMG" (pointerenter)="imgMouseEnter()" (pointerleave)="imgMouseLeave()"><img id="profileMenuIMG">
-      </label><input id="ovlprofileIMGinput" type="file" (change)="changeIMG(this)" accept="image/png, image/jpeg"></td>
+      <td colspan="2"><label id="ovlprofileIMGselector" class="profileIMG" (pointerenter)="imgMouseEnter()" (pointerleave)="imgMouseLeave()"><img id="profileMenuIMG">
+      </label></td>
     </tr>
     <tr>
       <td colspan="2"><hr class="line"></td>
@@ -46,7 +46,7 @@
     </tr>
   </table>
 </div>
-<label class="profileUID">{{ uid }}</label>
+
 
 <div class="mblprofileContainer" *ngIf="isMobile">
     <table align="center" class="mbl">
@@ -95,6 +95,7 @@
         </td>
       </tr>
     </table>
+    <label class="profileUID">{{ uid }}</label>
   </div>
-  <label class="profileUID">{{ uid }}</label>
+ 
   

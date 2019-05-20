@@ -42,8 +42,6 @@ h4 {
 table {
     width: 78%;
     height: fit-content;
-    margin-left: 11%;
-    margin-right: 11%;
 }
 
 tr, td {
@@ -113,8 +111,6 @@ tr, td {
 table.mbl {
     width: 78%;
     height: fit-content;
-    margin-left: 11%;
-    margin-right: 11%;
     margin-bottom: 15vh;
 }
 

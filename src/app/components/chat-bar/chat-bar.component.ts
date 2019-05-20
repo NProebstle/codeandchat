@@ -25,6 +25,9 @@ export class ChatBarComponent implements OnInit {
   public spanNumber;
   public response;
   public isMobile: boolean;
+  public rows = 1;
+  public inputClassName = 'input';
+  public mblinputClassName = 'mblinput';
 
   @Output() messageEmitter = new EventEmitter<any[]>();
 
@@ -36,6 +39,7 @@ export class ChatBarComponent implements OnInit {
   ngOnInit(){
     this.onResize();
     this.responsiveService.checkWidth();
+    console.log('[INIT Component: chat-bar!');
   }
   
   send(){
@@ -47,7 +51,21 @@ export class ChatBarComponent implements OnInit {
           this.messageEmitter.emit(this.buildMessageArray());
         }
         this.longMessage = false;
+        if(!this.isMobile){
+          this.inputClassName = 'input';
+          this.rows = 1;
+        } else {
+          this.mblinputClassName = 'mblinput';
+          this.rows = 1;
+        }    
       } else {
+        if(!this.isMobile){
+          this.inputClassName = 'input';
+          this.rows = 1;
+        } else {
+          this.mblinputClassName = 'mblinput';
+          this.rows = 1;
+        }    
         let msgArrayToSend: MessageArray = new MessageArray();
         msgArrayToSend.msg = this.buildMessageArray();
         this.message = '';
@@ -69,17 +87,17 @@ export class ChatBarComponent implements OnInit {
   }
 
   messageCheck(){
+    this.dynamicInput();
     if(!/^\s*$/.test(this.message)){
       if(!this.isMobile){
-        document.getElementById('chatInput').className = 'input';
+        //document.getElementById('chatInput').className = 'input';
       } else {
-        document.getElementById('mblchatInput').className = 'mblinput';
-      }
+        //document.getElementById('mblchatInput').className = 'mblinput';
+      } return true;
       // if(this.message.length > 65){
       //   this.messageArray = this.message.replace(/.{55}\S*\s+/g, "$&@").split(/\s+@/);
       //   this.longMessage = true;
       // }
-      return true;
     } 
     else {
       //document.getElementById('alert').style.visibility = 'visible';
@@ -149,5 +167,42 @@ export class ChatBarComponent implements OnInit {
     this.responsiveService.getMobileStatus().subscribe(isMobile => {
       this.isMobile = isMobile;
     });
+  }
+
+  dynamicInput(){
+    if(!this.isMobile){
+      var width = document.getElementById('chatInput').clientWidth;
+      var charbreak = width*0.12;
+     if(this.message.length > charbreak*2){
+        this.inputClassName = 'input3';
+        this.rows = 3;
+        return;
+      } else if(this.message.length > charbreak){
+        this.inputClassName = 'input2';
+        this.rows = 2;
+        return;
+      } else if(this.message.length < charbreak+1){
+        this.inputClassName = 'input';
+        this.rows = 1;
+        return;
+      }
+    } else {
+      var width = document.getElementById('mblchatInput').clientWidth;
+      var charbreak = width*0.1;
+      if(this.message.length > charbreak*2){
+        this.mblinputClassName = 'mblinput3';
+        this.rows = 3;
+        return;
+      } else if(this.message.length > charbreak){
+        this.mblinputClassName = 'mblinput2';
+        this.rows = 2;
+        return;
+      } else if(this.message.length < charbreak+1){
+        this.mblinputClassName = 'mblinput';
+        this.rows = 1;
+        return;
+      }
+    }
+    return;
   }
 }

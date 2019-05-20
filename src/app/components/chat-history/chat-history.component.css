@@ -5,6 +5,10 @@
     justify-content: stretch;
 }
 
+.onlinebtn {
+    visibility: hidden;
+}
+
 div.propDiv {
     height: 100%;
     width: 100%;
@@ -99,7 +103,7 @@ div.mblinfo {
     border: none;
     background-color: rgba(0, 128, 47);
     margin: 0;
-    width: calc(100% - 2px);
+    width: 100%;
     text-align: center;
     font-size: 20px;
     overflow: auto;
@@ -145,7 +149,7 @@ div.mbloutput {
     padding: 10px;
     margin-bottom: 10px;
     margin-top: 0px;
-    width: calc(100% - 2px);
+    width: 100%;
     text-align: center;
     padding: 0;
     padding-top: 50%;

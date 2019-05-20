@@ -66,6 +66,30 @@ textarea.input {
     font-size: 18px;
 }
 
+textarea.input2 {
+    resize: none;
+    line-height: 30px;
+    padding: 0;
+    border: 1px solid #00802F;
+    border-radius: 3px;
+    height: 60px;
+    width: 100%;
+    padding-left: 10px;
+    font-size: 18px;
+}
+
+textarea.input3 {
+    resize: none;
+    line-height: 30px;
+    padding: 0;
+    border: 1px solid #00802F;
+    border-radius: 3px;
+    height: 90px;
+    width: 100%;
+    padding-left: 10px;
+    font-size: 18px;
+}
+
 div {
     display: flex;
 }
@@ -95,6 +119,32 @@ textarea.mblinput {
     height: 50px;
     width: 100%;
     padding-left: 10px;
+    font-size: 18px;
+}
+
+textarea.mblinput2 {
+    resize: none;
+    line-height: 30px;
+    padding: 0;
+    border: none;
+    border-top: 1px solid #00802F;
+    height: 60px;
+    width: 100%;
+    padding-left: 10px;
+    padding-bottom: 5px;
+    font-size: 18px;
+}
+
+textarea.mblinput3 {
+    resize: none;
+    line-height: 30px;
+    padding: 0;
+    border: none;
+    border-top: 1px solid #00802F;
+    height: 90px;
+    width: 100%;
+    padding-left: 10px;
+    
     font-size: 18px;
 }
 

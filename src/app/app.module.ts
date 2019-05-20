@@ -21,6 +21,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { responsiveService } from './components/shared/services/responsive.service';
 import { OverlayProfileComponent } from './components/overlay-profile/overlay-profile.component';
 import { OverlayProfileService } from './components/overlay-profile/overlay-profile.service';
+import { OnlineViewComponent } from './components/online-view/online-view.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { OverlayProfileService } from './components/overlay-profile/overlay-prof
     OverlayIntroComponent,
     OverlayHandlerComponent,
     OverlayProfileComponent,
+    OnlineViewComponent,
   ],
   imports: [
     BrowserModule,

@@ -6,6 +6,7 @@ import { OverlayComponent } from '../overlay/overlay.component';
 import { OverlayIntroService } from '../overlay-intro/overlay-intro.service';
 import { ApiService } from 'src/app/api.service';
 import { ProfileArray } from '../shared/models/profileArray';
+import { Visibility } from '../shared/models/visibility';
 
 
 @Component({
@@ -26,23 +27,23 @@ export class ChatProfileComponent implements OnInit{
   public profileIMGsrc: string;
   public firstUpdate = true;
   public response;
+  public prevOnlinevis: boolean;
 
   ngOnInit(){
     this.generateUID();
-    console.log('Init profile');
+    this.prevOnlinevis = Visibility.showOnline;
+    console.log('[INIT] Component: profile!');
+    this.updateData();
   }
 
   updateData(){
-    if(this.firstUpdate){
     this.nickname = Profile.Nickname;
     this.color = Profile.Color;
     this.profileIMGsrc = Profile.IMG;
-    this.firstUpdate = false;
-    }
   }
 
   cancel(){
-    document.getElementById('profileContainer').hidden = true;
+    Visibility.showProfile = false;
     this.resetCp();
     this.resetNick();
     return;
@@ -51,7 +52,10 @@ export class ChatProfileComponent implements OnInit{
   confirm(){
     if(this.nickCheck()){
       this.updateProfile();
-      document.getElementById('profileContainer').hidden = true;
+      if(this.prevOnlinevis){
+        Visibility.showOnline = true;
+      }
+      Visibility.showProfile = false;
       this.styleHeader();
       this.sendProfile();
     }
@@ -107,20 +111,6 @@ export class ChatProfileComponent implements OnInit{
     }
   }
 
-  changeIMG(event){
-    // var input = document.getElementById('profileIMGinput');
-    // var fReader = new FileReader();
-    // fReader.readAsDataURL(input.files[0]);
-    // fReader.onloadend = function(event){ 
-    // var img = document.getElementById('profileMenuIMG'); 
-    // img.src = event.target.result; 
-  //}
-
-    // var src = document.getElementById('profileIMGinput').files[0].name;
-    // console.log(src);
-    // document.getElementById('profileMenuIMG').src = src;
-  }
-
   imgMouseEnter(){
     var img = document.getElementById('profileIMGselector');
     img.className='profileIMGhover';
@@ -133,7 +123,7 @@ export class ChatProfileComponent implements OnInit{
 
   softnickCheck(){
     if(!/^\s*$/.test(this.nickname)){
-     if(this.nickname.length < 21){
+     if(this.nickname.length < 19){
         // document.getElementById('profileAlert').style.visibility = 'hidden';
         // this.alertText = "";
         document.getElementById('nickInput').className = 'nick';
