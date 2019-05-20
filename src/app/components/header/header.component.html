@@ -1,10 +1,20 @@
-<header>
+<header *ngIf="!isMobile">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <span class="header-span">
     <div class="header-logo"><img class="logo"></div>
     <div class="header-title"><h2>EasyChat</h2></div>
-    <div class="header-profilename"><div id="headerColorDiv"></div><label>{{ nickname }}</label></div>
-    <div class="header-profileIMG"><img id="profilemenuIMG" src="{{profileIMG}}" (pointerenter)="imgMouseEnter()" (pointerleave)="imgMouseLeave()" (click)="openMenu()"></div>
+    <div class="header-profilename"><div id="headerColorDiv" class="headerColorDiv"></div><label>{{ nickname }}</label></div>
+    <div class="header-profileIMG"><img id="profilemenuIMG" class="profilemenuIMG" src="{{profileIMG}}" (pointerenter)="imgMouseEnter()" (pointerleave)="imgMouseLeave()" (click)="openMenu()"></div>
     </span>
     <hr class="line">
+</header>
+
+<header *ngIf="isMobile">
+        <span class="mblheader-span">
+            <div class="mblheader-logo"><img class="mbllogo"></div>
+            <div class="mblheader-title"><h2 class="mbl">EasyChat</h2></div>
+            <div class="mblheader-profileIMG"><img id="profilemenuIMG" class="mblprofilemenuIMG" src="{{profileIMG}}" (click)="openMenu()"></div>
+        </span>
+        <hr class="line">
+        <span class="mblheaderColorDiv"><div id="mblnickColorDiv" class="mblnickColorDiv" hidden="true"></div></span>
 </header>

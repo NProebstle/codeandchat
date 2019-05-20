@@ -10,10 +10,10 @@ import { responsiveService } from '../shared/services/responsive.service';
 
 @Component({
   selector: 'app-overlay',
-  templateUrl: './overlay.component.html',
-  styleUrls: ['./overlay.component.css']
+  templateUrl: './overlay-profile.component.html',
+  styleUrls: ['./overlay-profile.component.css']
 })
-export class OverlayComponent implements OnInit {
+export class OverlayProfileComponent implements OnInit {
 
   public nickname: string;
   public alertText;
@@ -31,7 +31,6 @@ export class OverlayComponent implements OnInit {
     ) { }
 
   ngOnInit() {
-    this.generateUID();
     this.nickname = Profile.Nickname;
     this.color = Profile.Color;
     this.profileIMGsrc = Profile.IMG;
@@ -49,6 +48,12 @@ export class OverlayComponent implements OnInit {
       this.ovlRef.close();
     }
     return;
+  }
+
+  cancel(){
+    let elem = <HTMLElement>document.querySelector('.cdk-overlay-container');
+    elem.hidden = true;
+    this.ovlRef.close();
   }
 
   get ovlRef() :OverlayRefRemote{
@@ -77,7 +82,7 @@ export class OverlayComponent implements OnInit {
   }
 
   sendProfile() {
-    console.log('[NTWK] Sent Profile!');
+    console.log('[NTWK] Sent Profile');
     let profileArrayToSend: ProfileArray = new ProfileArray();
     profileArrayToSend.profile = [Profile.Nickname, Profile.Color, Profile.IMG, Profile.UID];
 
@@ -95,7 +100,6 @@ export class OverlayComponent implements OnInit {
       var id = 'headerColorDiv';
     } else {
       var id = 'mblnickColorDiv';
-      document.getElementById(id).hidden = false;
     }
     if(this.color != "white"){
       var div = document.getElementById(id);
@@ -142,13 +146,8 @@ export class OverlayComponent implements OnInit {
      if(this.nickname.length < 19){
         // document.getElementById('profileAlert').style.visibility = 'hidden';
         this.alertText = "";
-        if(!this.isMobile){
-          document.getElementById('ovlnickInput').className = 'nick';
-          document.getElementById('ovlprofileNickDes').className = 'nickName';
-        } else {
-          document.getElementById('ovlnickInput').className = 'mblnick';
-          document.getElementById('ovlprofileNickDes').className = 'mblnickName';
-        }
+        document.getElementById('ovlnickInput').className = 'mblnick';
+        document.getElementById('ovlprofileNickDes').className = 'mblnickName';
         let elem = <HTMLElement>document.querySelector('.cdk-overlay-container');
         elem.style.backgroundColor = 'rgba(5, 65, 27, 0.8)';
         return true;
@@ -156,13 +155,8 @@ export class OverlayComponent implements OnInit {
       else {
         // document.getElementById('profileAlert').style.visibility = 'visible';
         this.alertText = "Dein Nickname darf maximal 18 Zeichen lang sein!";
-        if(!this.isMobile){
-          document.getElementById('ovlnickInput').className = 'nickalert';
-          document.getElementById('ovlprofileNickDes').className = 'nickNameAlert';
-        } else {
-          document.getElementById('ovlnickInput').className = 'mblnickalert';
-          document.getElementById('ovlprofileNickDes').className = 'mblnickNameAlert';
-        }
+        document.getElementById('ovlnickInput').className = 'mblnickalert';
+        document.getElementById('ovlprofileNickDes').className = 'mblnickNameAlert';
         let elem = <HTMLElement>document.querySelector('.cdk-overlay-container');
         elem.style.backgroundColor = 'rgba(65, 5, 5, 0.8)';
         return false;
@@ -177,13 +171,8 @@ export class OverlayComponent implements OnInit {
         if(this.nickname.length < 19){
           // document.getElementById('profileAlert').style.visibility = 'hidden';
           this.alertText = "";
-          if(!this.isMobile){
-            document.getElementById('ovlnickInput').className = 'nick';
-            document.getElementById('ovlprofileNickDes').className = 'nickName';
-          } else {
-            document.getElementById('ovlnickInput').className = 'mblnick';
-            document.getElementById('ovlprofileNickDes').className = 'mblnickName';
-          }
+          document.getElementById('ovlnickInput').className = 'mblnick';
+          document.getElementById('ovlprofileNickDes').className = 'mblnickName';
           let elem = <HTMLElement>document.querySelector('.cdk-overlay-container');
           elem.style.backgroundColor = 'rgba(5, 65, 27, 0.8)';
           return true;
@@ -192,13 +181,8 @@ export class OverlayComponent implements OnInit {
           //this.resetAlert();
           // document.getElementById('profileAlert').style.visibility = 'visible';
           this.alertText = "Dein Nickname darf maximal 18 Zeichen lang sein!";
-          if(!this.isMobile){
-            document.getElementById('ovlnickInput').className = 'nickalert';
-            document.getElementById('profileNickDes').className = 'nickNameAlert';
-          } else {
-            document.getElementById('ovlnickInput').className = 'mblnickalert';
-            document.getElementById('profileNickDes').className = 'mblnickNameAlert';
-          }
+          document.getElementById('ovlnickInput').className = 'mblnickalert';
+          document.getElementById('profileNickDes').className = 'mblnickNameAlert';
           let elem = <HTMLElement>document.querySelector('.cdk-overlay-container');
           elem.style.backgroundColor = 'rgba(65, 5, 5, 0.8)';
           return false;
@@ -207,13 +191,8 @@ export class OverlayComponent implements OnInit {
         //this.resetAlert();
         // document.getElementById('profileAlert').style.visibility = 'visible';
         this.alertText = "Bitte gib einen Nicknamen ein!";
-        if(!this.isMobile){
-            document.getElementById('ovlnickInput').className = 'nickalert';
-            document.getElementById('profileNickDes').className = 'nickNameAlert';
-          } else {
-            document.getElementById('ovlnickInput').className = 'mblnickalert';
-            document.getElementById('profileNickDes').className = 'mblnickNameAlert';
-          }
+        document.getElementById('ovlnickInput').className = 'mblnickalert';
+        document.getElementById('profileNickDes').className = 'mblnickNameAlert';
         let elem = <HTMLElement>document.querySelector('.cdk-overlay-container');
         elem.style.backgroundColor = 'rgba(65, 5, 5, 0.8)';
         return false;
@@ -223,13 +202,8 @@ export class OverlayComponent implements OnInit {
       //this.resetAlert();
       // document.getElementById('profileAlert').style.visibility = 'visible';
       this.alertText = "Bitte gib einen Nicknamen ein!";
-      if(!this.isMobile){
-        document.getElementById('ovlnickInput').className = 'nickalert';
-        document.getElementById('profileNickDes').className = 'nickNameAlert';
-      } else {
-        document.getElementById('ovlnickInput').className = 'mblnickalert';
-        document.getElementById('profileNickDes').className = 'mblnickNameAlert';
-      }
+      document.getElementById('ovlnickInput').className = 'mblnickalert';
+      document.getElementById('profileNickDes').className = 'mblnickNameAlert';
       let elem = <HTMLElement>document.querySelector('.cdk-overlay-container');
       elem.style.backgroundColor = 'rgba(65, 5, 5, 0.8)';
       return false;
@@ -305,13 +279,8 @@ export class OverlayComponent implements OnInit {
     //this.resetAlert();
     document.getElementById('profileAlert').style.visibility = 'hidden';
     this.alertText = "";
-    if(!this.isMobile){
-      document.getElementById('ovlnickInput').className = 'nick';
-      document.getElementById('profileNickDes').className = 'nickName';
-    } else {
-      document.getElementById('ovlnickInput').className = 'mblnick';
-      document.getElementById('profileNickDes').className = 'mblnickName';
-    }
+    document.getElementById('ovlnickInput').className = 'mblnick';
+    document.getElementById('profileNickDes').className = 'mblnickName';
     return;
   }
   

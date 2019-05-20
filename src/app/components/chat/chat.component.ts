@@ -6,6 +6,8 @@ import { ChatProfileComponent } from '../chat-profile/chat-profile.component';
 import { ComponentPortal } from '@angular/cdk/portal';
 import { ChatBarComponent } from '../chat-bar/chat-bar.component';
 import { OverlayService } from '../overlay/overlay.service';
+import { responsiveService } from '../shared/services/responsive.service';
+import { Visibility } from '../shared/models/visibility';
 
 @Component({
   selector: 'app-chat',
@@ -14,7 +16,11 @@ import { OverlayService } from '../overlay/overlay.service';
 })
 export class ChatComponent implements OnInit {
 
-  constructor() {}
+  public isMobile: boolean;
+  public showProfileLocal: boolean;
+  public showOnlineLocal: boolean;
+
+  constructor(private responsiveService: responsiveService) {}
 
   public pushMessage: boolean;
 
@@ -28,67 +34,75 @@ export class ChatComponent implements OnInit {
 
     var userHistoryInit = [['Code&Chat 2019 – EasyChat App v4', 'Initialized userHistory', timestamp, date], ['[nickname]', '[color]', '[img]', '[UID]']];
     Users.initUserHistory = userHistoryInit;
-    document.getElementById('profileContainer').hidden = true;
+
+    Visibility.showProfile = false;
+    this.showProfileLocal = false;
+    Visibility.showOnline = true;
+    this.showOnlineLocal = true;
+
+    this.onResize();
+    this.responsiveService.checkWidth();
 
     //this.profileOverlay();
-    console.log('Init chat');
+    console.log('[INIT] Component: chat!');
+    this.cycle();
   }
 
-  receiveMessage($event){
-    var uid = $event[0];
-    var message = $event[1];
-    var userHistory = Users.userHistory;
+  // receiveMessage($event){
+  //   var uid = $event[0];
+  //   var message = $event[1];
+  //   var userHistory = Users.userHistory;
 
-    var userData = userHistory.filter(u => u[3] == uid);
+  //   var userData = userHistory.filter(u => u[3] == uid);
     
-    var nickname = userData[0][0];
-    var color = userData[0][1];
-    var img = userData[0][2];
-    var timestamp = this.currentTimestamp();
-    var date = this.currentDate();
+  //   var nickname = userData[0][0];
+  //   var color = userData[0][1];
+  //   var img = userData[0][2];
+  //   var timestamp = this.currentTimestamp();
+  //   var date = this.currentDate();
 
-    var chatArray = [nickname, message, color, timestamp, date, uid];
-    this.addtoHistory(chatArray);
-    if(this.pushMessage){
-      this.pushMessage = false;
-    } else {
-      this.pushMessage = true;
-    }
-    return;
-  }
+  //   var chatArray = [nickname, message, color, timestamp, date, uid];
+  //   this.addtoHistory(chatArray);
+  //   if(this.pushMessage){
+  //     this.pushMessage = false;
+  //   } else {
+  //     this.pushMessage = true;
+  //   }
+  //   return;
+  // }
 
-  receiveProfile($event){
-    var nickname = $event[0];
-    var color = $event[1];
-    var img = $event[2];
-    var uid = $event[3];
+  // receiveProfile($event){
+  //   var nickname = $event[0];
+  //   var color = $event[1];
+  //   var img = $event[2];
+  //   var uid = $event[3];
 
-    var userArray = [nickname, color, img, uid];
+  //   var userArray = [nickname, color, img, uid];
     
-    var userExists = false;
-    for(var i = 0; i < Users.userHistory.length; i++){
-      var index = Users.userHistory[i][3].indexOf(uid);
-      if(index > -1){
-        index = i;
-        i = Users.userHistory.length;
-        userExists = true;
-      }
-    }
-    if(userExists){
-      Users.userHistory[index][0] = nickname;
-      Users.userHistory[index][1] = color;
-      Users.userHistory[index][2] = img;
-    return;
-    } else {
-      Users.userHistory.push(userArray);
-      return;
-    }
-  }
+  //   var userExists = false;
+  //   for(var i = 0; i < Users.userHistory.length; i++){
+  //     var index = Users.userHistory[i][3].indexOf(uid);
+  //     if(index > -1){
+  //       index = i;
+  //       i = Users.userHistory.length;
+  //       userExists = true;
+  //     }
+  //   }
+  //   if(userExists){
+  //     Users.userHistory[index][0] = nickname;
+  //     Users.userHistory[index][1] = color;
+  //     Users.userHistory[index][2] = img;
+  //   return;
+  //   } else {
+  //     Users.userHistory.push(userArray);
+  //     return;
+  //   }
+  // }
 
-  addtoHistory(chatArray){
-    History.push = chatArray;
-    return;
-  }
+  // addtoHistory(chatArray){
+  //   History.push = chatArray;
+  //   return;
+  // }
 
   currentTimestamp(){
     var currentdate = new Date();
@@ -109,5 +123,26 @@ export class ChatComponent implements OnInit {
     var monthArray = new Array ('Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember');
     var dmyTimestamp = dayArray[day] + ', ' + date.getDate() + '. ' + monthArray[month] + ' ' + date.getFullYear();
     return dmyTimestamp;
+  }
+
+  onResize() {
+    this.responsiveService.getMobileStatus().subscribe(isMobile => {
+      this.isMobile = isMobile;
+    });
+  }
+
+  get showProfile(){
+    return Visibility.showProfile;
+  }
+
+  get showOnline(){
+    return Visibility.showOnline;
+  }
+
+  cycle(){
+    setInterval(() => {
+      this.showProfileLocal = this.showProfile; 
+      this.showOnlineLocal = this.showOnline;
+      }, 250);
   }
 }

@@ -33,3 +33,20 @@ body {
 .no-more-cdk-container {
     visibility: hidden;
 }
+
+.cdk-global-overlay-wrapper {
+    height: 100%;
+    width: 100%;
+}
+
+.intro-overlay-panel {
+    height: 100%;
+}
+
+.profile-overlay-panel {
+    height: 100%;
+}
+
+.profile-overlay-panel-mbl {
+    height: 100%;
+}

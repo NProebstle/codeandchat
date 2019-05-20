@@ -6,6 +6,10 @@ import { ChatProfileComponent } from '../chat-profile/chat-profile.component';
 import { ApiService } from 'src/app/api.service';
 import { MessageArray } from '../shared/models/messageArray';
 import { Profile } from '../shared/models/profile';
+import { responsiveService } from '../shared/services/responsive.service';
+import { Ping } from '../shared/models/ping';
+import { ActiveUsers } from '../shared/models/activeUsers';
+import { Visibility } from '../shared/models/visibility';
 
 @Component({
   selector: 'app-chat-history',
@@ -20,13 +24,13 @@ export class ChatHistoryComponent{
   public color = '#00802F';
   public dateBoxStyle = 'width:max-content;text-align:center;background:rgba(0, 128, 47, 0.8);border-radius:5px;font-size:18px;padding-top:5px;padding-bottom:5px;padding-left:10px;padding-right:10px;color:white;margin: auto;';
   public initializedChatHistory: boolean;
-  public numOnline = 'Online: 1';
+  public numOnline: number;
   public firstChat = true;
   public cache: any[];
   public mergedMessages = 0;
   public divColor;
   public textcolor = '#00802F';
-  public initialOutput = 'Noch keine Chats vorhanden 😕';
+  public initialOutput = 'Noch keine Chats 😕';
   public divCounter = 0;
   
   public message = '';
@@ -43,11 +47,19 @@ export class ChatHistoryComponent{
   public push: any[];
   public pushID; 
   public getHistoryCache;
+  public isMobile;
+  public activeUsersCache;
+  public response;
 
-  constructor(private apiService: ApiService) {}
+  constructor(
+    private apiService: ApiService,
+    private responsiveService: responsiveService,
+    ) {}
 
   ngOnInit(){
-    console.log('1.0');
+    console.log('[INIT] Component: chat-history!');
+    this.onResize();
+    this.responsiveService.checkWidth();
     this.getHistory();
   }
 
@@ -55,12 +67,13 @@ export class ChatHistoryComponent{
     console.log('[INFO] Loading History!')
     this.styleFirstChat();
 
-    for(var i = 2; i < History.chatHistory.length; i++){
+    for(var i = 2; i < History.chatHistory.length-1; i++){
       //Cache
       var historyCache = [
       [History.chatHistory[i-1][0], History.chatHistory[i-1][1], History.chatHistory[i-1][2], History.chatHistory[i-1][3], History.chatHistory[i-1][4], History.chatHistory[i-1][5]],
       [History.chatHistory[i][0], History.chatHistory[i][1], History.chatHistory[i][2], History.chatHistory[i][3], History.chatHistory[i][4], History.chatHistory[i][5]]
       ];
+
       //Datum vergleichen
       if(historyCache[0][4] != historyCache[1][4]){
         this.createDateBox();
@@ -82,10 +95,8 @@ export class ChatHistoryComponent{
     }
 
     this.initializedChatHistory = true;
-          console.log('Init history');
-          setInterval(() => {
-          this.getPush();
-          }, 100);
+    console.log('Init history');
+    this.serverComm();
   }
 
   createMessageElementofHistory(historyCache, i){
@@ -131,9 +142,37 @@ export class ChatHistoryComponent{
     header.style.cssText = 'position: relative;margin-left: 35px;'
     nickSpan.appendChild(header);
 
-    var chat = document.createElement('p');
-    chat.innerText = `${historyCache[1][1]}`;
-    div.appendChild(chat);
+    if(this.isMobile){
+      var width = document.getElementById('mblchatInput').clientWidth;
+        var charbreak = width*0.12;
+      if(historyCache[1][1].length > charbreak){
+        var messageArray = historyCache[1][1].replace(/.{12}\S*\s+/g, "$&@").split(/\s+@/);
+        for(var x = 0; x < messageArray.length; x++){
+          var chat = document.createElement('p');
+          chat.innerText = `${messageArray[x]}`;
+          div.appendChild(chat);
+        }
+      } else {
+        var chat = document.createElement('p');
+        chat.innerText = `${historyCache[1][1]}`;
+        div.appendChild(chat);
+      }
+    } else {
+      var width = document.getElementById('chatInput').clientWidth;
+      var charbreak = width*0.12;
+      if(historyCache[1][1].length > charbreak){
+        var messageArray = historyCache[1][1].replace(/.{60}\S*\s+/g, "$&@").split(/\s+@/);
+        for(var x = 0; x < messageArray.length; x++){
+          var chat = document.createElement('p');
+          chat.innerText = `${messageArray[x]}`;
+          div.appendChild(chat);
+        }
+      } else {
+        var chat = document.createElement('p');
+        chat.innerText = `${historyCache[1][1]}`;
+        div.appendChild(chat);
+      }
+    }
 
     var timestamp = document.createElement('span');
     timestamp.style.cssText = `position:absolute;bottom:4px;right:10px;padding-bottom: 5px;font-size: 14px;float: right;`;
@@ -141,9 +180,9 @@ export class ChatHistoryComponent{
     div.appendChild(timestamp);
 
     if(Profile.UID == historyCache[1][5]){
-      container.style.cssText = `background-color: ${background};border: 1px solid ${color};border-radius: 5px;color: ${this.textcolor};clear: both;float: right;font-family: system-ui;font-size: 18px;line-height: 5px;margin: 5px 0;margin-right: 5px;max-width: 80%;min-width: 300px;padding: 10px;padding-bottom: 5px;padding-top: 0px;position: relative;text-align: left`;
+      container.style.cssText = `background-color: ${background};border: 1px solid ${color};border-radius: 5px;color: ${this.textcolor};clear: both;float: right;font-family: system-ui;font-size: 18px;line-height: 5px;margin: 5px 0;margin-right: 5px;max-width: 80%;min-width: 150px;padding: 10px;padding-bottom: 5px;padding-top: 0px;position: relative;text-align: left`;
     } else {
-      container.style.cssText = `background-color: ${background};border: 1px solid ${color};border-radius: 5px;color: ${this.textcolor};clear: both;float: left;font-family: system-ui;font-size: 18px;line-height: 5px;margin: 5px 0;margin-left: 5px;max-width: 80%;min-width: 300px;padding: 10px;padding-bottom: 5px;padding-top: 0px;position: relative;text-align: left`;
+      container.style.cssText = `background-color: ${background};border: 1px solid ${color};border-radius: 5px;color: ${this.textcolor};clear: both;float: left;font-family: system-ui;font-size: 18px;line-height: 5px;margin: 5px 0;margin-left: 5px;max-width: 80%;min-width: 150px;padding: 10px;padding-bottom: 5px;padding-top: 0px;position: relative;text-align: left`;
     }
     container.className = 'message-right';
     document.getElementById('output').appendChild(container);
@@ -172,9 +211,37 @@ export class ChatHistoryComponent{
       hr.style.cssText = `width: 100%;height: 0px; margin: 0px;margin-top: 5px;border-width: 0.5px;border-color:${this.divColor};`;
       div.appendChild(hr);
 
-      var newChat = document.createElement('p');
-      newChat.innerText = `${historyCache[cID][1]}`;
-      div.appendChild(newChat);
+      if(this.isMobile){
+        var width = document.getElementById('mblchatInput').clientWidth;
+        var charbreak = width*0.12;
+        if(historyCache[cID][1].length > charbreak){
+          var messageArray = historyCache[cID][1].replace(/.{12}\S*\s+/g, "$&@").split(/\s+@/);
+          for(var x = 0; x < messageArray.length; x++){
+            var chat = document.createElement('p');
+            chat.innerText = `${messageArray[x]}`;
+            div.appendChild(chat);
+          }
+        } else {
+          var chat = document.createElement('p');
+          chat.innerText = `${historyCache[cID][1]}`;
+          div.appendChild(chat);
+        }
+      } else {
+        var width = document.getElementById('chatInput').clientWidth;
+        var charbreak = width*0.12;
+        if(historyCache[cID][1].length > charbreak){
+          var messageArray = historyCache[cID][1].replace(/.{60}\S*\s+/g, "$&@").split(/\s+@/);
+          for(var x = 0; x < messageArray.length; x++){
+            var chat = document.createElement('p');
+            chat.innerText = `${messageArray[x]}`;
+            div.appendChild(chat);
+          }
+        } else {
+          var chat = document.createElement('p');
+          chat.innerText = `${historyCache[cID][1]}`;
+          div.appendChild(chat);
+        }
+      }
 
       var timestamp = document.createElement('span');
       timestamp.style.cssText = 'position:absolute;bottom:4px;right:10px;padding-bottom: 5px;font-size: 14px;float: right;';
@@ -190,9 +257,39 @@ export class ChatHistoryComponent{
         var divID = containerID + 'div';
       }
       var divM = document.getElementById(divID);
-      var newChat = document.createElement('p');
-      newChat.innerText = `${historyCache[cID][1]}`;
-      divM.appendChild(newChat);
+
+      if(this.isMobile){
+        var width = document.getElementById('mblchatInput').clientWidth;
+        var charbreak = width*0.12;
+        if(historyCache[cID][1].length > charbreak){
+          var messageArray = historyCache[cID][1].replace(/.{12}\S*\s+/g, "$&@").split(/\s+@/);
+          for(var x = 0; x < messageArray.length; x++){
+            var chat = document.createElement('p');
+            chat.innerText = `${messageArray[x]}`;
+            divM.appendChild(chat);
+          }
+        } else {
+          var chat = document.createElement('p');
+          chat.innerText = `${historyCache[cID][1]}`;
+          divM.appendChild(chat);
+        }
+      } else {
+        var width = document.getElementById('chatInput').clientWidth;
+        var charbreak = width*0.12;
+        if(historyCache[cID][1].length > charbreak){
+          var messageArray = historyCache[cID][1].replace(/.{60}\S*\s+/g, "$&@").split(/\s+@/);
+          for(var x = 0; x < messageArray.length; x++){
+            var chat = document.createElement('p');
+            chat.innerText = `${messageArray[x]}`;
+            divM.appendChild(chat);
+          }
+        } else {
+          var chat = document.createElement('p');
+          chat.innerText = `${historyCache[cID][1]}`;
+          divM.appendChild(chat);
+        }
+      }
+
       this.updateScroll();
     }
     return;
@@ -203,32 +300,109 @@ export class ChatHistoryComponent{
       .subscribe(response => {
         //console.log('response');
         //console.log(response);
-        if(this.pushID == response[1]){
-          return;
-        } else {
-          History.push = response[0];
-          this.pushID = response[1];
-          this.updateHistory();
-        }})
+        this.pushFunction(response);
+        })
+  }
+
+  pushFunction(response){
+    if(this.pushID == response[1]){
+      return;
+    } else {
+      History.push = response[0];
+      this.pushID = response[1];
+      this.updateHistory();
+    }
+  }
+
+  serverComm(){
+    setInterval(() => {
+    this.getPush();
+    this.getDate();
+    this.sendPing();
+    this.receivePing();
+    this.updateOnline();
+    }, 200);
+  }
+
+  updateOnline(){
+    ActiveUsers.activeUsers = this.activeUsersCache;
+    this.numOnline = this.activeUsers.length;
+    return;
+  }
+
+  get activeUsers(){
+    return ActiveUsers.activeUsers;
+  }
+
+  sendPing(){
+    let ping: Ping = new Ping();
+    ping.uid = Profile.UID;
+    this.apiService.sendPing(ping)
+      .subscribe((response: Ping) => {
+        this.response = '';
+      })
+  }
+
+  receivePing(){
+    this.apiService.getPing()
+      .subscribe(response => {
+        this.activeUsersCache = response;
+        return;
+      })
+  }
+
+  getDate(){
+    this.apiService.getDate()
+      .subscribe(response => {
+        this.compareServerTime(response);
+        return;
+      })
+  }
+
+  compareServerTime(response){
+    var serverDate = response[0];
+    if(serverDate != this.date){
+      this.date = serverDate;
+    }
+    return;
   }
 
   getHistory(){
-    console.log('1.1')
     this.apiService.getChatHistory()
       .subscribe(response  => {
-        History.chatHistory = response;
-        var l = History.chatHistory.length;
-        this.date = History.chatHistory[l-2][4];
-        if(l > 2){
-          this.loadHistory();
-        } else {
-          this.initializedChatHistory = true;
-          console.log('Init history');
-          setInterval(() => {
-          this.getPush();
-          }, 100);
-        }
-        })}
+        this.historyFunction(response);
+      })
+  }
+
+  openOnline(){
+    if(Visibility.showOnline){
+      Visibility.showOnline = false;
+    } else {
+      Visibility.showProfile = false;
+      Visibility.showOnline = true;
+    }
+  }
+
+  onlineHover(){
+    document.getElementById('chat-onlineBox').style.backgroundColor = '#00802F';
+  }
+
+  normalOnline(){
+    document.getElementById('chat-onlineBox').style.backgroundColor = 'rgba(0, 128, 47, 0.8)';
+  }
+
+  historyFunction(response){
+    History.chatHistory = response;
+    var l = History.chatHistory.length;
+    this.date = History.chatHistory[l-2][4];
+    if(l > 2){
+      this.loadHistory();
+    } else {
+      this.initializedChatHistory = true;
+      console.log('Init history');
+      this.serverComm();
+    }
+  }
 
   updateHistory(){
     var l = History.chatHistory.length;
@@ -347,9 +521,37 @@ export class ChatHistoryComponent{
     header.style.cssText = 'position: relative;margin-left: 35px;'
     nickSpan.appendChild(header);
 
-    var chat = document.createElement('p');
-    chat.innerText = `${History.push[1]}`;
-    div.appendChild(chat);
+    if(this.isMobile){
+      var width = document.getElementById('mblchatInput').clientWidth;
+      var charbreak = width*0.12;
+      if(History.push[1].length > charbreak){
+        var messageArray = History.push[1].replace(/.{12}\S*\s+/g, "$&@").split(/\s+@/);
+        for(var x = 0; x < messageArray.length; x++){
+          var chat = document.createElement('p');
+          chat.innerText = `${messageArray[x]}`;
+          div.appendChild(chat);
+        }
+      } else {
+        var chat = document.createElement('p');
+        chat.innerText = `${History.push[1]}`;
+        div.appendChild(chat);
+      }
+    } else {
+      var width = document.getElementById('chatInput').clientWidth;
+      var charbreak = width*0.12;
+      if(History.push[1].length > charbreak){
+        var messageArray = History.push[1].replace(/.{60}\S*\s+/g, "$&@").split(/\s+@/);
+        for(var x = 0; x < messageArray.length; x++){
+          var chat = document.createElement('p');
+          chat.innerText = `${messageArray[x]}`;
+          div.appendChild(chat);
+        }
+      } else {
+        var chat = document.createElement('p');
+        chat.innerText = `${History.push[1]}`;
+        div.appendChild(chat);
+      }
+    }
 
     var timestamp = document.createElement('span');
     timestamp.style.cssText = `position:absolute;bottom:4px;right:10px;padding-bottom: 5px;font-size: 14px;float: right;`;
@@ -357,9 +559,9 @@ export class ChatHistoryComponent{
     div.appendChild(timestamp);
 
     if(Profile.UID == this.cache[1][5]){
-      container.style.cssText = `background-color: ${background};border: 1px solid ${color};border-radius: 5px;color: ${this.textcolor};clear: both;float: right;font-family: system-ui;font-size: 18px;line-height: 5px;margin: 5px 0;margin-right: 5px;max-width: 80%;min-width: 300px;padding: 10px;padding-bottom: 5px;padding-top: 0px;position: relative;text-align: left`;
+      container.style.cssText = `background-color: ${background};border: 1px solid ${color};border-radius: 5px;color: ${this.textcolor};clear: both;float: right;font-family: system-ui;font-size: 18px;line-height: 5px;margin: 5px 0;margin-right: 5px;max-width: 80%;min-width: 150px;padding: 10px;padding-bottom: 5px;padding-top: 0px;position: relative;text-align: left`;
     } else {
-      container.style.cssText = `background-color: ${background};border: 1px solid ${color};border-radius: 5px;color: ${this.textcolor};clear: both;float: left;font-family: system-ui;font-size: 18px;line-height: 5px;margin: 5px 0;margin-left: 5px;max-width: 80%;min-width: 300px;padding: 10px;padding-bottom: 5px;padding-top: 0px;position: relative;text-align: left`;
+      container.style.cssText = `background-color: ${background};border: 1px solid ${color};border-radius: 5px;color: ${this.textcolor};clear: both;float: left;font-family: system-ui;font-size: 18px;line-height: 5px;margin: 5px 0;margin-left: 5px;max-width: 80%;min-width: 150px;padding: 10px;padding-bottom: 5px;padding-top: 0px;position: relative;text-align: left`;
     }
     container.className = 'message-right';
     document.getElementById('output').appendChild(container);
@@ -411,9 +613,33 @@ export class ChatHistoryComponent{
       hr.style.cssText = `width: 100%;height: 0px; margin: 0px;margin-top: 5px;border-width: 0.5px;border-color:${this.divColor};`;
       div.appendChild(hr);
 
-      var newChat = document.createElement('p');
-      newChat.innerText = `${this.cache[cID][1]}`;
-      div.appendChild(newChat);
+      if(this.isMobile){
+        if(this.cache[cID][1].length > 18){
+          var messageArray = this.cache[cID][1].replace(/.{15}\S*\s+/g, "$&@").split(/\s+@/);
+          for(var x = 0; x < messageArray.length; x++){
+            var chat = document.createElement('p');
+            chat.innerText = `${messageArray[x]}`;
+            div.appendChild(chat);
+          }
+        } else {
+          var chat = document.createElement('p');
+          chat.innerText = `${this.cache[cID][1]}`;
+          div.appendChild(chat);
+        }
+      } else {
+        if(this.cache[cID][1].length > 80){
+          var messageArray = this.cache[cID][1].replace(/.{70}\S*\s+/g, "$&@").split(/\s+@/);
+          for(var x = 0; x < messageArray.length; x++){
+            var chat = document.createElement('p');
+            chat.innerText = `${messageArray[x]}`;
+            div.appendChild(chat);
+          }
+        } else {
+          var chat = document.createElement('p');
+          chat.innerText = `${this.cache[cID][1]}`;
+          div.appendChild(chat);
+        }
+      }
 
       var timestamp = document.createElement('span');
       timestamp.style.cssText = 'position:absolute;bottom:4px;right:10px;padding-bottom: 5px;font-size: 14px;float: right;';
@@ -429,9 +655,38 @@ export class ChatHistoryComponent{
         var divID = containerID + 'div';
       }
       var divM = document.getElementById(divID);
-      var newChat = document.createElement('p');
-      newChat.innerText = `${this.cache[cID][1]}`;
-      divM.appendChild(newChat);
+
+      if(this.isMobile){
+        var width = document.getElementById('mblchatInput').clientWidth;
+        var charbreak = width*0.12;
+        if(this.cache[cID][1].length > charbreak){
+          var messageArray = this.cache[cID][1].replace(/.{12}\S*\s+/g, "$&@").split(/\s+@/);
+          for(var x = 0; x < messageArray.length; x++){
+            var chat = document.createElement('p');
+            chat.innerText = `${messageArray[x]}`;
+            divM.appendChild(chat);
+          }
+        } else {
+          var chat = document.createElement('p');
+          chat.innerText = `${this.cache[cID][1]}`;
+          divM.appendChild(chat);
+        }
+      } else {
+        var width = document.getElementById('chatInput').clientWidth;
+        var charbreak = width*0.12;
+        if(this.cache[cID][1].length > charbreak){
+          var messageArray = this.cache[cID][1].replace(/.{60}\S*\s+/g, "$&@").split(/\s+@/);
+          for(var x = 0; x < messageArray.length; x++){
+            var chat = document.createElement('p');
+            chat.innerText = `${messageArray[x]}`;
+            divM.appendChild(chat);
+          }
+        } else {
+          var chat = document.createElement('p');
+          chat.innerText = `${this.cache[cID][1]}`;
+          divM.appendChild(chat);
+        }
+      }
       this.updateScroll();
     }
     return;
@@ -450,6 +705,9 @@ export class ChatHistoryComponent{
     var date = History.chatHistory[l-1][4];
     dateBox.innerText = date;
     dateBox.style.cssText = this.dateBoxStyle;
+    if(this.isMobile){
+      dateBox.style.backgroundColor = '#00802F';
+    }
     div.appendChild(dateBox);
     this.lastDate = date;
     this.date = date;
@@ -469,5 +727,10 @@ export class ChatHistoryComponent{
     div.scrollTop = div.scrollHeight;
   }
 
+  onResize() {
+    this.responsiveService.getMobileStatus().subscribe(isMobile => {
+      this.isMobile = isMobile;
+    });
+  }
   
 }

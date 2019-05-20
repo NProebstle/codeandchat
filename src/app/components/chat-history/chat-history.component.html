@@ -1,5 +1,15 @@
-<div class="info">
-    <div class="dateBox">{{ date }}</div>
-    <div class="onlineBox">{{ numOnline }}</div>
+<div class="propDiv" *ngIf="!isMobile">
+        <div class="info">
+        <div class="dateBox">{{ date }}</div>
+        <div id="chat-onlineBox" class="onlineBox" (click)="openOnline()" (mouseenter)="onlineHover()" (mouseleave)="normalOnline()" >ONLINE – {{ numOnline }}</div>
+    </div>
+        <div class="output" id="output">{{ initialOutput }}</div>
 </div>
-<div class="output" id="output">{{ initialOutput }}</div>
+
+<div class="propDiv" *ngIf="isMobile">
+    <div class="mblinfo">
+        <div class="mbldateBox">{{ date }}</div>
+        <div class="mblonlineBox">ONLINE – {{ numOnline }}</div>
+    </div>  
+    <div class="mbloutput" id="output">{{ initialOutput }}</div>
+</div>

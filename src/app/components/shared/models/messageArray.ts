@@ -1,3 +1,3 @@
-export class MessageArray {
+export class MessageArray{
     msg: any[];
 }
