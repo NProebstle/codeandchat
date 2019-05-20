@@ -7,6 +7,7 @@ import { OverlayIntroService } from '../overlay-intro/overlay-intro.service';
 import { ApiService } from 'src/app/api.service';
 import { ProfileArray } from '../shared/models/profileArray';
 import { Visibility } from '../shared/models/visibility';
+import { InitApp } from '../shared/models/init';
 
 
 @Component({
@@ -31,6 +32,7 @@ export class ChatProfileComponent implements OnInit{
 
   ngOnInit(){
     this.generateUID();
+    this.setColorSelector();
     this.prevOnlinevis = Visibility.showOnline;
     console.log('[INIT] Component: profile!');
     this.updateData();
@@ -62,6 +64,54 @@ export class ChatProfileComponent implements OnInit{
     return;
   }
 
+  setColorSelector(){
+    var lclcolor = Profile.Color;
+    var green = '#00802F';
+    var lightGreen = 'rgb(156, 230, 61)';
+    var yellow = 'rgb(217, 219, 71)';
+    var blue = 'rgb(0, 160, 210)';
+    var darkBlue = 'rgb(83, 115, 219)';
+    var violett = 'rgb(135, 76, 230)';
+    var pink = 'rgb(235, 109, 218)';
+    var orange = 'rgb(220, 120, 60)';
+    var red = 'rgb(220, 70, 70)';
+    document.getElementById('cpColorDiv').style.background = lclcolor;
+    document.getElementById('cpColorDiv').style.borderColor = lclcolor;
+    if(lclcolor == 'white'){
+      document.getElementById('cpColorDiv').style.borderColor = '#00802F';
+      document.getElementById('cpColorDiv').style.background = lclcolor;
+    }
+    var x = document.getElementsByClassName("cpList");
+    var i;
+    for(i = 0; i < x.length; i++){
+      x[i].innerHTML = "";
+    }
+    if(lclcolor == green){
+      document.getElementById('cpGreen').innerText = "✓";
+    } else if(lclcolor == lightGreen){
+        document.getElementById('cpLightGreen').innerText = "✓";
+    } else if(lclcolor == yellow){
+        document.getElementById('cpLightYellow').innerText = "✓";
+    } else if(lclcolor == blue){
+        document.getElementById('cpBlue').innerText = "✓";
+    } else if(lclcolor == darkBlue){
+        document.getElementById('cpDarkBlue').innerText = "✓";
+    } else if(lclcolor == violett){
+        document.getElementById('cpViolett').innerText = "✓";
+    } else if(lclcolor == pink){
+        document.getElementById('cpPink').innerText = "✓";
+    } else if(lclcolor == orange){
+        document.getElementById('cpOrange').innerText = "✓";
+    } else if(lclcolor == red){
+        document.getElementById('cpRed').innerText = "✓";
+    } else if(lclcolor == 'white'){
+        document.getElementById('cpWhite').innerText = "✓"; 
+    } else if(lclcolor == 'black'){
+        document.getElementById('cpBlack').innerText = "✓";
+    }
+    return;
+  }
+
   updateProfile(){
     Profile.Nickname = this.nickname;
     Profile.Color = this.color;
@@ -69,13 +119,17 @@ export class ChatProfileComponent implements OnInit{
   }
 
   generateUID(){
-    var date = new Date().getTime();
-    var uid = 'xx-xxxxxx-xxxx-xxxx-yxxxxx-xxxx-xxxxx'.replace(/[xy]/g, function(c) {
-        var r = (date + Math.random()*16)%16 | 0;
-        date = Math.floor(date/16);
-        return (c=='x' ? r :(r&0x3|0x8)).toString(16);
+    if(!InitApp.initApp){
+      var date = new Date().getTime();
+      var uid = 'xx-xxxxxx-xxxx-xxxx-yxxxxx-xxxx-xxxxx'.replace(/[xy]/g, function(c) {
+      var r = (date + Math.random()*16)%16 | 0;
+      date = Math.floor(date/16);
+      return (c=='x' ? r :(r&0x3|0x8)).toString(16);
     });
     Profile.UID = uid;
+    InitApp.initApp = true;
+    return;
+    }
     return;
   }
 

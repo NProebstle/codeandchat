@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { OverlayService } from './components/overlay/overlay.service';
 import { responsiveService } from './components/shared/services/responsive.service';
+import { InitApp } from './components/shared/models/init';
 
 @Component({
   selector: 'app-root',
@@ -51,12 +52,13 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(){
+    InitApp.initApp = false;
     this.responsiveService.getMobileStatus().subscribe( isMobile =>{
       if(isMobile){
-        console.log('Mobile device detected')
+        console.log('Mobile device detected test');
       }
       else{
-        console.log('Desktop detected')
+        console.log('Desktop detected test');
       }
     });
     this.onResize();    
